@@ -2,13 +2,97 @@
 
 Type-safe hook definitions for Claude Code with automatic settings management.
 
-## Installation
+## Quick Start
+
+### 1. Install the package
 
 ```bash
 npm install @timoaus/define-claude-code-hooks
+# or
+yarn add @timoaus/define-claude-code-hooks
+# or
+pnpm add @timoaus/define-claude-code-hooks
+# or
+bun add @timoaus/define-claude-code-hooks
 ```
 
-## Usage
+### 2. Add a package.json script
+
+Add this script to your `package.json` to easily update your local settings:
+
+```json
+{
+  "scripts": {
+    "claude:hooks": "define-claude-code-hooks --local"
+  }
+}
+```
+
+### 3. Create a simple hook
+
+Create `.claude/hooks/hooks.ts`:
+
+```typescript
+import { defineHooks } from '@timoaus/define-claude-code-hooks';
+
+export default defineHooks({
+  PreToolUse: [
+    // Prevent editing .env files
+    {
+      matcher: 'Write|Edit|MultiEdit',
+      handler: async (input) => {
+        const filePath = input.tool_input.file_path;
+        if (filePath && filePath.endsWith('.env')) {
+          return {
+            decision: 'block',
+            reason: 'Direct editing of .env files is not allowed for security reasons'
+          };
+        }
+      }
+    }
+  ]
+});
+```
+
+### 4. Add a predefined hook
+
+Extend your hooks with built-in logging utilities:
+
+```typescript
+import { defineHooks, logPreToolUseEvents } from '@timoaus/define-claude-code-hooks';
+
+export default defineHooks({
+  PreToolUse: [
+    // Prevent editing .env files
+    {
+      matcher: 'Write|Edit|MultiEdit',
+      handler: async (input) => {
+        const filePath = input.tool_input.file_path;
+        if (filePath && filePath.endsWith('.env')) {
+          return {
+            decision: 'block',
+            reason: 'Direct editing of .env files is not allowed for security reasons'
+          };
+        }
+      }
+    },
+    // Log all tool usage
+    logPreToolUseEvents({ maxEventsStored: 100 })
+  ]
+});
+```
+
+### 5. Activate your hooks
+
+Run the script to update your local settings:
+
+```bash
+npm run claude:hooks
+```
+
+Your hooks are now active! Claude Code will respect your rules and log tool usage.
+
+## Full Usage Guide
 
 ### 1. Create a `hooks.ts` file in `.claude/hooks/`:
 
