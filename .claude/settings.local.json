@@ -11,5 +11,49 @@
       "Bash(git push:*)"
     ],
     "deny": []
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook Stop # __managed_by_define_claude_code_hooks__"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook SubagentStop # __managed_by_define_claude_code_hooks__"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook PostToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook PreToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
+          }
+        ]
+      }
+    ]
   }
 }

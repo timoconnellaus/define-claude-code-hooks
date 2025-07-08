@@ -10,6 +10,7 @@ const MANAGED_BY_MARKER = '__managed_by_define_claude_code_hooks__';
 
 interface CliOptions {
   projectSettings?: boolean;
+  localSettings?: boolean;
   userSettings?: boolean;
   remove?: boolean;
 }
@@ -23,6 +24,9 @@ async function main() {
     switch (arg) {
       case '--project':
         options.projectSettings = true;
+        break;
+      case '--local':
+        options.localSettings = true;
         break;
       case '--user':
         options.userSettings = true;
@@ -41,7 +45,7 @@ async function main() {
   }
 
   // Default to project settings if not specified
-  if (!options.projectSettings && !options.userSettings) {
+  if (!options.projectSettings && !options.localSettings && !options.userSettings) {
     options.projectSettings = true;
   }
 
@@ -63,6 +67,7 @@ Usage: npx define-claude-code-hooks [options]
 
 Options:
   --project    Update project settings (.claude/settings.json) [default]
+  --local      Update local settings (.claude/settings.local.json)
   --user       Update user settings (~/.claude/settings.json)
   --remove     Remove managed hooks from settings
   --help       Show this help message
@@ -105,6 +110,15 @@ async function updateHooks(options: CliOptions) {
     );
   }
   
+  if (options.localSettings) {
+    await updateSettingsFile(
+      path.join(process.cwd(), '.claude', 'settings.local.json'),
+      hookFilePath,
+      hookInfo,
+      'local'
+    );
+  }
+  
   if (options.userSettings) {
     await updateSettingsFile(
       path.join(os.homedir(), '.claude', 'settings.json'),
@@ -122,6 +136,12 @@ async function removeHooks(options: CliOptions) {
     );
   }
   
+  if (options.localSettings) {
+    await removeFromSettingsFile(
+      path.join(process.cwd(), '.claude', 'settings.local.json')
+    );
+  }
+  
   if (options.userSettings) {
     await removeFromSettingsFile(
       path.join(os.homedir(), '.claude', 'settings.json')
@@ -135,8 +155,10 @@ async function updateSettingsFile(
   settingsPath: string,
   hookFilePath: string,
   hookInfo: any,
-  location: 'project' | 'user'
+  location: 'project' | 'local' | 'user'
 ) {
+  // Use relative path for project/local settings, absolute for user settings
+  const commandPath = location === 'user' ? hookFilePath : `./${HOOK_FILE_NAME}`;
   // Ensure directory exists
   const dir = path.dirname(settingsPath);
   if (!fs.existsSync(dir)) {
@@ -188,7 +210,7 @@ async function updateSettingsFile(
           matcher: entry.matcher,
           hooks: [{
             type: 'command',
-            command: `node -r ts-node/register --no-warnings "${hookFilePath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" # ${MANAGED_BY_MARKER}`
+            command: `node -r ts-node/register --no-warnings "${commandPath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" # ${MANAGED_BY_MARKER}`
           }]
         });
       } else {
@@ -196,7 +218,7 @@ async function updateSettingsFile(
         settings.hooks[typedHookType]!.push({
           hooks: [{
             type: 'command',
-            command: `node -r ts-node/register --no-warnings "${hookFilePath}" __run_hook ${hookType} # ${MANAGED_BY_MARKER}`
+            command: `node -r ts-node/register --no-warnings "${commandPath}" __run_hook ${hookType} # ${MANAGED_BY_MARKER}`
           }]
         });
       }

@@ -24,6 +24,7 @@ bun install
 ### Key Concepts
 
 1. **Self-Executing Hooks**: The hooks.ts file acts as both the hook definition and the runner. When `defineHooks` is called, it checks if it's being run as a CLI and handles two modes:
+
    - `__generate_settings`: Outputs JSON information about defined hooks
    - `__run_hook`: Executes the appropriate hook handler
 
@@ -37,13 +38,16 @@ bun install
 
 - **src/index.ts**: Exports `defineHooks` and `defineHook` functions. Contains the self-execution logic that makes hooks files act as their own runners.
 
-- **src/cli.ts**: The CLI that updates settings.json files. It executes the hooks file with `__generate_settings` to discover what hooks are defined, then generates appropriate commands.
+- **src/cli.ts**: The CLI that updates settings.json files. It executes the hooks file with `__generate_settings` to discover what hooks are defined, then generates appropriate commands using ts-node.
 
 - **src/types.ts**: TypeScript type definitions for all hook types, inputs, and outputs. Key distinction between tool hooks (PreToolUse/PostToolUse) that have matchers and non-tool hooks.
+
+- **src/hooks/**: Predefined hook utilities for common logging scenarios (logToolUseEvents, logStopEvents, logNotificationEvents)
 
 ### Hook Definition Structure
 
 Tool hooks (PreToolUse/PostToolUse):
+
 ```typescript
 {
   matcher: string,  // Regex pattern for tool names
@@ -52,17 +56,26 @@ Tool hooks (PreToolUse/PostToolUse):
 ```
 
 Non-tool hooks (Stop, Notification, SubagentStop):
+
 ```typescript
-async (input) => { /* ... */ }
+async (input) => {
+  /* ... */
+};
 ```
 
 ### Settings.json Generation
 
-The CLI removes all hooks marked with `__managed_by_define_claude_code_hooks__` and regenerates them based on what's defined in the hooks file. This ensures clean updates without parsing TypeScript.
+The CLI removes all hooks marked with `__managed_by_define_claude_code_hooks__` and regenerates them based on what's defined in the hooks file. Commands are generated in the format:
+
+```json
+{
+  "command": "node -r ts-node/register --no-warnings /path/to/hooks.ts __run_hook PreToolUse \"Bash\" \"0\" # __managed_by_define_claude_code_hooks__"
+}
+```
 
 ## Development Notes
 
-- The project uses Bun for package management and running scripts
 - TypeScript compilation outputs to the `dist/` directory
 - The CLI binary is defined in package.json as `define-claude-code-hooks`
 - Hook files must be located at `.claude/hooks/hooks.ts`
+- Compatible with npm, yarn, pnpm, and bun package managers
