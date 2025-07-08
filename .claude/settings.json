@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook Stop # __managed_by_define_claude_code_hooks__"
+            "command": "node -r ts-node/register --no-warnings \"/Users/tim/repos/define-claude-code-hooks/.claude/hooks/hooks.ts\" __run_hook Stop # __managed_by_define_claude_code_hooks__"
           }
         ]
       }
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook SubagentStop # __managed_by_define_claude_code_hooks__"
+            "command": "node -r ts-node/register --no-warnings \"/Users/tim/repos/define-claude-code-hooks/.claude/hooks/hooks.ts\" __run_hook SubagentStop # __managed_by_define_claude_code_hooks__"
           }
         ]
       }
@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook PostToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
+            "command": "node -r ts-node/register --no-warnings \"/Users/tim/repos/define-claude-code-hooks/.claude/hooks/hooks.ts\" __run_hook PostToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
           }
         ]
       }
@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -r ts-node/register --no-warnings \"./.claude/hooks/hooks.ts\" __run_hook PreToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
+            "command": "node -r ts-node/register --no-warnings \"/Users/tim/repos/define-claude-code-hooks/.claude/hooks/hooks.ts\" __run_hook PreToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
           }
         ]
       }

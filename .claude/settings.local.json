@@ -8,7 +8,17 @@
       "Bash(bun run:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npx:*)",
+      "Bash(bun add:*)",
+      "Bash(../test-claude-code-hooks/node_modules/.bin/define-claude-code-hooks --help)",
+      "Bash(PWD=../test-claude-code-hooks ../test-claude-code-hooks/node_modules/.bin/define-claude-code-hooks --project)",
+      "Bash(chmod:*)",
+      "Bash(node:*)",
+      "Bash(rm:*)",
+      "Bash(bash:*)"
     ],
     "deny": []
   },

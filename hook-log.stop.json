@@ -75,5 +75,215 @@
     "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
     "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
     "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:46:53.267Z",
+    "event": "Stop",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:47:32.258Z",
+    "event": "Stop",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:50:05.606Z",
+    "event": "SubagentStop",
+    "sessionId": "5cef27c0-65bf-43e4-8935-18867fcbf50f",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/5cef27c0-65bf-43e4-8935-18867fcbf50f.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:51:35.291Z",
+    "event": "Stop",
+    "sessionId": "5cef27c0-65bf-43e4-8935-18867fcbf50f",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/5cef27c0-65bf-43e4-8935-18867fcbf50f.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:54:53.087Z",
+    "event": "Stop",
+    "sessionId": "52635c70-536b-45e0-8043-91b8a7cc78ef",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/52635c70-536b-45e0-8043-91b8a7cc78ef.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:06:54.934Z",
+    "event": "Stop",
+    "sessionId": "52635c70-536b-45e0-8043-91b8a7cc78ef",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/52635c70-536b-45e0-8043-91b8a7cc78ef.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:10:22.583Z",
+    "event": "Stop",
+    "sessionId": "52635c70-536b-45e0-8043-91b8a7cc78ef",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/52635c70-536b-45e0-8043-91b8a7cc78ef.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:14:31.784Z",
+    "event": "Stop",
+    "sessionId": "52635c70-536b-45e0-8043-91b8a7cc78ef",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/52635c70-536b-45e0-8043-91b8a7cc78ef.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:17:47.564Z",
+    "event": "Stop",
+    "sessionId": "52635c70-536b-45e0-8043-91b8a7cc78ef",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/52635c70-536b-45e0-8043-91b8a7cc78ef.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:21:12.448Z",
+    "event": "SubagentStop",
+    "sessionId": "772f92e1-aa95-4cea-a946-663a1bd59a8a",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/772f92e1-aa95-4cea-a946-663a1bd59a8a.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:27:13.728Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:27:13.744Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:27:13.856Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:28:04.531Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:28:04.543Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:28:04.571Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:31:55.906Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:31:55.919Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:33:33.617Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:33:33.637Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:33:33.659Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:34:51.087Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:34:51.220Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:34:51.417Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:36:04.858Z",
+    "event": "Stop",
+    "sessionId": "ed1a7feb-0090-4a3d-a9b5-db4f8321d96c",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/ed1a7feb-0090-4a3d-a9b5-db4f8321d96c.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:36:04.866Z",
+    "event": "Stop",
+    "sessionId": "ed1a7feb-0090-4a3d-a9b5-db4f8321d96c",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/ed1a7feb-0090-4a3d-a9b5-db4f8321d96c.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:36:04.871Z",
+    "event": "Stop",
+    "sessionId": "ed1a7feb-0090-4a3d-a9b5-db4f8321d96c",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/ed1a7feb-0090-4a3d-a9b5-db4f8321d96c.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:36:24.070Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:36:24.073Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T01:36:24.074Z",
+    "event": "Stop",
+    "sessionId": "4506d7aa-7308-4258-9f72-76b975aac879",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/4506d7aa-7308-4258-9f72-76b975aac879.jsonl",
+    "stopHookActive": false
   }
 ]
