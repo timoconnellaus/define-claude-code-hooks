@@ -255,6 +255,18 @@ export default defineHooks({
 - Always check the hook structure before calling
 - Test with realistic hook inputs matching actual Claude Code events
 
+### 10. Before Publishing
+
+**Git workflow before pushing:**
+- If not on the master branch, rebase from master to ensure your changes are up to date:
+  ```bash
+  git checkout master
+  git pull origin master
+  git checkout feature/your-branch
+  git rebase master
+  ```
+- This ensures your hook is based on the latest code and prevents merge conflicts
+
 ## Let me create the hook for you
 
 Based on your requirements, I'll create the appropriate hook structure and implementation.

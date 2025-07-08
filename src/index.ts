@@ -10,6 +10,16 @@ export {
   logPostToolUseEvents
 } from './hooks/logToolUseEvents';
 export { blockEnvFiles } from './hooks/blockEnvFiles';
+export { 
+  announceStop,
+  announceSubagentStop,
+  announcePreToolUse,
+  announcePostToolUse,
+  announceNotification,
+  // Legacy exports
+  announceTaskCompletion,
+  announceSubagentTaskCompletion
+} from './hooks/announceHooks';
 
 /**
  * Define a typed hook handler for Claude Code
