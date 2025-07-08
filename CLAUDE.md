@@ -93,14 +93,26 @@ The CLI removes all hooks marked with `__managed_by_define_claude_code_hooks__` 
 
 ## Release Process
 
-To release a new version of the package:
+The project uses automated releases via GitHub Actions. To release a new version:
 
-1. **Update version**: Update the version in `package.json` following semantic versioning
-2. **Build**: Run `bun run build` to compile TypeScript
-3. **Test**: Run `bun test` to ensure all tests pass
-4. **Commit**: Commit all changes including the version bump
-5. **Tag**: Create a git tag for the release: `git tag v1.0.2` (match the package.json version)
-6. **Push**: Push commits and tags: `git push && git push --tags`
-7. **Publish**: Run `npm publish` to publish to npm registry
+1. **Ensure all changes are committed** and tests pass: `bun test`
+
+2. **Run the release script** based on the type of change:
+   - Patch release (bug fixes): `npm run release:patch`
+   - Minor release (new features): `npm run release:minor`
+   - Major release (breaking changes): `npm run release:major`
+
+   These scripts will:
+   - Update the version in `package.json`
+   - Create a git commit with the version number
+   - Create a git tag (e.g., `v1.0.2`)
+   - Push the commit and tag to GitHub
+
+3. **GitHub Actions will automatically**:
+   - Build the project
+   - Run type checking
+   - Publish to npm registry with provenance
 
 The package is published under the `@timoaus` scope as `@timoaus/define-claude-code-hooks`.
+
+Note: The repository must have the `NPM_TOKEN` secret configured for publishing.
