@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a TypeScript library that provides type-safe hook definitions for Claude Code with automatic settings management. It allows users to define hooks that run at various points in Claude Code's lifecycle without manually editing settings.json files.
+This is a TypeScript library that provides type-safe hook definitions for Claude Code with automatic settings management. It allows users to define hooks that run at various points in Claude Code's lifecycle without manually editing settings.json files. Hook files are automatically compiled from TypeScript to JavaScript for execution.
 
 ## Build Commands
 
@@ -28,24 +28,29 @@ bun install
    - `__generate_settings`: Outputs JSON information about defined hooks
    - `__run_hook`: Executes the appropriate hook handler
 
-2. **No Separate Runner**: Unlike traditional approaches, there's no separate runner.js. The hooks file itself is executed directly by the generated commands in settings.json.
+2. **No Separate Runner**: Unlike traditional approaches, there's no separate runner.js. The compiled hooks file itself is executed directly by the generated commands in settings.json.
 
-3. **Smart Settings Generation**: The CLI only creates settings entries for hooks that are actually defined:
+3. **Automatic Compilation**: The CLI compiles TypeScript hook files to JavaScript in the `.hooks` directory:
+   - TypeScript hooks are compiled on-the-fly when running the CLI
+   - Compiled JavaScript files are placed in `.hooks/` (gitignored)
+   - No need for ts-node at runtime - hooks run as pure JavaScript
+
+4. **Smart Settings Generation**: The CLI only creates settings entries for hooks that are actually defined:
    - For PreToolUse/PostToolUse: One entry per matcher
    - For other hooks (Stop, Notification, SubagentStop): One entry only if handlers exist
 
-4. **Multiple Hook Files**: The system supports three different hook files, all located in `.claude/hooks/`:
-   - `hooks.ts` - Project hooks (updates `.claude/settings.json`)
-   - `hooks.local.ts` - Local hooks (updates `.claude/settings.local.json`)
-   - `hooks.user.ts` - User hooks (updates `~/.claude/settings.json`)
+5. **Multiple Hook Files**: The system supports three different hook files, all located in `.claude/hooks/`:
+   - `hooks.ts` - Project hooks (compiles to `.hooks/hooks.js`, updates `.claude/settings.json`)
+   - `hooks.local.ts` - Local hooks (compiles to `.hooks/hooks.local.js`, updates `.claude/settings.local.json`)
+   - `hooks.user.ts` - User hooks (compiles to `.hooks/hooks.user.js`, updates `~/.claude/settings.json`)
    
-   The CLI automatically detects which files exist and updates the corresponding settings files.
+   The CLI automatically detects which files exist, compiles them, and updates the corresponding settings files.
 
 ### Core Components
 
 - **src/index.ts**: Exports `defineHooks` and `defineHook` functions. Contains the self-execution logic that makes hooks files act as their own runners.
 
-- **src/cli.ts**: The CLI that updates settings.json files. It automatically detects which hook files exist (hooks.ts, hooks.local.ts, hooks.user.ts) and updates the corresponding settings files.
+- **src/cli.ts**: The CLI that compiles TypeScript hooks to JavaScript and updates settings.json files. It automatically detects which hook files exist (hooks.ts, hooks.local.ts, hooks.user.ts), compiles them to `.hooks/`, and updates the corresponding settings files.
 
 - **src/types.ts**: TypeScript type definitions for all hook types, inputs, and outputs. Key distinction between tool hooks (PreToolUse/PostToolUse) that have matchers and non-tool hooks.
 
@@ -76,20 +81,28 @@ The CLI removes all hooks marked with `__managed_by_define_claude_code_hooks__` 
 
 ```json
 {
-  "command": "node -r ts-node/register --no-warnings /path/to/hooks.ts __run_hook PreToolUse \"Bash\" \"0\" # __managed_by_define_claude_code_hooks__"
+  "command": "node \"./.hooks/hooks.js\" __run_hook PreToolUse \"Bash\" \"0\" # __managed_by_define_claude_code_hooks__"
 }
 ```
+
+Note that commands reference the compiled JavaScript files in `.hooks/`, not the original TypeScript files.
 
 ## Development Notes
 
 - TypeScript compilation outputs to the `dist/` directory
 - The CLI binary is defined in package.json as `define-claude-code-hooks`
-- Hook files are all located in `.claude/hooks/`:
+- Hook source files are all located in `.claude/hooks/`:
   - `hooks.ts` (project-wide hooks)
   - `hooks.local.ts` (local-only hooks, not committed to git)
   - `hooks.user.ts` (user-specific hooks that update ~/.claude/settings.json)
+- Compiled JavaScript files are generated in `.hooks/`:
+  - `.hooks/hooks.js`
+  - `.hooks/hooks.local.js`
+  - `.hooks/hooks.user.js`
+- The `.hooks/` directory is gitignored
 - Compatible with npm, yarn, pnpm, and bun package managers
-- The CLI no longer requires flags - it automatically detects which hook files exist and updates the appropriate settings files
+- The CLI no longer requires flags - it automatically detects which hook files exist, compiles them, and updates the appropriate settings files
+- No runtime dependency on ts-node - hooks execute as pure JavaScript
 
 ## Release Process
 

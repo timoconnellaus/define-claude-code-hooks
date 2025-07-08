@@ -1,0 +1,23 @@
+[
+  {
+    "timestamp": "2025-07-08T03:26:26.045Z",
+    "event": "Notification",
+    "sessionId": "f02d6c16-9e97-4076-a05c-95f47081dcc5",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/f02d6c16-9e97-4076-a05c-95f47081dcc5.jsonl",
+    "message": "Claude is waiting for your input"
+  },
+  {
+    "timestamp": "2025-07-08T04:07:46.885Z",
+    "event": "Notification",
+    "sessionId": "03a1d289-2da2-4bc0-aa44-79264f119b82",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/03a1d289-2da2-4bc0-aa44-79264f119b82.jsonl",
+    "message": "Claude needs your permission to use Update"
+  },
+  {
+    "timestamp": "2025-07-08T04:09:17.521Z",
+    "event": "Notification",
+    "sessionId": "03a1d289-2da2-4bc0-aa44-79264f119b82",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/03a1d289-2da2-4bc0-aa44-79264f119b82.jsonl",
+    "message": "Claude needs your permission to use Update"
+  }
+]

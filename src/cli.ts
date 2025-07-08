@@ -4,11 +4,18 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 import { HookSettings, HookDefinition, HookType } from './types';
+import * as ts from 'typescript';
 
 const HOOK_FILES = {
   project: '.claude/hooks/hooks.ts',
   local: '.claude/hooks/hooks.local.ts',
   user: '.claude/hooks/hooks.user.ts'
+} as const;
+
+const COMPILED_HOOK_FILES = {
+  project: '.hooks/hooks.js',
+  local: '.hooks/hooks.local.js',
+  user: '.hooks/hooks.user.js'
 } as const;
 
 const MANAGED_BY_MARKER = '__managed_by_define_claude_code_hooks__';
@@ -84,6 +91,86 @@ This command will automatically detect hook files in .claude/hooks/:
 `);
 }
 
+async function compileHookFile(tsPath: string, jsPath: string, location: 'project' | 'local' | 'user'): Promise<boolean> {
+  try {
+    // Read the TypeScript file
+    let sourceCode = fs.readFileSync(tsPath, 'utf-8');
+    
+    // For development: replace imports from the package name to relative paths
+    const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf-8'));
+    const packageName = packageJson.name;
+    
+    // Check if we're in the package's own repository
+    const isOwnRepo = fs.existsSync(path.join(process.cwd(), 'src', 'index.ts')) && 
+                      fs.existsSync(path.join(process.cwd(), 'package.json'));
+    
+    if (isOwnRepo) {
+      // Replace package imports with relative imports to dist
+      sourceCode = sourceCode.replace(
+        new RegExp(`from\s+['"]${packageName}['"]`, 'g'),
+        `from '${path.relative(path.dirname(jsPath), path.join(process.cwd(), 'dist', 'index'))}'`
+      );
+      
+      // Also handle relative imports like "../.." that point to the package root
+      sourceCode = sourceCode.replace(
+        /from\s+['"]\.\.\/(\.\.)?['"](?!\w)/g,
+        `from '${path.relative(path.dirname(jsPath), path.join(process.cwd(), 'dist', 'index'))}'`
+      );
+    }
+    
+    // Compile TypeScript to JavaScript
+    const result = ts.transpileModule(sourceCode, {
+      compilerOptions: {
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ES2020,
+        esModuleInterop: true,
+        allowSyntheticDefaultImports: true,
+        moduleResolution: ts.ModuleResolutionKind.NodeJs,
+        resolveJsonModule: true,
+        skipLibCheck: true
+      }
+    });
+    
+    // If we're in the package's own repository, fix the require paths in the compiled output
+    let outputText = result.outputText;
+    if (isOwnRepo) {
+      const relativePath = path.relative(path.dirname(jsPath), path.join(process.cwd(), 'dist', 'index')).replace(/\\/g, '/');
+      // Replace the compiled require statement - handle both direct and renamed imports
+      const packageNameEscaped = packageName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`require\\(["']${packageNameEscaped}["']\\)`, 'g');
+      outputText = outputText.replace(
+        regex,
+        `require('${relativePath}')`
+      );
+      
+      // Also try without escaping the parentheses
+      outputText = outputText.replace(
+        new RegExp(`require\(["']${packageName}["']\)`, 'g'),
+        `require('${relativePath}')`
+      );
+      
+      // Handle relative requires like require("../..") that point to the package root
+      outputText = outputText.replace(
+        /require\(["']\.\.\/(\.\.)?["']\)/g,
+        `require('${relativePath}')`
+      );
+    }
+    
+    // Ensure .hooks directory exists
+    const jsDir = path.dirname(jsPath);
+    if (!fs.existsSync(jsDir)) {
+      fs.mkdirSync(jsDir, { recursive: true });
+    }
+    
+    // Write the compiled JavaScript
+    fs.writeFileSync(jsPath, outputText);
+    return true;
+  } catch (error) {
+    console.error(`Failed to compile ${tsPath}:`, error);
+    return false;
+  }
+}
+
 async function updateHooks(options: CliOptions) {
   const { execSync } = require('child_process');
   let updatedAny = false;
@@ -91,6 +178,7 @@ async function updateHooks(options: CliOptions) {
   // Check for each type of hook file
   for (const [type, fileName] of Object.entries(HOOK_FILES)) {
     const hookFilePath = path.resolve(process.cwd(), fileName);
+    const compiledHookPath = path.resolve(process.cwd(), COMPILED_HOOK_FILES[type as keyof typeof COMPILED_HOOK_FILES]);
     
     // Determine settings file path
     let settingsPath: string;
@@ -111,12 +199,21 @@ async function updateHooks(options: CliOptions) {
     if (fs.existsSync(hookFilePath)) {
       console.log(`Found ${fileName}`);
       
-      // Get hook information by running the hooks file
+      // Compile the TypeScript file
+      console.log(`Compiling ${fileName} to ${COMPILED_HOOK_FILES[type as keyof typeof COMPILED_HOOK_FILES]}...`);
+      const compiled = await compileHookFile(hookFilePath, compiledHookPath, type as 'project' | 'local' | 'user');
+      
+      if (!compiled) {
+        console.error(`Failed to compile ${fileName}`);
+        continue;
+      }
+      
+      // Get hook information by running the compiled hooks file
       let hookInfo: any;
       
       try {
         const output = execSync(
-          `node -r ts-node/register "${hookFilePath}" __generate_settings`,
+          `node "${compiledHookPath}" __generate_settings`,
           { encoding: 'utf-8' }
         );
         
@@ -128,7 +225,7 @@ async function updateHooks(options: CliOptions) {
 
       await updateSettingsFile(
         settingsPath,
-        hookFilePath,
+        compiledHookPath,
         hookInfo,
         type as 'project' | 'local' | 'user'
       );
@@ -183,14 +280,14 @@ async function removeHooks(options: CliOptions) {
 
 async function updateSettingsFile(
   settingsPath: string,
-  hookFilePath: string,
+  compiledHookPath: string,
   hookInfo: any,
   location: 'project' | 'local' | 'user'
 ) {
   // Use absolute path for user settings, relative for project/local
   const commandPath = location === 'user' 
-    ? hookFilePath 
-    : `./${HOOK_FILES[location]}`;
+    ? compiledHookPath 
+    : `./${COMPILED_HOOK_FILES[location]}`;
   // Ensure directory exists
   const dir = path.dirname(settingsPath);
   if (!fs.existsSync(dir)) {
@@ -243,7 +340,7 @@ async function updateSettingsFile(
           matcher: entry.matcher,
           hooks: [{
             type: 'command',
-            command: `node -r ts-node/register --no-warnings "${commandPath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" # ${marker}`
+            command: `node "${commandPath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" # ${marker}`
           }]
         });
       } else {
@@ -251,7 +348,7 @@ async function updateSettingsFile(
         settings.hooks[typedHookType]!.push({
           hooks: [{
             type: 'command',
-            command: `node -r ts-node/register --no-warnings "${commandPath}" __run_hook ${hookType} # ${marker}`
+            command: `node "${commandPath}" __run_hook ${hookType} # ${marker}`
           }]
         });
       }
