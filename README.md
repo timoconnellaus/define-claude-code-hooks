@@ -5,7 +5,7 @@ Type-safe hook definitions for Claude Code with automatic settings management.
 ## Installation
 
 ```bash
-npm install define-claude-code-hooks
+npm install @timoaus/define-claude-code-hooks
 ```
 
 ## Usage
@@ -137,3 +137,110 @@ interface HookOutput {
 ## TypeScript Support
 
 This library is written in TypeScript and provides full type safety for all hook inputs and outputs.
+
+## Predefined Hook Utilities
+
+The library includes several predefined hook utilities for common logging scenarios:
+
+### Stop Event Logging
+
+```typescript
+import { defineHooks, logStopEvents, logSubagentStopEvents } from '@timoaus/define-claude-code-hooks';
+
+export default defineHooks({
+  Stop: [logStopEvents('hook-log.stop.json')],
+  SubagentStop: [logSubagentStopEvents('hook-log.subagent.json')]
+});
+```
+
+### Notification Logging
+
+```typescript
+import { defineHooks, logNotificationEvents } from '@timoaus/define-claude-code-hooks';
+
+export default defineHooks({
+  Notification: [logNotificationEvents('hook-log.notifications.json')]
+});
+```
+
+### Tool Use Logging
+
+```typescript
+import { 
+  defineHooks, 
+  logPreToolUseEvents, 
+  logPostToolUseEvents,
+  logPreToolUseEventsForTools,
+  logPostToolUseEventsForTools 
+} from '@timoaus/define-claude-code-hooks';
+
+export default defineHooks({
+  // Log all tool use
+  PreToolUse: [
+    {
+      matcher: '.*',  // Matches all tools
+      handler: logPreToolUseEvents('hook-log.tool-use.json')
+    }
+  ],
+  
+  PostToolUse: [
+    {
+      matcher: '.*',  // Matches all tools
+      handler: logPostToolUseEvents('hook-log.tool-use.json')
+    }
+  ]
+});
+
+// Or log specific tools only
+export default defineHooks({
+  PreToolUse: logPreToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json'),
+  PostToolUse: logPostToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json')
+});
+```
+
+### Combining Multiple Hooks
+
+```typescript
+import { 
+  defineHooks, 
+  logStopEvents,
+  logPreToolUseEventsForTools,
+  logPostToolUseEventsForTools 
+} from '@timoaus/define-claude-code-hooks';
+
+export default defineHooks({
+  PreToolUse: [
+    ...logPreToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),
+    // Add your custom hooks here
+    {
+      matcher: 'Bash',
+      handler: async (input) => {
+        // Custom logic
+      }
+    }
+  ],
+  
+  PostToolUse: logPostToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),
+  
+  Stop: [logStopEvents('hook-log.stop.json')]
+});
+```
+
+### Log File Format
+
+The predefined hooks create JSON log files with the following structure:
+
+```json
+[
+  {
+    "timestamp": "2025-01-07T10:30:00.000Z",
+    "event": "PreToolUse",
+    "sessionId": "abc-123",
+    "transcriptPath": "/path/to/transcript.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "ls -la"
+    }
+  }
+]
+```

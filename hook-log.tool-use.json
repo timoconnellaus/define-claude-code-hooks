@@ -1485,5 +1485,782 @@
       "command": "git add . && git commit -m \"$(cat <<'EOF'\nSwitch GitHub Action to use Bun\n\n- Added Bun setup step using oven-sh/setup-bun@v2\n- Changed install command to use bun install --frozen-lockfile\n- Changed build command to use bun run build\n- Kept Node.js setup for npm publishing compatibility\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\" && git push",
       "description": "Commit and push Bun workflow update"
     }
+  },
+  {
+    "timestamp": "2025-07-08T00:43:06.957Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git add . && git commit -m \"$(cat <<'EOF'\nSwitch GitHub Action to use Bun\n\n- Added Bun setup step using oven-sh/setup-bun@v2\n- Changed install command to use bun install --frozen-lockfile\n- Changed build command to use bun run build\n- Kept Node.js setup for npm publishing compatibility\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\" && git push",
+      "description": "Commit and push Bun workflow update"
+    },
+    "toolResponse": {
+      "stdout": "[master 0ff15b3] Switch GitHub Action to use Bun\n 3 files changed, 106 insertions(+), 2 deletions(-)\nTo https://github.com/timoconnellaus/define-claude-code-hooks.git\n   22fc88a..0ff15b3  master -> master",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:44:28.344Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:44:28.958Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "completed",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "completed",
+          "priority": "high",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:44:36.459Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:44:37.088Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:44:42.470Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Read",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/README.md"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:44:43.052Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Read",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/README.md"
+    },
+    "toolResponse": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/tim/repos/define-claude-code-hooks/README.md",
+        "content": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install define-claude-code-hooks\n```\n\n## Usage\n\n### 1. Create a `hooks.ts` file in `.claude/hooks/`:\n\n```typescript\nimport { defineHooks } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    // Block grep commands and suggest ripgrep\n    {\n      matcher: 'Bash',\n      handler: async (input) => {\n        if (input.tool_input.command?.includes('grep')) {\n          return {\n            decision: 'block',\n            reason: 'Use ripgrep (rg) instead of grep for better performance'\n          };\n        }\n      }\n    },\n    \n    // Log all file writes\n    {\n      matcher: 'Write|Edit|MultiEdit',\n      handler: async (input) => {\n        console.error(`Writing to file: ${input.tool_input.file_path}`);\n      }\n    }\n  ],\n  \n  PostToolUse: [\n    // Format TypeScript files after editing\n    {\n      matcher: 'Write|Edit',\n      handler: async (input) => {\n        if (input.tool_input.file_path?.endsWith('.ts')) {\n          const { execSync } = require('child_process');\n          execSync(`prettier --write \"${input.tool_input.file_path}\"`);\n        }\n      }\n    }\n  ],\n  \n  Notification: [\n    // Custom notification handler\n    async (input) => {\n      console.log(`Claude says: ${input.message}`);\n    }\n  ]\n});\n```\n\n### 2. Update your Claude Code settings:\n\n```bash\n# Update project settings (.claude/settings.json)\nnpx define-claude-code-hooks\n\n# Update user settings (~/.claude/settings.json)\nnpx define-claude-code-hooks --user\n\n# Update both\nnpx define-claude-code-hooks --project --user\n\n# Remove managed hooks\nnpx define-claude-code-hooks --remove\n```\n\n## API\n\n### `defineHooks(hooks: HookDefinition)`\n\nDefine multiple hooks. Returns the hook definition object.\n- For PreToolUse and PostToolUse: pass an array of objects with `matcher` and `handler`\n- For other hooks: pass an array of handler functions\n\n### `defineHook(type: HookType, definition)`\n\nDefine a single hook (for advanced use cases).\n- For PreToolUse and PostToolUse: pass an object with `matcher` and `handler`\n- For other hooks: pass just the handler function\n\nExample:\n```typescript\n// Tool hook\nconst bashHook = defineHook('PreToolUse', {\n  matcher: 'Bash',\n  handler: async (input) => { /* ... */ }\n});\n\n// Non-tool hook\nconst stopHook = defineHook('Stop', async (input) => { /* ... */ });\n```\n\n### Hook Types\n\n- `PreToolUse`: Runs before tool execution, can block or approve\n- `PostToolUse`: Runs after tool execution\n- `Notification`: Handles Claude Code notifications\n- `Stop`: Runs when main agent stops\n- `SubagentStop`: Runs when subagent stops\n\n### Hook Outputs\n\nHooks can return structured responses:\n\n```typescript\ninterface HookOutput {\n  // Common fields\n  continue?: boolean;      // Whether Claude should continue\n  stopReason?: string;     // Message when continue is false\n  suppressOutput?: boolean; // Hide output from transcript\n  \n  // PreToolUse specific\n  decision?: 'approve' | 'block';\n  reason?: string;         // Reason for decision\n}\n```\n\n## How It Works\n\n1. The CLI reads your `.claude/hooks/hooks.ts` file\n2. Updates the Claude Code settings.json with commands that use ts-node to execute TypeScript directly\n3. Marks managed hooks so they can be safely removed later\n\n## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+        "numLines": 139,
+        "startLine": 1,
+        "totalLines": 139
+      }
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:44:50.331Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/README.md",
+      "old_string": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install define-claude-code-hooks\n```",
+      "new_string": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install @timoaus/define-claude-code-hooks\n```"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:45:19.349Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/README.md",
+      "new_string": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install @timoaus/define-claude-code-hooks\n```",
+      "old_string": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install define-claude-code-hooks\n```",
+      "replace_all": false
+    },
+    "toolResponse": {
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/README.md",
+      "oldString": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install define-claude-code-hooks\n```",
+      "newString": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install @timoaus/define-claude-code-hooks\n```",
+      "originalFile": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install define-claude-code-hooks\n```\n\n## Usage\n\n### 1. Create a `hooks.ts` file in `.claude/hooks/`:\n\n```typescript\nimport { defineHooks } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    // Block grep commands and suggest ripgrep\n    {\n      matcher: 'Bash',\n      handler: async (input) => {\n        if (input.tool_input.command?.includes('grep')) {\n          return {\n            decision: 'block',\n            reason: 'Use ripgrep (rg) instead of grep for better performance'\n          };\n        }\n      }\n    },\n    \n    // Log all file writes\n    {\n      matcher: 'Write|Edit|MultiEdit',\n      handler: async (input) => {\n        console.error(`Writing to file: ${input.tool_input.file_path}`);\n      }\n    }\n  ],\n  \n  PostToolUse: [\n    // Format TypeScript files after editing\n    {\n      matcher: 'Write|Edit',\n      handler: async (input) => {\n        if (input.tool_input.file_path?.endsWith('.ts')) {\n          const { execSync } = require('child_process');\n          execSync(`prettier --write \"${input.tool_input.file_path}\"`);\n        }\n      }\n    }\n  ],\n  \n  Notification: [\n    // Custom notification handler\n    async (input) => {\n      console.log(`Claude says: ${input.message}`);\n    }\n  ]\n});\n```\n\n### 2. Update your Claude Code settings:\n\n```bash\n# Update project settings (.claude/settings.json)\nnpx define-claude-code-hooks\n\n# Update user settings (~/.claude/settings.json)\nnpx define-claude-code-hooks --user\n\n# Update both\nnpx define-claude-code-hooks --project --user\n\n# Remove managed hooks\nnpx define-claude-code-hooks --remove\n```\n\n## API\n\n### `defineHooks(hooks: HookDefinition)`\n\nDefine multiple hooks. Returns the hook definition object.\n- For PreToolUse and PostToolUse: pass an array of objects with `matcher` and `handler`\n- For other hooks: pass an array of handler functions\n\n### `defineHook(type: HookType, definition)`\n\nDefine a single hook (for advanced use cases).\n- For PreToolUse and PostToolUse: pass an object with `matcher` and `handler`\n- For other hooks: pass just the handler function\n\nExample:\n```typescript\n// Tool hook\nconst bashHook = defineHook('PreToolUse', {\n  matcher: 'Bash',\n  handler: async (input) => { /* ... */ }\n});\n\n// Non-tool hook\nconst stopHook = defineHook('Stop', async (input) => { /* ... */ });\n```\n\n### Hook Types\n\n- `PreToolUse`: Runs before tool execution, can block or approve\n- `PostToolUse`: Runs after tool execution\n- `Notification`: Handles Claude Code notifications\n- `Stop`: Runs when main agent stops\n- `SubagentStop`: Runs when subagent stops\n\n### Hook Outputs\n\nHooks can return structured responses:\n\n```typescript\ninterface HookOutput {\n  // Common fields\n  continue?: boolean;      // Whether Claude should continue\n  stopReason?: string;     // Message when continue is false\n  suppressOutput?: boolean; // Hide output from transcript\n  \n  // PreToolUse specific\n  decision?: 'approve' | 'block';\n  reason?: string;         // Reason for decision\n}\n```\n\n## How It Works\n\n1. The CLI reads your `.claude/hooks/hooks.ts` file\n2. Updates the Claude Code settings.json with commands that use ts-node to execute TypeScript directly\n3. Marks managed hooks so they can be safely removed later\n\n## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+      "structuredPatch": [
+        {
+          "oldStart": 5,
+          "oldLines": 7,
+          "newStart": 5,
+          "newLines": 7,
+          "lines": [
+            " ## Installation",
+            " ",
+            " ```bash",
+            "-npm install define-claude-code-hooks",
+            "+npm install @timoaus/define-claude-code-hooks",
+            " ```",
+            " ",
+            " ## Usage"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:45:39.062Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/README.md",
+      "old_string": "## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+      "new_string": "## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.\n\n## Predefined Hook Utilities\n\nThe library includes several predefined hook utilities for common logging scenarios:\n\n### Stop Event Logging\n\n```typescript\nimport { defineHooks, logStopEvents, logSubagentStopEvents } from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  Stop: [logStopEvents('hook-log.stop.json')],\n  SubagentStop: [logSubagentStopEvents('hook-log.subagent.json')]\n});\n```\n\n### Notification Logging\n\n```typescript\nimport { defineHooks, logNotificationEvents } from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  Notification: [logNotificationEvents('hook-log.notifications.json')]\n});\n```\n\n### Tool Use Logging\n\n```typescript\nimport { \n  defineHooks, \n  logPreToolUseEvents, \n  logPostToolUseEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  // Log all tool use\n  PreToolUse: [\n    {\n      matcher: '.*',  // Matches all tools\n      handler: logPreToolUseEvents('hook-log.tool-use.json')\n    }\n  ],\n  \n  PostToolUse: [\n    {\n      matcher: '.*',  // Matches all tools\n      handler: logPostToolUseEvents('hook-log.tool-use.json')\n    }\n  ]\n});\n\n// Or log specific tools only\nexport default defineHooks({\n  PreToolUse: logPreToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json'),\n  PostToolUse: logPostToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json')\n});\n```\n\n### Combining Multiple Hooks\n\n```typescript\nimport { \n  defineHooks, \n  logStopEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    ...logPreToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),\n    // Add your custom hooks here\n    {\n      matcher: 'Bash',\n      handler: async (input) => {\n        // Custom logic\n      }\n    }\n  ],\n  \n  PostToolUse: logPostToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),\n  \n  Stop: [logStopEvents('hook-log.stop.json')]\n});\n```\n\n### Log File Format\n\nThe predefined hooks create JSON log files with the following structure:\n\n```json\n[\n  {\n    \"timestamp\": \"2025-01-07T10:30:00.000Z\",\n    \"event\": \"PreToolUse\",\n    \"sessionId\": \"abc-123\",\n    \"transcriptPath\": \"/path/to/transcript.jsonl\",\n    \"toolName\": \"Bash\",\n    \"toolInput\": {\n      \"command\": \"ls -la\"\n    }\n  }\n]\n```"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:45:39.730Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/README.md",
+      "old_string": "## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+      "new_string": "## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.\n\n## Predefined Hook Utilities\n\nThe library includes several predefined hook utilities for common logging scenarios:\n\n### Stop Event Logging\n\n```typescript\nimport { defineHooks, logStopEvents, logSubagentStopEvents } from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  Stop: [logStopEvents('hook-log.stop.json')],\n  SubagentStop: [logSubagentStopEvents('hook-log.subagent.json')]\n});\n```\n\n### Notification Logging\n\n```typescript\nimport { defineHooks, logNotificationEvents } from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  Notification: [logNotificationEvents('hook-log.notifications.json')]\n});\n```\n\n### Tool Use Logging\n\n```typescript\nimport { \n  defineHooks, \n  logPreToolUseEvents, \n  logPostToolUseEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  // Log all tool use\n  PreToolUse: [\n    {\n      matcher: '.*',  // Matches all tools\n      handler: logPreToolUseEvents('hook-log.tool-use.json')\n    }\n  ],\n  \n  PostToolUse: [\n    {\n      matcher: '.*',  // Matches all tools\n      handler: logPostToolUseEvents('hook-log.tool-use.json')\n    }\n  ]\n});\n\n// Or log specific tools only\nexport default defineHooks({\n  PreToolUse: logPreToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json'),\n  PostToolUse: logPostToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json')\n});\n```\n\n### Combining Multiple Hooks\n\n```typescript\nimport { \n  defineHooks, \n  logStopEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    ...logPreToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),\n    // Add your custom hooks here\n    {\n      matcher: 'Bash',\n      handler: async (input) => {\n        // Custom logic\n      }\n    }\n  ],\n  \n  PostToolUse: logPostToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),\n  \n  Stop: [logStopEvents('hook-log.stop.json')]\n});\n```\n\n### Log File Format\n\nThe predefined hooks create JSON log files with the following structure:\n\n```json\n[\n  {\n    \"timestamp\": \"2025-01-07T10:30:00.000Z\",\n    \"event\": \"PreToolUse\",\n    \"sessionId\": \"abc-123\",\n    \"transcriptPath\": \"/path/to/transcript.jsonl\",\n    \"toolName\": \"Bash\",\n    \"toolInput\": {\n      \"command\": \"ls -la\"\n    }\n  }\n]\n```"
+    },
+    "toolResponse": {
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/README.md",
+      "oldString": "## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+      "newString": "## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.\n\n## Predefined Hook Utilities\n\nThe library includes several predefined hook utilities for common logging scenarios:\n\n### Stop Event Logging\n\n```typescript\nimport { defineHooks, logStopEvents, logSubagentStopEvents } from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  Stop: [logStopEvents('hook-log.stop.json')],\n  SubagentStop: [logSubagentStopEvents('hook-log.subagent.json')]\n});\n```\n\n### Notification Logging\n\n```typescript\nimport { defineHooks, logNotificationEvents } from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  Notification: [logNotificationEvents('hook-log.notifications.json')]\n});\n```\n\n### Tool Use Logging\n\n```typescript\nimport { \n  defineHooks, \n  logPreToolUseEvents, \n  logPostToolUseEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  // Log all tool use\n  PreToolUse: [\n    {\n      matcher: '.*',  // Matches all tools\n      handler: logPreToolUseEvents('hook-log.tool-use.json')\n    }\n  ],\n  \n  PostToolUse: [\n    {\n      matcher: '.*',  // Matches all tools\n      handler: logPostToolUseEvents('hook-log.tool-use.json')\n    }\n  ]\n});\n\n// Or log specific tools only\nexport default defineHooks({\n  PreToolUse: logPreToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json'),\n  PostToolUse: logPostToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json')\n});\n```\n\n### Combining Multiple Hooks\n\n```typescript\nimport { \n  defineHooks, \n  logStopEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from '@timoaus/define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    ...logPreToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),\n    // Add your custom hooks here\n    {\n      matcher: 'Bash',\n      handler: async (input) => {\n        // Custom logic\n      }\n    }\n  ],\n  \n  PostToolUse: logPostToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),\n  \n  Stop: [logStopEvents('hook-log.stop.json')]\n});\n```\n\n### Log File Format\n\nThe predefined hooks create JSON log files with the following structure:\n\n```json\n[\n  {\n    \"timestamp\": \"2025-01-07T10:30:00.000Z\",\n    \"event\": \"PreToolUse\",\n    \"sessionId\": \"abc-123\",\n    \"transcriptPath\": \"/path/to/transcript.jsonl\",\n    \"toolName\": \"Bash\",\n    \"toolInput\": {\n      \"command\": \"ls -la\"\n    }\n  }\n]\n```",
+      "originalFile": "# define-claude-code-hooks\n\nType-safe hook definitions for Claude Code with automatic settings management.\n\n## Installation\n\n```bash\nnpm install @timoaus/define-claude-code-hooks\n```\n\n## Usage\n\n### 1. Create a `hooks.ts` file in `.claude/hooks/`:\n\n```typescript\nimport { defineHooks } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    // Block grep commands and suggest ripgrep\n    {\n      matcher: 'Bash',\n      handler: async (input) => {\n        if (input.tool_input.command?.includes('grep')) {\n          return {\n            decision: 'block',\n            reason: 'Use ripgrep (rg) instead of grep for better performance'\n          };\n        }\n      }\n    },\n    \n    // Log all file writes\n    {\n      matcher: 'Write|Edit|MultiEdit',\n      handler: async (input) => {\n        console.error(`Writing to file: ${input.tool_input.file_path}`);\n      }\n    }\n  ],\n  \n  PostToolUse: [\n    // Format TypeScript files after editing\n    {\n      matcher: 'Write|Edit',\n      handler: async (input) => {\n        if (input.tool_input.file_path?.endsWith('.ts')) {\n          const { execSync } = require('child_process');\n          execSync(`prettier --write \"${input.tool_input.file_path}\"`);\n        }\n      }\n    }\n  ],\n  \n  Notification: [\n    // Custom notification handler\n    async (input) => {\n      console.log(`Claude says: ${input.message}`);\n    }\n  ]\n});\n```\n\n### 2. Update your Claude Code settings:\n\n```bash\n# Update project settings (.claude/settings.json)\nnpx define-claude-code-hooks\n\n# Update user settings (~/.claude/settings.json)\nnpx define-claude-code-hooks --user\n\n# Update both\nnpx define-claude-code-hooks --project --user\n\n# Remove managed hooks\nnpx define-claude-code-hooks --remove\n```\n\n## API\n\n### `defineHooks(hooks: HookDefinition)`\n\nDefine multiple hooks. Returns the hook definition object.\n- For PreToolUse and PostToolUse: pass an array of objects with `matcher` and `handler`\n- For other hooks: pass an array of handler functions\n\n### `defineHook(type: HookType, definition)`\n\nDefine a single hook (for advanced use cases).\n- For PreToolUse and PostToolUse: pass an object with `matcher` and `handler`\n- For other hooks: pass just the handler function\n\nExample:\n```typescript\n// Tool hook\nconst bashHook = defineHook('PreToolUse', {\n  matcher: 'Bash',\n  handler: async (input) => { /* ... */ }\n});\n\n// Non-tool hook\nconst stopHook = defineHook('Stop', async (input) => { /* ... */ });\n```\n\n### Hook Types\n\n- `PreToolUse`: Runs before tool execution, can block or approve\n- `PostToolUse`: Runs after tool execution\n- `Notification`: Handles Claude Code notifications\n- `Stop`: Runs when main agent stops\n- `SubagentStop`: Runs when subagent stops\n\n### Hook Outputs\n\nHooks can return structured responses:\n\n```typescript\ninterface HookOutput {\n  // Common fields\n  continue?: boolean;      // Whether Claude should continue\n  stopReason?: string;     // Message when continue is false\n  suppressOutput?: boolean; // Hide output from transcript\n  \n  // PreToolUse specific\n  decision?: 'approve' | 'block';\n  reason?: string;         // Reason for decision\n}\n```\n\n## How It Works\n\n1. The CLI reads your `.claude/hooks/hooks.ts` file\n2. Updates the Claude Code settings.json with commands that use ts-node to execute TypeScript directly\n3. Marks managed hooks so they can be safely removed later\n\n## TypeScript Support\n\nThis library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+      "structuredPatch": [
+        {
+          "oldStart": 136,
+          "oldLines": 4,
+          "newStart": 136,
+          "newLines": 111,
+          "lines": [
+            " ",
+            " ## TypeScript Support",
+            " ",
+            "-This library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+            "\\ No newline at end of file",
+            "+This library is written in TypeScript and provides full type safety for all hook inputs and outputs.",
+            "+",
+            "+## Predefined Hook Utilities",
+            "+",
+            "+The library includes several predefined hook utilities for common logging scenarios:",
+            "+",
+            "+### Stop Event Logging",
+            "+",
+            "+```typescript",
+            "+import { defineHooks, logStopEvents, logSubagentStopEvents } from '@timoaus/define-claude-code-hooks';",
+            "+",
+            "+export default defineHooks({",
+            "+  Stop: [logStopEvents('hook-log.stop.json')],",
+            "+  SubagentStop: [logSubagentStopEvents('hook-log.subagent.json')]",
+            "+});",
+            "+```",
+            "+",
+            "+### Notification Logging",
+            "+",
+            "+```typescript",
+            "+import { defineHooks, logNotificationEvents } from '@timoaus/define-claude-code-hooks';",
+            "+",
+            "+export default defineHooks({",
+            "+  Notification: [logNotificationEvents('hook-log.notifications.json')]",
+            "+});",
+            "+```",
+            "+",
+            "+### Tool Use Logging",
+            "+",
+            "+```typescript",
+            "+import { ",
+            "+  defineHooks, ",
+            "+  logPreToolUseEvents, ",
+            "+  logPostToolUseEvents,",
+            "+  logPreToolUseEventsForTools,",
+            "+  logPostToolUseEventsForTools ",
+            "+} from '@timoaus/define-claude-code-hooks';",
+            "+",
+            "+export default defineHooks({",
+            "+  // Log all tool use",
+            "+  PreToolUse: [",
+            "+    {",
+            "+      matcher: '.*',  // Matches all tools",
+            "+      handler: logPreToolUseEvents('hook-log.tool-use.json')",
+            "+    }",
+            "+  ],",
+            "+  ",
+            "+  PostToolUse: [",
+            "+    {",
+            "+      matcher: '.*',  // Matches all tools",
+            "+      handler: logPostToolUseEvents('hook-log.tool-use.json')",
+            "+    }",
+            "+  ]",
+            "+});",
+            "+",
+            "+// Or log specific tools only",
+            "+export default defineHooks({",
+            "+  PreToolUse: logPreToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json'),",
+            "+  PostToolUse: logPostToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json')",
+            "+});",
+            "+```",
+            "+",
+            "+### Combining Multiple Hooks",
+            "+",
+            "+```typescript",
+            "+import { ",
+            "+  defineHooks, ",
+            "+  logStopEvents,",
+            "+  logPreToolUseEventsForTools,",
+            "+  logPostToolUseEventsForTools ",
+            "+} from '@timoaus/define-claude-code-hooks';",
+            "+",
+            "+export default defineHooks({",
+            "+  PreToolUse: [",
+            "+    ...logPreToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),",
+            "+    // Add your custom hooks here",
+            "+    {",
+            "+      matcher: 'Bash',",
+            "+      handler: async (input) => {",
+            "+        // Custom logic",
+            "+      }",
+            "+    }",
+            "+  ],",
+            "+  ",
+            "+  PostToolUse: logPostToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),",
+            "+  ",
+            "+  Stop: [logStopEvents('hook-log.stop.json')]",
+            "+});",
+            "+```",
+            "+",
+            "+### Log File Format",
+            "+",
+            "+The predefined hooks create JSON log files with the following structure:",
+            "+",
+            "+```json",
+            "+[",
+            "+  {",
+            "+    \"timestamp\": \"2025-01-07T10:30:00.000Z\",",
+            "+    \"event\": \"PreToolUse\",",
+            "+    \"sessionId\": \"abc-123\",",
+            "+    \"transcriptPath\": \"/path/to/transcript.jsonl\",",
+            "+    \"toolName\": \"Bash\",",
+            "+    \"toolInput\": {",
+            "+      \"command\": \"ls -la\"",
+            "+    }",
+            "+  }",
+            "+]",
+            "+```",
+            "\\ No newline at end of file"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:45:47.626Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:45:48.260Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:45:53.552Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Read",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:45:54.128Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Read",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md"
+    },
+    "toolResponse": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+        "content": "---\ndescription: Create a new default hook export for the repository\n---\n\n# Create a New Default Hook\n\nI'll help you create a new default hook that can be exported from this repository and used in `.claude/hooks/hooks.ts` files.\n\n## Hook Requirements\n\n$ARGUMENTS\n\n## Understanding Hook Structure\n\nBased on the codebase analysis, here's how to create a new default hook:\n\n### 1. Hook Types\n\nThere are two categories of hooks:\n\n**Tool Hooks** (PreToolUse, PostToolUse):\n- Require a `matcher` (regex pattern for tool names)\n- Have a `handler` function\n- Can match multiple tools with patterns like `\"Write|Edit|MultiEdit\"`\n\n**Non-Tool Hooks** (Notification, Stop, SubagentStop):\n- Only have a handler function\n- No matcher required\n\n### 2. Hook Input Types\n\nEach hook type receives specific input:\n\n```typescript\n// PreToolUse\n{\n  hook_event_name: 'PreToolUse',\n  tool_name: string,\n  tool_input: Record<string, any>,\n  session_id: string,\n  transcript_path: string\n}\n\n// PostToolUse (same as PreToolUse plus)\n{\n  tool_response: Record<string, any>\n}\n\n// Notification\n{\n  hook_event_name: 'Notification',\n  message: string,\n  session_id: string,\n  transcript_path: string\n}\n\n// Stop/SubagentStop\n{\n  hook_event_name: 'Stop' | 'SubagentStop',\n  stop_hook_active: boolean,\n  session_id: string,\n  transcript_path: string\n}\n```\n\n### 3. Hook Output Types\n\nHooks can return structured responses:\n\n```typescript\n// PreToolUse can return:\n{\n  decision?: 'approve' | 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// PostToolUse can return:\n{\n  decision?: 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// Other hooks can return:\n{\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n```\n\n### 4. Creating a Default Hook\n\nTo create a new default hook:\n\n1. Create a new file in the `src/hooks/` directory (e.g., `src/hooks/myHook.ts`)\n2. Export a hook definition using the `defineHook` function\n3. Add the export to `src/index.ts`\n\n#### Important Implementation Guidelines:\n\n**Always import types from types.ts:**\n- Import specific input types like `PreToolUseInput`, `StopInput`, etc.\n- Never manually define types that already exist in `types.ts`\n- Use the imported types for proper type safety\n\n**Hook file structure:**\n```typescript\n// src/hooks/blockDangerousCommands.ts\nimport { defineHook } from '../index';\nimport { PreToolUseInput } from '../types';  // Import proper types!\n\nexport const blockDangerousCommands = defineHook('PreToolUse', {\n  matcher: 'Bash',\n  handler: async (input: PreToolUseInput) => {  // Use the imported type\n    const command = input.tool_input.command;\n    const dangerous = ['rm -rf /', 'dd if=/dev/zero', ':(){:|:&};:'];\n    \n    if (dangerous.some(cmd => command?.includes(cmd))) {\n      return {\n        decision: 'block',\n        reason: `Dangerous command detected: ${command}`\n      };\n    }\n  }\n});\n\n// Then in src/index.ts, add:\nexport { blockDangerousCommands } from './hooks/blockDangerousCommands';\n```\n\n**For hooks that handle multiple related events:**\n- You may need to create separate hook definitions (e.g., `logStopEvents` and `logSubagentStopEvents`)\n- Each hook type has its own specific input type\n- Share common logic between related hooks when appropriate\n\n### 5. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```\n\n### 6. Common Patterns and Best Practices\n\n**File I/O in hooks:**\n- Use `process.cwd()` to get the current working directory for file paths\n- Always handle errors gracefully (file not found, parse errors, etc.)\n- Consider using try-catch blocks for file operations\n- For JSON files, handle both empty/non-existent files and existing data\n- Implement log rotation/size limits to prevent unbounded file growth\n\n**Type inference:**\n- Use `typeof` for inferring types from values (e.g., `typeof logEntry[]`)\n- This keeps your types in sync with your actual data structures\n\n**Factory pattern for configurable hooks:**\n- Create factory functions that accept options and return hook definitions\n- This allows users to customize behavior without modifying the hook code\n- Example: `logStopEvents({ maxEventsStored: 100 })`\n- Return type should be `AnyHookDefinition<HookType>` for proper typing\n- Use default parameters or nullish coalescing (`??`) for option defaults\n\n**Hook return types:**\n- Import `AnyHookDefinition` from types for factory function return types\n- This ensures proper type checking when the hook is used in `defineHooks`\n- Example: `export const myHook = (options): AnyHookDefinition<'Stop'> => ...`\n\n**Testing hooks:**\n- Create standalone test files that import and call your hooks directly\n- For factory functions, test the returned hook definition directly\n- Non-tool hooks (Stop, Notification, SubagentStop) are functions themselves\n- Test with realistic input data matching the actual hook input types\n- Verify output files or side effects as expected\n- Clean up test artifacts after running\n- Test edge cases like file size limits and error conditions\n\n### 7. Advanced Hook Patterns\n\n**Tool hooks with matchers:**\n- Tool hooks (PreToolUse, PostToolUse) require both `matcher` and `handler`\n- Use `.*` as matcher to match all tools\n- Use pipe syntax for multiple tools: `\"Bash|Write|Edit\"`\n- The matcher is a regex pattern, so complex patterns are supported\n- Consider creating both generic (all tools) and specific variants\n\n**Configurable data inclusion:**\n- Add options to control what data is logged/processed\n- Example: `includeToolInput`, `includeToolResponse` options\n- Helps with sensitive data, performance, and log size\n- Use object spread with conditional inclusion: `...(condition && { field: value })`\n\n**Consistent option interfaces:**\n- Keep option names consistent across similar hooks\n- Common options: `maxEventsStored`, `logFileName`\n- Document all options with JSDoc comments\n- Provide sensible defaults for all options\n\n**Multiple hook variants:**\n- Consider creating both generic and specific versions\n- Example: `logPreToolUseEvents()` for all tools\n- Example: `logPreToolUseEventsForTools('Bash')` for specific tools\n- This gives users flexibility without code duplication\n\n**File organization:**\n- Group related hooks in the same file\n- Example: All tool logging in `logToolUseEvents.ts`\n- Export multiple related functions from one file\n- Keep consistent naming patterns\n\n**Testing considerations:**\n- Tool hooks have a `handler` property that contains the actual function\n- Non-tool hooks ARE the function themselves\n- Always check the hook structure before calling\n- Test with realistic hook inputs matching actual Claude Code events\n\n## Let me create the hook for you\n\nBased on your requirements, I'll create the appropriate hook structure and implementation.",
+        "numLines": 233,
+        "startLine": 1,
+        "totalLines": 233
+      }
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:07.429Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "old_string": "### 5. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```",
+      "new_string": "### 5. Update Documentation\n\nAfter creating a new hook, update the README.md file to document it:\n\n1. Add the new hook to the \"Predefined Hook Utilities\" section\n2. Include usage examples showing how to import and use the hook\n3. Document any configuration options\n4. Show example output if the hook produces logs or other artifacts\n\n### 6. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:08.053Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "old_string": "### 5. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```",
+      "new_string": "### 5. Update Documentation\n\nAfter creating a new hook, update the README.md file to document it:\n\n1. Add the new hook to the \"Predefined Hook Utilities\" section\n2. Include usage examples showing how to import and use the hook\n3. Document any configuration options\n4. Show example output if the hook produces logs or other artifacts\n\n### 6. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```"
+    },
+    "toolResponse": {
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "oldString": "### 5. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```",
+      "newString": "### 5. Update Documentation\n\nAfter creating a new hook, update the README.md file to document it:\n\n1. Add the new hook to the \"Predefined Hook Utilities\" section\n2. Include usage examples showing how to import and use the hook\n3. Document any configuration options\n4. Show example output if the hook produces logs or other artifacts\n\n### 6. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```",
+      "originalFile": "---\ndescription: Create a new default hook export for the repository\n---\n\n# Create a New Default Hook\n\nI'll help you create a new default hook that can be exported from this repository and used in `.claude/hooks/hooks.ts` files.\n\n## Hook Requirements\n\n$ARGUMENTS\n\n## Understanding Hook Structure\n\nBased on the codebase analysis, here's how to create a new default hook:\n\n### 1. Hook Types\n\nThere are two categories of hooks:\n\n**Tool Hooks** (PreToolUse, PostToolUse):\n- Require a `matcher` (regex pattern for tool names)\n- Have a `handler` function\n- Can match multiple tools with patterns like `\"Write|Edit|MultiEdit\"`\n\n**Non-Tool Hooks** (Notification, Stop, SubagentStop):\n- Only have a handler function\n- No matcher required\n\n### 2. Hook Input Types\n\nEach hook type receives specific input:\n\n```typescript\n// PreToolUse\n{\n  hook_event_name: 'PreToolUse',\n  tool_name: string,\n  tool_input: Record<string, any>,\n  session_id: string,\n  transcript_path: string\n}\n\n// PostToolUse (same as PreToolUse plus)\n{\n  tool_response: Record<string, any>\n}\n\n// Notification\n{\n  hook_event_name: 'Notification',\n  message: string,\n  session_id: string,\n  transcript_path: string\n}\n\n// Stop/SubagentStop\n{\n  hook_event_name: 'Stop' | 'SubagentStop',\n  stop_hook_active: boolean,\n  session_id: string,\n  transcript_path: string\n}\n```\n\n### 3. Hook Output Types\n\nHooks can return structured responses:\n\n```typescript\n// PreToolUse can return:\n{\n  decision?: 'approve' | 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// PostToolUse can return:\n{\n  decision?: 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// Other hooks can return:\n{\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n```\n\n### 4. Creating a Default Hook\n\nTo create a new default hook:\n\n1. Create a new file in the `src/hooks/` directory (e.g., `src/hooks/myHook.ts`)\n2. Export a hook definition using the `defineHook` function\n3. Add the export to `src/index.ts`\n\n#### Important Implementation Guidelines:\n\n**Always import types from types.ts:**\n- Import specific input types like `PreToolUseInput`, `StopInput`, etc.\n- Never manually define types that already exist in `types.ts`\n- Use the imported types for proper type safety\n\n**Hook file structure:**\n```typescript\n// src/hooks/blockDangerousCommands.ts\nimport { defineHook } from '../index';\nimport { PreToolUseInput } from '../types';  // Import proper types!\n\nexport const blockDangerousCommands = defineHook('PreToolUse', {\n  matcher: 'Bash',\n  handler: async (input: PreToolUseInput) => {  // Use the imported type\n    const command = input.tool_input.command;\n    const dangerous = ['rm -rf /', 'dd if=/dev/zero', ':(){:|:&};:'];\n    \n    if (dangerous.some(cmd => command?.includes(cmd))) {\n      return {\n        decision: 'block',\n        reason: `Dangerous command detected: ${command}`\n      };\n    }\n  }\n});\n\n// Then in src/index.ts, add:\nexport { blockDangerousCommands } from './hooks/blockDangerousCommands';\n```\n\n**For hooks that handle multiple related events:**\n- You may need to create separate hook definitions (e.g., `logStopEvents` and `logSubagentStopEvents`)\n- Each hook type has its own specific input type\n- Share common logic between related hooks when appropriate\n\n### 5. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```\n\n### 6. Common Patterns and Best Practices\n\n**File I/O in hooks:**\n- Use `process.cwd()` to get the current working directory for file paths\n- Always handle errors gracefully (file not found, parse errors, etc.)\n- Consider using try-catch blocks for file operations\n- For JSON files, handle both empty/non-existent files and existing data\n- Implement log rotation/size limits to prevent unbounded file growth\n\n**Type inference:**\n- Use `typeof` for inferring types from values (e.g., `typeof logEntry[]`)\n- This keeps your types in sync with your actual data structures\n\n**Factory pattern for configurable hooks:**\n- Create factory functions that accept options and return hook definitions\n- This allows users to customize behavior without modifying the hook code\n- Example: `logStopEvents({ maxEventsStored: 100 })`\n- Return type should be `AnyHookDefinition<HookType>` for proper typing\n- Use default parameters or nullish coalescing (`??`) for option defaults\n\n**Hook return types:**\n- Import `AnyHookDefinition` from types for factory function return types\n- This ensures proper type checking when the hook is used in `defineHooks`\n- Example: `export const myHook = (options): AnyHookDefinition<'Stop'> => ...`\n\n**Testing hooks:**\n- Create standalone test files that import and call your hooks directly\n- For factory functions, test the returned hook definition directly\n- Non-tool hooks (Stop, Notification, SubagentStop) are functions themselves\n- Test with realistic input data matching the actual hook input types\n- Verify output files or side effects as expected\n- Clean up test artifacts after running\n- Test edge cases like file size limits and error conditions\n\n### 7. Advanced Hook Patterns\n\n**Tool hooks with matchers:**\n- Tool hooks (PreToolUse, PostToolUse) require both `matcher` and `handler`\n- Use `.*` as matcher to match all tools\n- Use pipe syntax for multiple tools: `\"Bash|Write|Edit\"`\n- The matcher is a regex pattern, so complex patterns are supported\n- Consider creating both generic (all tools) and specific variants\n\n**Configurable data inclusion:**\n- Add options to control what data is logged/processed\n- Example: `includeToolInput`, `includeToolResponse` options\n- Helps with sensitive data, performance, and log size\n- Use object spread with conditional inclusion: `...(condition && { field: value })`\n\n**Consistent option interfaces:**\n- Keep option names consistent across similar hooks\n- Common options: `maxEventsStored`, `logFileName`\n- Document all options with JSDoc comments\n- Provide sensible defaults for all options\n\n**Multiple hook variants:**\n- Consider creating both generic and specific versions\n- Example: `logPreToolUseEvents()` for all tools\n- Example: `logPreToolUseEventsForTools('Bash')` for specific tools\n- This gives users flexibility without code duplication\n\n**File organization:**\n- Group related hooks in the same file\n- Example: All tool logging in `logToolUseEvents.ts`\n- Export multiple related functions from one file\n- Keep consistent naming patterns\n\n**Testing considerations:**\n- Tool hooks have a `handler` property that contains the actual function\n- Non-tool hooks ARE the function themselves\n- Always check the hook structure before calling\n- Test with realistic hook inputs matching actual Claude Code events\n\n## Let me create the hook for you\n\nBased on your requirements, I'll create the appropriate hook structure and implementation.",
+      "structuredPatch": [
+        {
+          "oldStart": 139,
+          "oldLines": 8,
+          "newStart": 139,
+          "newLines": 17,
+          "lines": [
+            " - Each hook type has its own specific input type",
+            " - Share common logic between related hooks when appropriate",
+            " ",
+            "-### 5. Using the Hook",
+            "+### 5. Update Documentation",
+            " ",
+            "+After creating a new hook, update the README.md file to document it:",
+            "+",
+            "+1. Add the new hook to the \"Predefined Hook Utilities\" section",
+            "+2. Include usage examples showing how to import and use the hook",
+            "+3. Document any configuration options",
+            "+4. Show example output if the hook produces logs or other artifacts",
+            "+",
+            "+### 6. Using the Hook",
+            "+",
+            " Users can then import and use the hook:",
+            " ",
+            " ```typescript"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:13.624Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "old_string": "### 6. Common Patterns and Best Practices",
+      "new_string": "### 7. Common Patterns and Best Practices"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:14.302Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "old_string": "### 6. Common Patterns and Best Practices",
+      "new_string": "### 7. Common Patterns and Best Practices"
+    },
+    "toolResponse": {
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "oldString": "### 6. Common Patterns and Best Practices",
+      "newString": "### 7. Common Patterns and Best Practices",
+      "originalFile": "---\ndescription: Create a new default hook export for the repository\n---\n\n# Create a New Default Hook\n\nI'll help you create a new default hook that can be exported from this repository and used in `.claude/hooks/hooks.ts` files.\n\n## Hook Requirements\n\n$ARGUMENTS\n\n## Understanding Hook Structure\n\nBased on the codebase analysis, here's how to create a new default hook:\n\n### 1. Hook Types\n\nThere are two categories of hooks:\n\n**Tool Hooks** (PreToolUse, PostToolUse):\n- Require a `matcher` (regex pattern for tool names)\n- Have a `handler` function\n- Can match multiple tools with patterns like `\"Write|Edit|MultiEdit\"`\n\n**Non-Tool Hooks** (Notification, Stop, SubagentStop):\n- Only have a handler function\n- No matcher required\n\n### 2. Hook Input Types\n\nEach hook type receives specific input:\n\n```typescript\n// PreToolUse\n{\n  hook_event_name: 'PreToolUse',\n  tool_name: string,\n  tool_input: Record<string, any>,\n  session_id: string,\n  transcript_path: string\n}\n\n// PostToolUse (same as PreToolUse plus)\n{\n  tool_response: Record<string, any>\n}\n\n// Notification\n{\n  hook_event_name: 'Notification',\n  message: string,\n  session_id: string,\n  transcript_path: string\n}\n\n// Stop/SubagentStop\n{\n  hook_event_name: 'Stop' | 'SubagentStop',\n  stop_hook_active: boolean,\n  session_id: string,\n  transcript_path: string\n}\n```\n\n### 3. Hook Output Types\n\nHooks can return structured responses:\n\n```typescript\n// PreToolUse can return:\n{\n  decision?: 'approve' | 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// PostToolUse can return:\n{\n  decision?: 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// Other hooks can return:\n{\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n```\n\n### 4. Creating a Default Hook\n\nTo create a new default hook:\n\n1. Create a new file in the `src/hooks/` directory (e.g., `src/hooks/myHook.ts`)\n2. Export a hook definition using the `defineHook` function\n3. Add the export to `src/index.ts`\n\n#### Important Implementation Guidelines:\n\n**Always import types from types.ts:**\n- Import specific input types like `PreToolUseInput`, `StopInput`, etc.\n- Never manually define types that already exist in `types.ts`\n- Use the imported types for proper type safety\n\n**Hook file structure:**\n```typescript\n// src/hooks/blockDangerousCommands.ts\nimport { defineHook } from '../index';\nimport { PreToolUseInput } from '../types';  // Import proper types!\n\nexport const blockDangerousCommands = defineHook('PreToolUse', {\n  matcher: 'Bash',\n  handler: async (input: PreToolUseInput) => {  // Use the imported type\n    const command = input.tool_input.command;\n    const dangerous = ['rm -rf /', 'dd if=/dev/zero', ':(){:|:&};:'];\n    \n    if (dangerous.some(cmd => command?.includes(cmd))) {\n      return {\n        decision: 'block',\n        reason: `Dangerous command detected: ${command}`\n      };\n    }\n  }\n});\n\n// Then in src/index.ts, add:\nexport { blockDangerousCommands } from './hooks/blockDangerousCommands';\n```\n\n**For hooks that handle multiple related events:**\n- You may need to create separate hook definitions (e.g., `logStopEvents` and `logSubagentStopEvents`)\n- Each hook type has its own specific input type\n- Share common logic between related hooks when appropriate\n\n### 5. Update Documentation\n\nAfter creating a new hook, update the README.md file to document it:\n\n1. Add the new hook to the \"Predefined Hook Utilities\" section\n2. Include usage examples showing how to import and use the hook\n3. Document any configuration options\n4. Show example output if the hook produces logs or other artifacts\n\n### 6. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```\n\n### 6. Common Patterns and Best Practices\n\n**File I/O in hooks:**\n- Use `process.cwd()` to get the current working directory for file paths\n- Always handle errors gracefully (file not found, parse errors, etc.)\n- Consider using try-catch blocks for file operations\n- For JSON files, handle both empty/non-existent files and existing data\n- Implement log rotation/size limits to prevent unbounded file growth\n\n**Type inference:**\n- Use `typeof` for inferring types from values (e.g., `typeof logEntry[]`)\n- This keeps your types in sync with your actual data structures\n\n**Factory pattern for configurable hooks:**\n- Create factory functions that accept options and return hook definitions\n- This allows users to customize behavior without modifying the hook code\n- Example: `logStopEvents({ maxEventsStored: 100 })`\n- Return type should be `AnyHookDefinition<HookType>` for proper typing\n- Use default parameters or nullish coalescing (`??`) for option defaults\n\n**Hook return types:**\n- Import `AnyHookDefinition` from types for factory function return types\n- This ensures proper type checking when the hook is used in `defineHooks`\n- Example: `export const myHook = (options): AnyHookDefinition<'Stop'> => ...`\n\n**Testing hooks:**\n- Create standalone test files that import and call your hooks directly\n- For factory functions, test the returned hook definition directly\n- Non-tool hooks (Stop, Notification, SubagentStop) are functions themselves\n- Test with realistic input data matching the actual hook input types\n- Verify output files or side effects as expected\n- Clean up test artifacts after running\n- Test edge cases like file size limits and error conditions\n\n### 7. Advanced Hook Patterns\n\n**Tool hooks with matchers:**\n- Tool hooks (PreToolUse, PostToolUse) require both `matcher` and `handler`\n- Use `.*` as matcher to match all tools\n- Use pipe syntax for multiple tools: `\"Bash|Write|Edit\"`\n- The matcher is a regex pattern, so complex patterns are supported\n- Consider creating both generic (all tools) and specific variants\n\n**Configurable data inclusion:**\n- Add options to control what data is logged/processed\n- Example: `includeToolInput`, `includeToolResponse` options\n- Helps with sensitive data, performance, and log size\n- Use object spread with conditional inclusion: `...(condition && { field: value })`\n\n**Consistent option interfaces:**\n- Keep option names consistent across similar hooks\n- Common options: `maxEventsStored`, `logFileName`\n- Document all options with JSDoc comments\n- Provide sensible defaults for all options\n\n**Multiple hook variants:**\n- Consider creating both generic and specific versions\n- Example: `logPreToolUseEvents()` for all tools\n- Example: `logPreToolUseEventsForTools('Bash')` for specific tools\n- This gives users flexibility without code duplication\n\n**File organization:**\n- Group related hooks in the same file\n- Example: All tool logging in `logToolUseEvents.ts`\n- Export multiple related functions from one file\n- Keep consistent naming patterns\n\n**Testing considerations:**\n- Tool hooks have a `handler` property that contains the actual function\n- Non-tool hooks ARE the function themselves\n- Always check the hook structure before calling\n- Test with realistic hook inputs matching actual Claude Code events\n\n## Let me create the hook for you\n\nBased on your requirements, I'll create the appropriate hook structure and implementation.",
+      "structuredPatch": [
+        {
+          "oldStart": 164,
+          "oldLines": 7,
+          "newStart": 164,
+          "newLines": 7,
+          "lines": [
+            " });",
+            " ```",
+            " ",
+            "-### 6. Common Patterns and Best Practices",
+            "+### 7. Common Patterns and Best Practices",
+            " ",
+            " **File I/O in hooks:**",
+            " - Use `process.cwd()` to get the current working directory for file paths"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:19.825Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "old_string": "### 7. Advanced Hook Patterns",
+      "new_string": "### 8. Advanced Hook Patterns"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:20.443Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "old_string": "### 7. Advanced Hook Patterns",
+      "new_string": "### 8. Advanced Hook Patterns"
+    },
+    "toolResponse": {
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/.claude/commands/new-hook.md",
+      "oldString": "### 7. Advanced Hook Patterns",
+      "newString": "### 8. Advanced Hook Patterns",
+      "originalFile": "---\ndescription: Create a new default hook export for the repository\n---\n\n# Create a New Default Hook\n\nI'll help you create a new default hook that can be exported from this repository and used in `.claude/hooks/hooks.ts` files.\n\n## Hook Requirements\n\n$ARGUMENTS\n\n## Understanding Hook Structure\n\nBased on the codebase analysis, here's how to create a new default hook:\n\n### 1. Hook Types\n\nThere are two categories of hooks:\n\n**Tool Hooks** (PreToolUse, PostToolUse):\n- Require a `matcher` (regex pattern for tool names)\n- Have a `handler` function\n- Can match multiple tools with patterns like `\"Write|Edit|MultiEdit\"`\n\n**Non-Tool Hooks** (Notification, Stop, SubagentStop):\n- Only have a handler function\n- No matcher required\n\n### 2. Hook Input Types\n\nEach hook type receives specific input:\n\n```typescript\n// PreToolUse\n{\n  hook_event_name: 'PreToolUse',\n  tool_name: string,\n  tool_input: Record<string, any>,\n  session_id: string,\n  transcript_path: string\n}\n\n// PostToolUse (same as PreToolUse plus)\n{\n  tool_response: Record<string, any>\n}\n\n// Notification\n{\n  hook_event_name: 'Notification',\n  message: string,\n  session_id: string,\n  transcript_path: string\n}\n\n// Stop/SubagentStop\n{\n  hook_event_name: 'Stop' | 'SubagentStop',\n  stop_hook_active: boolean,\n  session_id: string,\n  transcript_path: string\n}\n```\n\n### 3. Hook Output Types\n\nHooks can return structured responses:\n\n```typescript\n// PreToolUse can return:\n{\n  decision?: 'approve' | 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// PostToolUse can return:\n{\n  decision?: 'block',\n  reason?: string,\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n\n// Other hooks can return:\n{\n  continue?: boolean,\n  stopReason?: string,\n  suppressOutput?: boolean\n}\n```\n\n### 4. Creating a Default Hook\n\nTo create a new default hook:\n\n1. Create a new file in the `src/hooks/` directory (e.g., `src/hooks/myHook.ts`)\n2. Export a hook definition using the `defineHook` function\n3. Add the export to `src/index.ts`\n\n#### Important Implementation Guidelines:\n\n**Always import types from types.ts:**\n- Import specific input types like `PreToolUseInput`, `StopInput`, etc.\n- Never manually define types that already exist in `types.ts`\n- Use the imported types for proper type safety\n\n**Hook file structure:**\n```typescript\n// src/hooks/blockDangerousCommands.ts\nimport { defineHook } from '../index';\nimport { PreToolUseInput } from '../types';  // Import proper types!\n\nexport const blockDangerousCommands = defineHook('PreToolUse', {\n  matcher: 'Bash',\n  handler: async (input: PreToolUseInput) => {  // Use the imported type\n    const command = input.tool_input.command;\n    const dangerous = ['rm -rf /', 'dd if=/dev/zero', ':(){:|:&};:'];\n    \n    if (dangerous.some(cmd => command?.includes(cmd))) {\n      return {\n        decision: 'block',\n        reason: `Dangerous command detected: ${command}`\n      };\n    }\n  }\n});\n\n// Then in src/index.ts, add:\nexport { blockDangerousCommands } from './hooks/blockDangerousCommands';\n```\n\n**For hooks that handle multiple related events:**\n- You may need to create separate hook definitions (e.g., `logStopEvents` and `logSubagentStopEvents`)\n- Each hook type has its own specific input type\n- Share common logic between related hooks when appropriate\n\n### 5. Update Documentation\n\nAfter creating a new hook, update the README.md file to document it:\n\n1. Add the new hook to the \"Predefined Hook Utilities\" section\n2. Include usage examples showing how to import and use the hook\n3. Document any configuration options\n4. Show example output if the hook produces logs or other artifacts\n\n### 6. Using the Hook\n\nUsers can then import and use the hook:\n\n```typescript\n// .claude/hooks/hooks.ts\nimport { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';\n\nexport default defineHooks({\n  PreToolUse: [\n    blockDangerousCommands,\n    // other hooks...\n  ]\n});\n```\n\n### 7. Common Patterns and Best Practices\n\n**File I/O in hooks:**\n- Use `process.cwd()` to get the current working directory for file paths\n- Always handle errors gracefully (file not found, parse errors, etc.)\n- Consider using try-catch blocks for file operations\n- For JSON files, handle both empty/non-existent files and existing data\n- Implement log rotation/size limits to prevent unbounded file growth\n\n**Type inference:**\n- Use `typeof` for inferring types from values (e.g., `typeof logEntry[]`)\n- This keeps your types in sync with your actual data structures\n\n**Factory pattern for configurable hooks:**\n- Create factory functions that accept options and return hook definitions\n- This allows users to customize behavior without modifying the hook code\n- Example: `logStopEvents({ maxEventsStored: 100 })`\n- Return type should be `AnyHookDefinition<HookType>` for proper typing\n- Use default parameters or nullish coalescing (`??`) for option defaults\n\n**Hook return types:**\n- Import `AnyHookDefinition` from types for factory function return types\n- This ensures proper type checking when the hook is used in `defineHooks`\n- Example: `export const myHook = (options): AnyHookDefinition<'Stop'> => ...`\n\n**Testing hooks:**\n- Create standalone test files that import and call your hooks directly\n- For factory functions, test the returned hook definition directly\n- Non-tool hooks (Stop, Notification, SubagentStop) are functions themselves\n- Test with realistic input data matching the actual hook input types\n- Verify output files or side effects as expected\n- Clean up test artifacts after running\n- Test edge cases like file size limits and error conditions\n\n### 7. Advanced Hook Patterns\n\n**Tool hooks with matchers:**\n- Tool hooks (PreToolUse, PostToolUse) require both `matcher` and `handler`\n- Use `.*` as matcher to match all tools\n- Use pipe syntax for multiple tools: `\"Bash|Write|Edit\"`\n- The matcher is a regex pattern, so complex patterns are supported\n- Consider creating both generic (all tools) and specific variants\n\n**Configurable data inclusion:**\n- Add options to control what data is logged/processed\n- Example: `includeToolInput`, `includeToolResponse` options\n- Helps with sensitive data, performance, and log size\n- Use object spread with conditional inclusion: `...(condition && { field: value })`\n\n**Consistent option interfaces:**\n- Keep option names consistent across similar hooks\n- Common options: `maxEventsStored`, `logFileName`\n- Document all options with JSDoc comments\n- Provide sensible defaults for all options\n\n**Multiple hook variants:**\n- Consider creating both generic and specific versions\n- Example: `logPreToolUseEvents()` for all tools\n- Example: `logPreToolUseEventsForTools('Bash')` for specific tools\n- This gives users flexibility without code duplication\n\n**File organization:**\n- Group related hooks in the same file\n- Example: All tool logging in `logToolUseEvents.ts`\n- Export multiple related functions from one file\n- Keep consistent naming patterns\n\n**Testing considerations:**\n- Tool hooks have a `handler` property that contains the actual function\n- Non-tool hooks ARE the function themselves\n- Always check the hook structure before calling\n- Test with realistic hook inputs matching actual Claude Code events\n\n## Let me create the hook for you\n\nBased on your requirements, I'll create the appropriate hook structure and implementation.",
+      "structuredPatch": [
+        {
+          "oldStart": 198,
+          "oldLines": 7,
+          "newStart": 198,
+          "newLines": 7,
+          "lines": [
+            " - Clean up test artifacts after running",
+            " - Test edge cases like file size limits and error conditions",
+            " ",
+            "-### 7. Advanced Hook Patterns",
+            "+### 8. Advanced Hook Patterns",
+            " ",
+            " **Tool hooks with matchers:**",
+            " - Tool hooks (PreToolUse, PostToolUse) require both `matcher` and `handler`"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:27.764Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:28.393Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Update README.md to document predefined hooks",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update .claude/commands/new-hook.md to mention README updates",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:46:38.678Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git add . && git commit -m \"$(cat <<'EOF'\nDocument predefined hooks in README and update command file\n\n- Added comprehensive documentation for all predefined hook utilities\n- Included examples for stop event, notification, and tool use logging\n- Fixed package name to @timoaus/define-claude-code-hooks\n- Updated new-hook.md command to include README update instructions\n- Added log file format documentation\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\" && git push",
+      "description": "Commit and push documentation updates"
+    }
   }
 ]

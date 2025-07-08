@@ -139,7 +139,16 @@ export { blockDangerousCommands } from './hooks/blockDangerousCommands';
 - Each hook type has its own specific input type
 - Share common logic between related hooks when appropriate
 
-### 5. Using the Hook
+### 5. Update Documentation
+
+After creating a new hook, update the README.md file to document it:
+
+1. Add the new hook to the "Predefined Hook Utilities" section
+2. Include usage examples showing how to import and use the hook
+3. Document any configuration options
+4. Show example output if the hook produces logs or other artifacts
+
+### 6. Using the Hook
 
 Users can then import and use the hook:
 
@@ -155,7 +164,7 @@ export default defineHooks({
 });
 ```
 
-### 6. Common Patterns and Best Practices
+### 7. Common Patterns and Best Practices
 
 **File I/O in hooks:**
 - Use `process.cwd()` to get the current working directory for file paths
@@ -189,7 +198,7 @@ export default defineHooks({
 - Clean up test artifacts after running
 - Test edge cases like file size limits and error conditions
 
-### 7. Advanced Hook Patterns
+### 8. Advanced Hook Patterns
 
 **Tool hooks with matchers:**
 - Tool hooks (PreToolUse, PostToolUse) require both `matcher` and `handler`
