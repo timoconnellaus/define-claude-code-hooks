@@ -9,6 +9,7 @@ export {
   logPreToolUseEvents, 
   logPostToolUseEvents
 } from './hooks/logToolUseEvents';
+export { blockEnvFiles } from './hooks/blockEnvFiles';
 
 /**
  * Define a typed hook handler for Claude Code

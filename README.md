@@ -99,6 +99,7 @@ The library includes several predefined hook utilities for common logging scenar
 | **`logStopEvents`**<br/>Logs main agent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
 | **`logSubagentStopEvents`**<br/>Logs subagent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
 | **`logNotificationEvents`**<br/>Logs notification messages | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.notification.json') |
+| **`blockEnvFiles`**<br/>Blocks access to .env files | No options - blocks all .env file variants except example files |
 
 All predefined hooks:
 - Create JSON log files in your current working directory
@@ -326,6 +327,27 @@ export default defineHooks({
 });
 ```
 
+### Environment File Protection
+
+```typescript
+import {
+  defineHooks,
+  blockEnvFiles,
+} from "@timoaus/define-claude-code-hooks";
+
+export default defineHooks({
+  PreToolUse: [
+    blockEnvFiles, // Blocks access to .env files while allowing .env.example
+  ],
+});
+```
+
+The `blockEnvFiles` hook:
+- Blocks reading or writing to `.env` files and variants (`.env.local`, `.env.production`, etc.)
+- Allows access to example env files (`.env.example`, `.env.sample`, `.env.template`, `.env.dist`)
+- Works with `Read`, `Write`, `Edit`, and `MultiEdit` tools
+- Provides clear error messages when access is blocked
+
 ### Combining Multiple Hooks
 
 ```typescript
@@ -334,10 +356,12 @@ import {
   logStopEvents,
   logPreToolUseEvents,
   logPostToolUseEvents,
+  blockEnvFiles,
 } from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
   PreToolUse: [
+    blockEnvFiles, // Security: prevent .env file access
     logPreToolUseEvents({ logFileName: "hook-log.tool-use.json" }),
     // Add your custom hooks here
     {
