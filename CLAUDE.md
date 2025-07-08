@@ -90,3 +90,17 @@ The CLI removes all hooks marked with `__managed_by_define_claude_code_hooks__` 
   - `hooks.user.ts` (user-specific hooks that update ~/.claude/settings.json)
 - Compatible with npm, yarn, pnpm, and bun package managers
 - The CLI no longer requires flags - it automatically detects which hook files exist and updates the appropriate settings files
+
+## Release Process
+
+To release a new version of the package:
+
+1. **Update version**: Update the version in `package.json` following semantic versioning
+2. **Build**: Run `bun run build` to compile TypeScript
+3. **Test**: Run `bun test` to ensure all tests pass
+4. **Commit**: Commit all changes including the version bump
+5. **Tag**: Create a git tag for the release: `git tag v1.0.2` (match the package.json version)
+6. **Push**: Push commits and tags: `git push && git push --tags`
+7. **Publish**: Run `npm publish` to publish to npm registry
+
+The package is published under the `@timoaus` scope as `@timoaus/define-claude-code-hooks`.
