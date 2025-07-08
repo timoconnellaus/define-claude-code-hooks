@@ -23,6 +23,7 @@ function getManagedMarker(location: 'project' | 'local' | 'user'): string {
 
 interface CliOptions {
   remove?: boolean;
+  globalSettingsPath?: string;
 }
 
 async function main() {
@@ -30,10 +31,19 @@ async function main() {
   const options: CliOptions = {};
 
   // Parse arguments
-  for (const arg of args) {
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
     switch (arg) {
       case '--remove':
         options.remove = true;
+        break;
+      case '--global-settings-path':
+        if (i + 1 < args.length) {
+          options.globalSettingsPath = args[++i];
+        } else {
+          console.error('--global-settings-path requires a path argument');
+          process.exit(1);
+        }
         break;
       case '--help':
         showHelp();
@@ -47,9 +57,9 @@ async function main() {
 
   try {
     if (options.remove) {
-      await removeHooks();
+      await removeHooks(options);
     } else {
-      await updateHooks();
+      await updateHooks(options);
     }
   } catch (error) {
     console.error('Error:', error);
@@ -62,17 +72,19 @@ function showHelp() {
 Usage: npx define-claude-code-hooks [options]
 
 Options:
-  --remove     Remove managed hooks from all settings files
-  --help       Show this help message
+  --remove                          Remove managed hooks from all settings files
+  --global-settings-path <path>     Custom path to global Claude settings.json
+                                    (default: ~/.claude/settings.json)
+  --help                            Show this help message
 
 This command will automatically detect hook files in .claude/hooks/:
   - hooks.ts       → Updates .claude/settings.json
   - hooks.local.ts → Updates .claude/settings.local.json
-  - hooks.user.ts  → Updates ~/.claude/settings.json
+  - hooks.user.ts  → Updates ~/.claude/settings.json (or custom path)
 `);
 }
 
-async function updateHooks() {
+async function updateHooks(options: CliOptions) {
   const { execSync } = require('child_process');
   let updatedAny = false;
 
@@ -108,7 +120,7 @@ async function updateHooks() {
           settingsPath = path.join(process.cwd(), '.claude', 'settings.local.json');
           break;
         case 'user':
-          settingsPath = path.join(os.homedir(), '.claude', 'settings.json');
+          settingsPath = options.globalSettingsPath || path.join(os.homedir(), '.claude', 'settings.json');
           break;
         default:
           continue;
@@ -132,7 +144,7 @@ async function updateHooks() {
   }
 }
 
-async function removeHooks() {
+async function removeHooks(options: CliOptions) {
   let removedAny = false;
   
   // Remove from project settings
@@ -150,7 +162,7 @@ async function removeHooks() {
   }
   
   // Remove from user settings
-  const userSettingsPath = path.join(os.homedir(), '.claude', 'settings.json');
+  const userSettingsPath = options.globalSettingsPath || path.join(os.homedir(), '.claude', 'settings.json');
   if (fs.existsSync(userSettingsPath)) {
     await removeFromSettingsFile(userSettingsPath, 'user');
     removedAny = true;

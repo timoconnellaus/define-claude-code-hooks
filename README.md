@@ -88,6 +88,36 @@ npm run claude:hooks
 
 The CLI will automatically detect which hook files exist and update the corresponding settings files. Your hooks are now active! Claude Code will respect your rules and log tool usage.
 
+## Predefined Hooks
+
+The library includes several predefined hook utilities for common logging scenarios:
+
+| Hook Function | Options |
+|--------------|---------|
+| **`logPreToolUseEvents`**<br/>Logs all tool uses before execution | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true) |
+| **`logPostToolUseEvents`**<br/>Logs all tool uses after execution | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)<br/>• `includeToolResponse` (default: true) |
+| **`logPreToolUseEventsForTools`**<br/>Logs specific tools before execution | • First param: `toolMatcher` (regex pattern)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true) |
+| **`logPostToolUseEventsForTools`**<br/>Logs specific tools after execution | • First param: `toolMatcher` (regex pattern)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)<br/>• `includeToolResponse` (default: true) |
+| **`logStopEvents`**<br/>Logs main agent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
+| **`logSubagentStopEvents`**<br/>Logs subagent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
+| **`logNotificationEvents`**<br/>Logs notification messages | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.notification.json') |
+
+All predefined hooks:
+- Create JSON log files in your current working directory
+- Automatically rotate logs when reaching `maxEventsStored` limit (keeping most recent events)
+- Include timestamps, session IDs, and transcript paths in log entries
+- Handle errors gracefully without interrupting Claude Code
+
+Example usage:
+```typescript
+import { defineHooks, logPreToolUseEvents, logStopEvents } from "@timoaus/define-claude-code-hooks";
+
+export default defineHooks({
+  PreToolUse: [logPreToolUseEvents({ maxEventsStored: 200, logFileName: "my-tools.json" })],
+  Stop: [logStopEvents()],
+});
+```
+
 ## Full Usage Guide
 
 ### 1. Create a hook file
@@ -157,6 +187,9 @@ npx define-claude-code-hooks
 
 # Remove all managed hooks
 npx define-claude-code-hooks --remove
+
+# Use a custom global settings path (if not in ~/.claude/settings.json)
+npx define-claude-code-hooks --global-settings-path /path/to/settings.json
 ```
 
 The CLI automatically detects which hook files exist and updates the corresponding settings:
@@ -164,6 +197,8 @@ The CLI automatically detects which hook files exist and updates the correspondi
 - `hooks.ts` → `.claude/settings.json` (project settings, relative paths)
 - `hooks.local.ts` → `.claude/settings.local.json` (local settings, relative paths)
 - `hooks.user.ts` → `~/.claude/settings.json` (user settings, absolute paths)
+
+**Note:** If your global Claude settings.json is not in the default location (`~/.claude/settings.json`), use the `--global-settings-path` option to specify the correct path.
 
 ## API
 
