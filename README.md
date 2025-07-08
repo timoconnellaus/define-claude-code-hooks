@@ -7,13 +7,13 @@ Type-safe hook definitions for Claude Code with automatic settings management.
 ### 1. Install the package
 
 ```bash
-npm install @timoaus/define-claude-code-hooks
+npm install --save-dev @timoaus/define-claude-code-hooks
 # or
-yarn add @timoaus/define-claude-code-hooks
+yarn add --dev @timoaus/define-claude-code-hooks
 # or
-pnpm add @timoaus/define-claude-code-hooks
+pnpm add --save-dev @timoaus/define-claude-code-hooks
 # or
-bun add @timoaus/define-claude-code-hooks
+bun add --dev @timoaus/define-claude-code-hooks
 ```
 
 ### 2. Add a package.json script
@@ -41,23 +41,22 @@ For example, create `.claude/hooks/hooks.ts`:
 ```typescript
 import { defineHooks } from "@timoaus/define-claude-code-hooks";
 
+const preventEditingEnvFile = defineHook("PreToolUse", {
+  matcher: "Write|Edit|MultiEdit",
+  handler: async (input) => {
+    const filePath = input.tool_input.file_path;
+    if (filePath && filePath.endsWith(".env")) {
+      return {
+        decision: "block",
+        reason:
+          "Direct editing of .env files is not allowed for security reasons",
+      };
+    }
+  },
+});
+
 export default defineHooks({
-  PreToolUse: [
-    // Prevent editing .env files
-    {
-      matcher: "Write|Edit|MultiEdit",
-      handler: async (input) => {
-        const filePath = input.tool_input.file_path;
-        if (filePath && filePath.endsWith(".env")) {
-          return {
-            decision: "block",
-            reason:
-              "Direct editing of .env files is not allowed for security reasons",
-          };
-        }
-      },
-    },
-  ],
+  PreToolUse: [preventEditingEnvFile],
 });
 ```
 
@@ -92,26 +91,34 @@ The CLI will automatically detect which hook files exist and update the correspo
 
 The library includes several predefined hook utilities for common logging scenarios:
 
-| Hook Function | Options |
-|--------------|---------|
-| **`logPreToolUseEvents`**<br/>Logs tool uses before execution | • Optional first param: `matcher` (regex pattern, defaults to '.*' for all tools)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true) |
-| **`logPostToolUseEvents`**<br/>Logs tool uses after execution | • Optional first param: `matcher` (regex pattern, defaults to '.*' for all tools)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)<br/>• `includeToolResponse` (default: true) |
-| **`logStopEvents`**<br/>Logs main agent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
-| **`logSubagentStopEvents`**<br/>Logs subagent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
-| **`logNotificationEvents`**<br/>Logs notification messages | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.notification.json') |
+| Hook Function                                                 | Options                                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`logPreToolUseEvents`**<br/>Logs tool uses before execution | • Optional first param: `matcher` (regex pattern, defaults to '.\*' for all tools)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)                                             |
+| **`logPostToolUseEvents`**<br/>Logs tool uses after execution | • Optional first param: `matcher` (regex pattern, defaults to '.\*' for all tools)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)<br/>• `includeToolResponse` (default: true) |
+| **`logStopEvents`**<br/>Logs main agent stop events           | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json')                                                                                                                                                                                 |
+| **`logSubagentStopEvents`**<br/>Logs subagent stop events     | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json')                                                                                                                                                                                 |
+| **`logNotificationEvents`**<br/>Logs notification messages    | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.notification.json')                                                                                                                                                                         |
 
 All predefined hooks:
+
 - Create JSON log files in your current working directory
 - Automatically rotate logs when reaching `maxEventsStored` limit (keeping most recent events)
 - Include timestamps, session IDs, and transcript paths in log entries
 - Handle errors gracefully without interrupting Claude Code
 
 Example usage:
+
 ```typescript
-import { defineHooks, logPreToolUseEvents, logStopEvents } from "@timoaus/define-claude-code-hooks";
+import {
+  defineHooks,
+  logPreToolUseEvents,
+  logStopEvents,
+} from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
-  PreToolUse: [logPreToolUseEvents({ maxEventsStored: 200, logFileName: "my-tools.json" })],
+  PreToolUse: [
+    logPreToolUseEvents({ maxEventsStored: 200, logFileName: "my-tools.json" }),
+  ],
   Stop: [logStopEvents()],
 });
 ```
