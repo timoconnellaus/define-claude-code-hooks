@@ -1,9 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { 
   logPreToolUseEvents, 
-  logPostToolUseEvents,
-  logPreToolUseEventsForTools,
-  logPostToolUseEventsForTools
+  logPostToolUseEvents
 } from '../logToolUseEvents';
 import { createMockFs, setupFsMocks } from '../../__tests__/helpers/mockFs';
 import { createPreToolUseInput, createPostToolUseInput, createLogEntry } from '../../__tests__/helpers/fixtures';
@@ -172,15 +170,15 @@ describe('logToolUseEvents', () => {
     });
   });
 
-  describe('logPreToolUseEventsForTools (selective)', () => {
+  describe('logPreToolUseEvents with custom matcher', () => {
     it('should create hook with custom matcher', () => {
-      const hook = logPreToolUseEventsForTools('Bash|Read');
+      const hook = logPreToolUseEvents('Bash|Read');
       expect(hook.matcher).toBe('Bash|Read');
       expect(typeof hook.handler).toBe('function');
     });
 
     it('should log tools matching the pattern', async () => {
-      const hook = logPreToolUseEventsForTools('Bash|Edit');
+      const hook = logPreToolUseEvents('Bash|Edit');
       
       const bashInput = createPreToolUseInput({ tool_name: 'Bash' });
       const editInput = createPreToolUseInput({ tool_name: 'Edit' });
@@ -195,7 +193,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should handle regex special characters', async () => {
-      const hook = logPreToolUseEventsForTools('Tool\\(.*\\)');
+      const hook = logPreToolUseEvents('Tool\\(.*\\)');
       const input = createPreToolUseInput({ tool_name: 'Tool(test)' });
 
       await hook.handler(input);
@@ -205,7 +203,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should respect includeToolInput option', async () => {
-      const hook = logPreToolUseEventsForTools('.*', { includeToolInput: false });
+      const hook = logPreToolUseEvents('.*', { includeToolInput: false });
       const input = createPreToolUseInput({ 
         tool_input: { secret: 'should-not-appear' }
       });
@@ -216,17 +214,23 @@ describe('logToolUseEvents', () => {
       const logs = JSON.parse(logContent!);
       expect(logs[0]).not.toHaveProperty('toolInput');
     });
+
+    it('should accept options without matcher', async () => {
+      const hook = logPreToolUseEvents({ includeToolInput: false });
+      expect(hook.matcher).toBe('.*');
+      expect(typeof hook.handler).toBe('function');
+    });
   });
 
-  describe('logPostToolUseEventsForTools (selective)', () => {
+  describe('logPostToolUseEvents with custom matcher', () => {
     it('should create hook with custom matcher', () => {
-      const hook = logPostToolUseEventsForTools('Write|Read');
+      const hook = logPostToolUseEvents('Write|Read');
       expect(hook.matcher).toBe('Write|Read');
       expect(typeof hook.handler).toBe('function');
     });
 
     it('should log tools matching the pattern', async () => {
-      const hook = logPostToolUseEventsForTools('Write|WebFetch');
+      const hook = logPostToolUseEvents('Write|WebFetch');
       
       const writeInput = createPostToolUseInput({ tool_name: 'Write' });
       const webFetchInput = createPostToolUseInput({ tool_name: 'WebFetch' });
@@ -241,7 +245,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should handle case-sensitive matching', async () => {
-      const hook = logPostToolUseEventsForTools('^Bash$');
+      const hook = logPostToolUseEvents('^Bash$');
       
       const bashLower = createPostToolUseInput({ tool_name: 'bash' });
       const bashProper = createPostToolUseInput({ tool_name: 'Bash' });
@@ -255,7 +259,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should respect both includeToolInput and includeToolResponse options', async () => {
-      const hook = logPostToolUseEventsForTools('.*', { 
+      const hook = logPostToolUseEvents('.*', { 
         includeToolInput: false,
         includeToolResponse: false 
       });
@@ -267,6 +271,12 @@ describe('logToolUseEvents', () => {
       const logs = JSON.parse(logContent!);
       expect(logs[0]).not.toHaveProperty('toolInput');
       expect(logs[0]).not.toHaveProperty('toolResponse');
+    });
+
+    it('should accept options without matcher', async () => {
+      const hook = logPostToolUseEvents({ includeToolResponse: false });
+      expect(hook.matcher).toBe('.*');
+      expect(typeof hook.handler).toBe('function');
     });
   });
 
@@ -482,7 +492,7 @@ describe('logToolUseEvents', () => {
 
   describe('complex tool patterns', () => {
     it('should handle alternation patterns', async () => {
-      const hook = logPreToolUseEventsForTools('^(Bash|Edit|Write)$');
+      const hook = logPreToolUseEvents('^(Bash|Edit|Write)$');
       
       const inputs = [
         createPreToolUseInput({ tool_name: 'Bash' }),
@@ -500,7 +510,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should handle wildcard patterns', async () => {
-      const hook = logPostToolUseEventsForTools('^Web');
+      const hook = logPostToolUseEvents('^Web');
       
       const inputs = [
         createPostToolUseInput({ tool_name: 'WebFetch' }),

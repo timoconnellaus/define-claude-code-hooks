@@ -1,45 +1,49 @@
 // Example: Log all different types of events to separate JSON files
-import { 
-  defineHooks, 
-  logStopEvents, 
+import {
+  defineHooks,
+  logStopEvents,
   logSubagentStopEvents,
   logNotificationEvents,
   logPreToolUseEvents,
-  logPostToolUseEvents 
-} from 'define-claude-code-hooks';
+  logPostToolUseEvents,
+} from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
   // Log all notification events
   Notification: [
-    logNotificationEvents({ 
+    logNotificationEvents({
       maxEventsStored: 200,
-      logFileName: 'notifications.json' 
-    })
+      logFileName: "notifications.json",
+    }),
   ],
-  
+
   // Log all tool uses (before and after)
   PreToolUse: [
-    logPreToolUseEvents({ 
+    logPreToolUseEvents({
       maxEventsStored: 500,
-      includeToolInput: true 
-    })
+      includeToolInput: true,
+    }),
   ],
-  
+
   PostToolUse: [
-    logPostToolUseEvents({ 
+    logPostToolUseEvents({
       maxEventsStored: 500,
       includeToolInput: false, // Don't duplicate input
-      includeToolResponse: true 
-    })
+      includeToolResponse: true,
+    }),
   ],
-  
+
   // Log stop events to separate files
-  Stop: [logStopEvents({ 
-    maxEventsStored: 100,
-    logFileName: 'stops.json'
-  })],
-  SubagentStop: [logSubagentStopEvents({ 
-    maxEventsStored: 100,
-    logFileName: 'subagent-stops.json'
-  })]
+  Stop: [
+    logStopEvents({
+      maxEventsStored: 100,
+      logFileName: "stops.json",
+    }),
+  ],
+  SubagentStop: [
+    logSubagentStopEvents({
+      maxEventsStored: 100,
+      logFileName: "subagent-stops.json",
+    }),
+  ],
 });

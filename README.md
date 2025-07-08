@@ -94,10 +94,8 @@ The library includes several predefined hook utilities for common logging scenar
 
 | Hook Function | Options |
 |--------------|---------|
-| **`logPreToolUseEvents`**<br/>Logs all tool uses before execution | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true) |
-| **`logPostToolUseEvents`**<br/>Logs all tool uses after execution | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)<br/>• `includeToolResponse` (default: true) |
-| **`logPreToolUseEventsForTools`**<br/>Logs specific tools before execution | • First param: `toolMatcher` (regex pattern)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true) |
-| **`logPostToolUseEventsForTools`**<br/>Logs specific tools after execution | • First param: `toolMatcher` (regex pattern)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)<br/>• `includeToolResponse` (default: true) |
+| **`logPreToolUseEvents`**<br/>Logs tool uses before execution | • Optional first param: `matcher` (regex pattern, defaults to '.*' for all tools)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true) |
+| **`logPostToolUseEvents`**<br/>Logs tool uses after execution | • Optional first param: `matcher` (regex pattern, defaults to '.*' for all tools)<br/>• `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.tool-use.json')<br/>• `includeToolInput` (default: true)<br/>• `includeToolResponse` (default: true) |
 | **`logStopEvents`**<br/>Logs main agent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
 | **`logSubagentStopEvents`**<br/>Logs subagent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
 | **`logNotificationEvents`**<br/>Logs notification messages | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.notification.json') |
@@ -307,37 +305,24 @@ import {
   defineHooks,
   logPreToolUseEvents,
   logPostToolUseEvents,
-  logPreToolUseEventsForTools,
-  logPostToolUseEventsForTools,
 } from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
   // Log all tool use
-  PreToolUse: [
-    {
-      matcher: ".*", // Matches all tools
-      handler: logPreToolUseEvents("hook-log.tool-use.json"),
-    },
-  ],
-
-  PostToolUse: [
-    {
-      matcher: ".*", // Matches all tools
-      handler: logPostToolUseEvents("hook-log.tool-use.json"),
-    },
-  ],
+  PreToolUse: logPreToolUseEvents(), // Logs all tools by default
+  PostToolUse: logPostToolUseEvents(), // Logs all tools by default
 });
 
 // Or log specific tools only
 export default defineHooks({
-  PreToolUse: logPreToolUseEventsForTools(
-    ["Bash", "Write", "Edit"],
-    "hook-log.tool-use.json"
-  ),
-  PostToolUse: logPostToolUseEventsForTools(
-    ["Bash", "Write", "Edit"],
-    "hook-log.tool-use.json"
-  ),
+  PreToolUse: logPreToolUseEvents("Bash|Write|Edit", {
+    maxEventsStored: 200,
+    logFileName: "tool-use.json",
+  }),
+  PostToolUse: logPostToolUseEvents("Bash|Write|Edit", {
+    maxEventsStored: 200,
+    logFileName: "tool-use.json",
+  }),
 });
 ```
 
@@ -347,13 +332,13 @@ export default defineHooks({
 import {
   defineHooks,
   logStopEvents,
-  logPreToolUseEventsForTools,
-  logPostToolUseEventsForTools,
+  logPreToolUseEvents,
+  logPostToolUseEvents,
 } from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
   PreToolUse: [
-    ...logPreToolUseEventsForTools([".*"], "hook-log.tool-use.json"),
+    logPreToolUseEvents({ logFileName: "hook-log.tool-use.json" }),
     // Add your custom hooks here
     {
       matcher: "Bash",
@@ -363,7 +348,7 @@ export default defineHooks({
     },
   ],
 
-  PostToolUse: logPostToolUseEventsForTools([".*"], "hook-log.tool-use.json"),
+  PostToolUse: logPostToolUseEvents({ logFileName: "hook-log.tool-use.json" }),
 
   Stop: [logStopEvents("hook-log.stop.json")],
 });

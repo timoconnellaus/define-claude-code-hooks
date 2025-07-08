@@ -7,9 +7,7 @@ export { logStopEvents, logSubagentStopEvents } from './hooks/logStopEvents';
 export { logNotificationEvents } from './hooks/logNotificationEvents';
 export { 
   logPreToolUseEvents, 
-  logPostToolUseEvents,
-  logPreToolUseEventsForTools,
-  logPostToolUseEventsForTools 
+  logPostToolUseEvents
 } from './hooks/logToolUseEvents';
 
 /**
