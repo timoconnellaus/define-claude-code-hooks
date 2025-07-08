@@ -1392,5 +1392,98 @@
       "command": "git add . && git commit -m \"$(cat <<'EOF'\nFix GitHub Action to use master branch\n\nUpdated publish workflow to trigger on pushes to master branch instead of main\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\" && git push",
       "description": "Commit and push workflow fix"
     }
+  },
+  {
+    "timestamp": "2025-07-08T00:42:10.297Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git add . && git commit -m \"$(cat <<'EOF'\nFix GitHub Action to use master branch\n\nUpdated publish workflow to trigger on pushes to master branch instead of main\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\" && git push",
+      "description": "Commit and push workflow fix"
+    },
+    "toolResponse": {
+      "stdout": "[master 22fc88a] Fix GitHub Action to use master branch\n 4 files changed, 276 insertions(+), 2 deletions(-)\nTo https://github.com/timoconnellaus/define-claude-code-hooks.git\n   fc9d52f..22fc88a  master -> master",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:42:51.891Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.github/workflows/publish.yml",
+      "old_string": "    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: npm ci\n      \n      - name: Build\n        run: npm run build",
+      "new_string": "    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: oven-sh/setup-bun@v2\n        with:\n          bun-version: latest\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: bun install --frozen-lockfile\n      \n      - name: Build\n        run: bun run build"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:42:53.519Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.github/workflows/publish.yml",
+      "new_string": "    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: oven-sh/setup-bun@v2\n        with:\n          bun-version: latest\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: bun install --frozen-lockfile\n      \n      - name: Build\n        run: bun run build",
+      "old_string": "    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: npm ci\n      \n      - name: Build\n        run: npm run build",
+      "replace_all": false
+    },
+    "toolResponse": {
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/.github/workflows/publish.yml",
+      "oldString": "    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: npm ci\n      \n      - name: Build\n        run: npm run build",
+      "newString": "    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: oven-sh/setup-bun@v2\n        with:\n          bun-version: latest\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: bun install --frozen-lockfile\n      \n      - name: Build\n        run: bun run build",
+      "originalFile": "name: Publish to npm\n\non:\n  push:\n    branches:\n      - master\n  workflow_dispatch:\n\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: read\n      id-token: write\n    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: npm ci\n      \n      - name: Build\n        run: npm run build\n      \n      - name: Check if version changed\n        id: version-check\n        run: |\n          PACKAGE_VERSION=$(node -p \"require('./package.json').version\")\n          NPM_VERSION=$(npm view @timoaus/define-claude-code-hooks@latest version 2>/dev/null || echo \"0.0.0\")\n          \n          if [ \"$PACKAGE_VERSION\" != \"$NPM_VERSION\" ]; then\n            echo \"Version changed from $NPM_VERSION to $PACKAGE_VERSION\"\n            echo \"should_publish=true\" >> $GITHUB_OUTPUT\n          else\n            echo \"Version unchanged at $PACKAGE_VERSION\"\n            echo \"should_publish=false\" >> $GITHUB_OUTPUT\n          fi\n      \n      - name: Publish to npm\n        if: steps.version-check.outputs.should_publish == 'true'\n        run: npm publish --provenance --access public\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}",
+      "structuredPatch": [
+        {
+          "oldStart": 15,
+          "oldLines": 16,
+          "newStart": 15,
+          "newLines": 20,
+          "lines": [
+            "     steps:",
+            "       - uses: actions/checkout@v4",
+            "       ",
+            "+      - uses: oven-sh/setup-bun@v2",
+            "+        with:",
+            "+          bun-version: latest",
+            "+      ",
+            "       - uses: actions/setup-node@v4",
+            "         with:",
+            "           node-version: '20'",
+            "           registry-url: 'https://registry.npmjs.org'",
+            "       ",
+            "       - name: Install dependencies",
+            "-        run: npm ci",
+            "+        run: bun install --frozen-lockfile",
+            "       ",
+            "       - name: Build",
+            "-        run: npm run build",
+            "+        run: bun run build",
+            "       ",
+            "       - name: Check if version changed",
+            "         id: version-check"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:43:02.930Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git add . && git commit -m \"$(cat <<'EOF'\nSwitch GitHub Action to use Bun\n\n- Added Bun setup step using oven-sh/setup-bun@v2\n- Changed install command to use bun install --frozen-lockfile\n- Changed build command to use bun run build\n- Kept Node.js setup for npm publishing compatibility\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\" && git push",
+      "description": "Commit and push Bun workflow update"
+    }
   }
 ]
