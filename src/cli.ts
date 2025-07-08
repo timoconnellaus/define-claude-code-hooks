@@ -92,6 +92,22 @@ async function updateHooks(options: CliOptions) {
   for (const [type, fileName] of Object.entries(HOOK_FILES)) {
     const hookFilePath = path.resolve(process.cwd(), fileName);
     
+    // Determine settings file path
+    let settingsPath: string;
+    switch (type) {
+      case 'project':
+        settingsPath = path.join(process.cwd(), '.claude', 'settings.json');
+        break;
+      case 'local':
+        settingsPath = path.join(process.cwd(), '.claude', 'settings.local.json');
+        break;
+      case 'user':
+        settingsPath = options.globalSettingsPath || path.join(os.homedir(), '.claude', 'settings.json');
+        break;
+      default:
+        continue;
+    }
+    
     if (fs.existsSync(hookFilePath)) {
       console.log(`Found ${fileName}`);
       
@@ -110,22 +126,6 @@ async function updateHooks(options: CliOptions) {
         continue;
       }
 
-      // Determine settings file path
-      let settingsPath: string;
-      switch (type) {
-        case 'project':
-          settingsPath = path.join(process.cwd(), '.claude', 'settings.json');
-          break;
-        case 'local':
-          settingsPath = path.join(process.cwd(), '.claude', 'settings.local.json');
-          break;
-        case 'user':
-          settingsPath = options.globalSettingsPath || path.join(os.homedir(), '.claude', 'settings.json');
-          break;
-        default:
-          continue;
-      }
-
       await updateSettingsFile(
         settingsPath,
         hookFilePath,
@@ -133,6 +133,12 @@ async function updateHooks(options: CliOptions) {
         type as 'project' | 'local' | 'user'
       );
       updatedAny = true;
+    } else {
+      // Hook file doesn't exist - remove managed hooks from settings if settings file exists
+      if (fs.existsSync(settingsPath)) {
+        console.log(`No ${fileName} found, cleaning up managed hooks from ${settingsPath}`);
+        await removeFromSettingsFile(settingsPath, type as 'project' | 'local' | 'user');
+      }
     }
   }
 
@@ -259,7 +265,6 @@ async function updateSettingsFile(
 
 async function removeFromSettingsFile(settingsPath: string, location: 'project' | 'local' | 'user') {
   if (!fs.existsSync(settingsPath)) {
-    console.log(`No settings file found at ${settingsPath}`);
     return;
   }
   
@@ -268,18 +273,22 @@ async function removeFromSettingsFile(settingsPath: string, location: 'project' 
     const settings: HookSettings = JSON.parse(content);
     
     if (!settings.hooks) {
-      console.log('No hooks found in settings');
       return;
     }
     
     // Remove managed hooks
     const marker = getManagedMarker(location);
+    let removedCount = 0;
+    
     for (const hookType of Object.keys(settings.hooks) as HookType[]) {
       if (settings.hooks[hookType]) {
+        const originalLength = settings.hooks[hookType]!.length;
         settings.hooks[hookType] = settings.hooks[hookType]!.filter(
           matcher => !(matcher.hooks.length === 1 && 
                       matcher.hooks[0].command.includes(marker))
         );
+        
+        removedCount += originalLength - settings.hooks[hookType]!.length;
         
         // Remove empty arrays
         if (settings.hooks[hookType]!.length === 0) {
@@ -288,8 +297,10 @@ async function removeFromSettingsFile(settingsPath: string, location: 'project' 
       }
     }
     
-    fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
-    console.log(`Removed managed hooks from ${settingsPath}`);
+    if (removedCount > 0) {
+      fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
+      console.log(`Removed ${removedCount} managed hooks from ${settingsPath}`);
+    }
   } catch (error) {
     console.error(`Error updating ${settingsPath}:`, error);
   }
