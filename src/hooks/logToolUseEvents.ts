@@ -3,6 +3,16 @@ import { PreToolUseInput, PostToolUseInput, AnyHookDefinition } from '../types';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
+interface ToolUseLogEntry {
+  timestamp: string;
+  event: string;
+  sessionId: string;
+  transcriptPath: string;
+  toolName: string;
+  toolInput?: Record<string, any>;
+  toolResponse?: Record<string, any>;
+}
+
 interface LogToolUseEventsOptions {
   /**
    * Maximum number of events to store in the log file.
@@ -105,7 +115,7 @@ export const logPostToolUseEvents = (options: LogToolUseEventsOptions = {}): Any
       };
 
       try {
-        let logs: any[] = [];
+        let logs: ToolUseLogEntry[] = [];
         
         try {
           const existingData = await fs.readFile(logPath, 'utf-8');
@@ -213,7 +223,7 @@ export const logPostToolUseEventsForTools = (
       };
 
       try {
-        let logs: any[] = [];
+        let logs: ToolUseLogEntry[] = [];
         
         try {
           const existingData = await fs.readFile(logPath, 'utf-8');
