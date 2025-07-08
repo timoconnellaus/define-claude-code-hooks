@@ -95,7 +95,7 @@ The CLI removes all hooks marked with `__managed_by_define_claude_code_hooks__` 
 
 The project uses automated releases via GitHub Actions. To release a new version:
 
-1. **Ensure all changes are committed** and tests pass: `bun test`
+1. **Ensure all changes are committed** and tests pass: `bun run test:run`
 
 2. **Run the release script** based on the type of change:
    - Patch release (bug fixes): `npm run release:patch`
