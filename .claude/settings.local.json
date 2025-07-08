@@ -6,7 +6,8 @@
       "Bash(mkdir:*)",
       "Bash(define-claude-code-hooks:*)",
       "Bash(bun run:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

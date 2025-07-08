@@ -324,5 +324,807 @@
       "command": "git add -A",
       "description": "Stage all files for commit"
     }
+  },
+  {
+    "timestamp": "2025-07-08T00:35:00.890Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git add -A",
+      "description": "Stage all files for commit"
+    },
+    "toolResponse": {
+      "stdout": "",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:35:07.207Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git commit -m \"$(cat <<'EOF'\nInitial commit: TypeScript library for Claude Code hooks\n\nThis library provides type-safe hook definitions for Claude Code with automatic settings management.\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\"",
+      "description": "Create initial commit"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:27.788Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git commit -m \"$(cat <<'EOF'\nInitial commit: TypeScript library for Claude Code hooks\n\nThis library provides type-safe hook definitions for Claude Code with automatic settings management.\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\"",
+      "description": "Create initial commit"
+    },
+    "toolResponse": {
+      "stdout": "[master (root-commit) 716a61e] Initial commit: TypeScript library for Claude Code hooks\n 21 files changed, 2126 insertions(+)\n create mode 100644 .claude/commands/new-hook.md\n create mode 100644 .claude/hooks/hooks.ts\n create mode 100644 .claude/settings.json\n create mode 100644 .claude/settings.local.json\n create mode 100644 .gitignore\n create mode 100644 CLAUDE.md\n create mode 100644 README.md\n create mode 100644 bun.lock\n create mode 100644 examples/log-all-events.ts\n create mode 100644 examples/log-specific-tools.ts\n create mode 100644 examples/log-stop-events.ts\n create mode 100644 hook-log.stop.json\n create mode 100644 hook-log.tool-use.json\n create mode 100644 package.json\n create mode 100644 src/cli.ts\n create mode 100644 src/hooks/logNotificationEvents.ts\n create mode 100644 src/hooks/logStopEvents.ts\n create mode 100644 src/hooks/logToolUseEvents.ts\n create mode 100644 src/index.ts\n create mode 100644 src/types.ts\n create mode 100644 tsconfig.json",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:33.405Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:33.999Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:39.671Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git remote add origin https://github.com/timoconnellaus/define-claude-code-hooks.git",
+      "description": "Add git remote origin"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:45.260Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git remote add origin https://github.com/timoconnellaus/define-claude-code-hooks.git",
+      "description": "Add git remote origin"
+    },
+    "toolResponse": {
+      "stdout": "",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:52.385Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:52.972Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:36:59.405Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/package.json",
+      "old_string": "  \"name\": \"define-claude-code-hooks\",",
+      "new_string": "  \"name\": \"@timoaus/define-claude-code-hooks\","
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:37:03.917Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Edit",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/package.json",
+      "new_string": "  \"name\": \"@timoaus/define-claude-code-hooks\",",
+      "old_string": "  \"name\": \"define-claude-code-hooks\",",
+      "replace_all": false
+    },
+    "toolResponse": {
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/package.json",
+      "oldString": "  \"name\": \"define-claude-code-hooks\",",
+      "newString": "  \"name\": \"@timoaus/define-claude-code-hooks\",",
+      "originalFile": "{\n  \"name\": \"define-claude-code-hooks\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Type-safe hook definitions for Claude Code\",\n  \"main\": \"dist/index.js\",\n  \"types\": \"dist/index.d.ts\",\n  \"bin\": {\n    \"define-claude-code-hooks\": \"dist/cli.js\"\n  },\n  \"files\": [\n    \"dist\"\n  ],\n  \"scripts\": {\n    \"build\": \"tsc\",\n    \"dev\": \"tsc --watch\",\n    \"prepublishOnly\": \"npm run build\"\n  },\n  \"keywords\": [\n    \"claude\",\n    \"claude-code\",\n    \"hooks\",\n    \"typescript\",\n    \"cli\"\n  ],\n  \"author\": \"\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"ts-node\": \"^10.9.0\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"^20.0.0\",\n    \"typescript\": \"^5.0.0\"\n  },\n  \"engines\": {\n    \"node\": \">=14.0.0\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/yourusername/define-claude-code-hooks.git\"\n  }\n}",
+      "structuredPatch": [
+        {
+          "oldStart": 1,
+          "oldLines": 5,
+          "newStart": 1,
+          "newLines": 5,
+          "lines": [
+            " {",
+            "-  \"name\": \"define-claude-code-hooks\",",
+            "+  \"name\": \"@timoaus/define-claude-code-hooks\",",
+            "   \"version\": \"1.0.0\",",
+            "   \"description\": \"Type-safe hook definitions for Claude Code\",",
+            "   \"main\": \"dist/index.js\","
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:37:12.067Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:37:12.659Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:37:17.656Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "LS",
+    "toolInput": {
+      "path": "/Users/tim/repos/define-claude-code-hooks"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:37:18.239Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "LS",
+    "toolInput": {
+      "path": "/Users/tim/repos/define-claude-code-hooks"
+    },
+    "toolResponse": "- /Users/tim/repos/define-claude-code-hooks/\n  - CLAUDE.md\n  - README.md\n  - bun.lock\n  - dist/\n  - examples/\n    - log-all-events.ts\n    - log-specific-tools.ts\n    - log-stop-events.ts\n  - hook-log.stop.json\n  - hook-log.tool-use.json\n  - node_modules/\n  - package.json\n  - src/\n    - cli.ts\n    - hooks/\n      - logNotificationEvents.ts\n      - logStopEvents.ts\n      - logToolUseEvents.ts\n    - index.ts\n    - types.ts\n  - tsconfig.json\n"
+  },
+  {
+    "timestamp": "2025-07-08T00:37:23.439Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "mkdir -p .github/workflows",
+      "description": "Create GitHub workflows directory"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:37:24.181Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "mkdir -p .github/workflows",
+      "description": "Create GitHub workflows directory"
+    },
+    "toolResponse": {
+      "stdout": "",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:37:35.856Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Write",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.github/workflows/publish.yml",
+      "content": "name: Publish to npm\n\non:\n  push:\n    branches:\n      - main\n  workflow_dispatch:\n\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: read\n      id-token: write\n    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: npm ci\n      \n      - name: Build\n        run: npm run build\n      \n      - name: Check if version changed\n        id: version-check\n        run: |\n          PACKAGE_VERSION=$(node -p \"require('./package.json').version\")\n          NPM_VERSION=$(npm view @timoaus/define-claude-code-hooks@latest version 2>/dev/null || echo \"0.0.0\")\n          \n          if [ \"$PACKAGE_VERSION\" != \"$NPM_VERSION\" ]; then\n            echo \"Version changed from $NPM_VERSION to $PACKAGE_VERSION\"\n            echo \"should_publish=true\" >> $GITHUB_OUTPUT\n          else\n            echo \"Version unchanged at $PACKAGE_VERSION\"\n            echo \"should_publish=false\" >> $GITHUB_OUTPUT\n          fi\n      \n      - name: Publish to npm\n        if: steps.version-check.outputs.should_publish == 'true'\n        run: npm publish --provenance --access public\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:40:03.780Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Write",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/.github/workflows/publish.yml",
+      "content": "name: Publish to npm\n\non:\n  push:\n    branches:\n      - main\n  workflow_dispatch:\n\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: read\n      id-token: write\n    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: npm ci\n      \n      - name: Build\n        run: npm run build\n      \n      - name: Check if version changed\n        id: version-check\n        run: |\n          PACKAGE_VERSION=$(node -p \"require('./package.json').version\")\n          NPM_VERSION=$(npm view @timoaus/define-claude-code-hooks@latest version 2>/dev/null || echo \"0.0.0\")\n          \n          if [ \"$PACKAGE_VERSION\" != \"$NPM_VERSION\" ]; then\n            echo \"Version changed from $NPM_VERSION to $PACKAGE_VERSION\"\n            echo \"should_publish=true\" >> $GITHUB_OUTPUT\n          else\n            echo \"Version unchanged at $PACKAGE_VERSION\"\n            echo \"should_publish=false\" >> $GITHUB_OUTPUT\n          fi\n      \n      - name: Publish to npm\n        if: steps.version-check.outputs.should_publish == 'true'\n        run: npm publish --provenance --access public\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}"
+    },
+    "toolResponse": {
+      "type": "create",
+      "filePath": "/Users/tim/repos/define-claude-code-hooks/.github/workflows/publish.yml",
+      "content": "name: Publish to npm\n\non:\n  push:\n    branches:\n      - main\n  workflow_dispatch:\n\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: read\n      id-token: write\n    steps:\n      - uses: actions/checkout@v4\n      \n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          registry-url: 'https://registry.npmjs.org'\n      \n      - name: Install dependencies\n        run: npm ci\n      \n      - name: Build\n        run: npm run build\n      \n      - name: Check if version changed\n        id: version-check\n        run: |\n          PACKAGE_VERSION=$(node -p \"require('./package.json').version\")\n          NPM_VERSION=$(npm view @timoaus/define-claude-code-hooks@latest version 2>/dev/null || echo \"0.0.0\")\n          \n          if [ \"$PACKAGE_VERSION\" != \"$NPM_VERSION\" ]; then\n            echo \"Version changed from $NPM_VERSION to $PACKAGE_VERSION\"\n            echo \"should_publish=true\" >> $GITHUB_OUTPUT\n          else\n            echo \"Version unchanged at $PACKAGE_VERSION\"\n            echo \"should_publish=false\" >> $GITHUB_OUTPUT\n          fi\n      \n      - name: Publish to npm\n        if: steps.version-check.outputs.should_publish == 'true'\n        run: npm publish --provenance --access public\n        env:\n          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}",
+      "structuredPatch": []
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:40:12.077Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "completed",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:40:12.748Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "completed",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "completed",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:40:22.389Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git add . && git commit -m \"$(cat <<'EOF'\nUpdate package name and add GitHub Action for npm publishing\n\n- Changed package name to @timoaus/define-claude-code-hooks\n- Added GitHub workflow to automatically publish to npm on main branch push\n- Workflow includes version change detection to avoid duplicate publishes\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\"",
+      "description": "Commit package name and GitHub action changes"
+    }
   }
 ]

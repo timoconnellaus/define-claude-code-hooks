@@ -1,5 +1,5 @@
 {
-  "name": "define-claude-code-hooks",
+  "name": "@timoaus/define-claude-code-hooks",
   "version": "1.0.0",
   "description": "Type-safe hook definitions for Claude Code",
   "main": "dist/index.js",
