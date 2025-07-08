@@ -67,15 +67,23 @@ export default defineHooks({
 # Update project settings (.claude/settings.json)
 npx define-claude-code-hooks
 
+# Update local settings (.claude/settings.local.json)
+npx define-claude-code-hooks --local
+
 # Update user settings (~/.claude/settings.json)
 npx define-claude-code-hooks --user
 
-# Update both
-npx define-claude-code-hooks --project --user
+# Update multiple settings at once
+npx define-claude-code-hooks --project --local --user
 
 # Remove managed hooks
 npx define-claude-code-hooks --remove
 ```
+
+**Path behavior:**
+- **Project settings** (`.claude/settings.json`) - Uses relative paths, can be committed to version control
+- **Local settings** (`.claude/settings.local.json`) - Uses relative paths, typically git-ignored for user-specific overrides
+- **User settings** (`~/.claude/settings.json`) - Uses absolute paths, works across all repositories
 
 ## API
 
