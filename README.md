@@ -100,6 +100,11 @@ The library includes several predefined hook utilities for common logging scenar
 | **`logSubagentStopEvents`**<br/>Logs subagent stop events | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.stop.json') |
 | **`logNotificationEvents`**<br/>Logs notification messages | • `maxEventsStored` (default: 100)<br/>• `logFileName` (default: 'hook-log.notification.json') |
 | **`blockEnvFiles`**<br/>Blocks access to .env files | No options - blocks all .env file variants except example files |
+| **`announceStop`**<br/>Announces task completion via TTS | • `message` (default: 'Task completed')<br/>• `voice` (system-specific voice name)<br/>• `rate` (speech rate in WPM)<br/>• `customCommand` (custom TTS command)<br/>• `suppressOutput` (default: false) |
+| **`announceSubagentStop`**<br/>Announces subagent completion via TTS | Same options as `announceStop` |
+| **`announcePreToolUse`**<br/>Announces before tool execution | • First param: `matcher` (regex pattern, defaults to '.*')<br/>• `message` (default: 'Using {toolName}')<br/>• `voice`, `rate`, `customCommand`, `suppressOutput` |
+| **`announcePostToolUse`**<br/>Announces after tool execution | • First param: `matcher` (regex pattern, defaults to '.*')<br/>• `message` (default: '{toolName} completed')<br/>• `voice`, `rate`, `customCommand`, `suppressOutput` |
+| **`announceNotification`**<br/>Speaks notification messages | • `message` (default: '{message}')<br/>• `voice`, `rate`, `customCommand`, `suppressOutput` |
 
 All predefined hooks:
 
@@ -356,6 +361,82 @@ The `blockEnvFiles` hook:
 - Works with `Read`, `Write`, `Edit`, and `MultiEdit` tools
 - Provides clear error messages when access is blocked
 
+### Text-to-Speech Announcements
+
+```typescript
+import {
+  defineHooks,
+  announceStop,
+  announceSubagentStop,
+  announcePreToolUse,
+  announcePostToolUse,
+  announceNotification,
+} from "@timoaus/define-claude-code-hooks";
+
+// Basic usage - announce all events
+export default defineHooks({
+  Stop: [announceStop()],
+  SubagentStop: [announceSubagentStop()],
+  PreToolUse: [announcePreToolUse()], // Announces all tools
+  PostToolUse: [announcePostToolUse()], // Announces all tools
+  Notification: [announceNotification()],
+});
+
+// Announce specific tools only
+export default defineHooks({
+  PreToolUse: [
+    announcePreToolUse('Bash|Write|Edit', {
+      message: "Running {toolName}"
+    })
+  ],
+  PostToolUse: [
+    announcePostToolUse('Bash|Write|Edit', {
+      message: "{toolName} finished"
+    })
+  ],
+});
+
+// With custom voices and messages
+export default defineHooks({
+  Stop: [
+    announceStop({
+      message: "Claude has finished the task for session {sessionId}",
+      voice: "Samantha", // macOS voice
+      rate: 200,
+    })
+  ],
+  Notification: [
+    announceNotification({
+      message: "Claude says: {message}",
+      voice: "Daniel"
+    })
+  ],
+});
+
+// With custom TTS command (for Linux/Windows)
+export default defineHooks({
+  Stop: [
+    announceStop({
+      customCommand: "espeak -s 150 '{message}'", // Linux
+      // or for Windows PowerShell:
+      // customCommand: "powershell -Command \"(New-Object -ComObject SAPI.SpVoice).Speak('{message}')\""
+    })
+  ],
+});
+```
+
+The announcement hooks:
+- Use text-to-speech to announce various Claude Code events
+- Support macOS (say), Linux (espeak), and Windows (PowerShell SAPI)
+- Allow custom messages with template variables:
+  - `{sessionId}` - The session ID
+  - `{timestamp}` - Current timestamp  
+  - `{toolName}` - Tool name (for PreToolUse/PostToolUse)
+  - `{message}` - Notification message (for Notification hook)
+- Support voice selection and speech rate customization
+- Can use custom TTS commands for other systems
+- Run asynchronously without blocking Claude Code
+
 ### Combining Multiple Hooks
 
 ```typescript
@@ -365,6 +446,7 @@ import {
   logPreToolUseEvents,
   logPostToolUseEvents,
   blockEnvFiles,
+  announceStop,
 } from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
@@ -382,7 +464,10 @@ export default defineHooks({
 
   PostToolUse: logPostToolUseEvents({ logFileName: "hook-log.tool-use.json" }),
 
-  Stop: [logStopEvents("hook-log.stop.json")],
+  Stop: [
+    logStopEvents("hook-log.stop.json"),
+    announceStop({ message: "Task completed successfully!" }),
+  ],
 });
 ```
 
