@@ -54,5 +54,12 @@
     "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
     "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
     "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:41:14.731Z",
+    "event": "Stop",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "stopHookActive": false
   }
 ]
