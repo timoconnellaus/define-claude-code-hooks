@@ -31,6 +31,7 @@ Add this script to your `package.json` to easily update your hooks:
 ### 3. Create a simple hook
 
 You can create hooks in three different files within `.claude/hooks/`:
+
 - `hooks.ts` - Project hooks (updates `.claude/settings.json`)
 - `hooks.local.ts` - Local hooks (updates `.claude/settings.local.json`)
 - `hooks.user.ts` - User hooks (updates `~/.claude/settings.json`)
@@ -38,24 +39,25 @@ You can create hooks in three different files within `.claude/hooks/`:
 For example, create `.claude/hooks/hooks.ts`:
 
 ```typescript
-import { defineHooks } from '@timoaus/define-claude-code-hooks';
+import { defineHooks } from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
   PreToolUse: [
     // Prevent editing .env files
     {
-      matcher: 'Write|Edit|MultiEdit',
+      matcher: "Write|Edit|MultiEdit",
       handler: async (input) => {
         const filePath = input.tool_input.file_path;
-        if (filePath && filePath.endsWith('.env')) {
+        if (filePath && filePath.endsWith(".env")) {
           return {
-            decision: 'block',
-            reason: 'Direct editing of .env files is not allowed for security reasons'
+            decision: "block",
+            reason:
+              "Direct editing of .env files is not allowed for security reasons",
           };
         }
-      }
-    }
-  ]
+      },
+    },
+  ],
 });
 ```
 
@@ -64,28 +66,17 @@ export default defineHooks({
 Extend your hooks with built-in logging utilities:
 
 ```typescript
-import { defineHooks, logPreToolUseEvents } from '@timoaus/define-claude-code-hooks';
+import {
+  defineHooks,
+  logPreToolUseEvents,
+} from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
-  PreToolUse: [
-    // Prevent editing .env files
-    {
-      matcher: 'Write|Edit|MultiEdit',
-      handler: async (input) => {
-        const filePath = input.tool_input.file_path;
-        if (filePath && filePath.endsWith('.env')) {
-          return {
-            decision: 'block',
-            reason: 'Direct editing of .env files is not allowed for security reasons'
-          };
-        }
-      }
-    },
-    // Log all tool usage
-    logPreToolUseEvents({ maxEventsStored: 100 })
-  ]
+  PreToolUse: [logPreToolUseEvents({ maxEventsStored: 100 })],
 });
 ```
+
+Creates a log file in your project root: hook-log.tool-use.json
 
 ### 5. Activate your hooks
 
@@ -102,6 +93,7 @@ The CLI will automatically detect which hook files exist and update the correspo
 ### 1. Create a hook file
 
 Choose where to create your hooks based on your needs (all in `.claude/hooks/`):
+
 - `hooks.ts` - Project-wide hooks (committed to git)
 - `hooks.local.ts` - Local-only hooks (not committed)
 - `hooks.user.ts` - User-specific hooks (updates ~/.claude/settings.json)
@@ -109,51 +101,51 @@ Choose where to create your hooks based on your needs (all in `.claude/hooks/`):
 Example:
 
 ```typescript
-import { defineHooks } from 'define-claude-code-hooks';
+import { defineHooks } from "define-claude-code-hooks";
 
 export default defineHooks({
   PreToolUse: [
     // Block grep commands and suggest ripgrep
     {
-      matcher: 'Bash',
+      matcher: "Bash",
       handler: async (input) => {
-        if (input.tool_input.command?.includes('grep')) {
+        if (input.tool_input.command?.includes("grep")) {
           return {
-            decision: 'block',
-            reason: 'Use ripgrep (rg) instead of grep for better performance'
+            decision: "block",
+            reason: "Use ripgrep (rg) instead of grep for better performance",
           };
         }
-      }
+      },
     },
-    
+
     // Log all file writes
     {
-      matcher: 'Write|Edit|MultiEdit',
+      matcher: "Write|Edit|MultiEdit",
       handler: async (input) => {
         console.error(`Writing to file: ${input.tool_input.file_path}`);
-      }
-    }
+      },
+    },
   ],
-  
+
   PostToolUse: [
     // Format TypeScript files after editing
     {
-      matcher: 'Write|Edit',
+      matcher: "Write|Edit",
       handler: async (input) => {
-        if (input.tool_input.file_path?.endsWith('.ts')) {
-          const { execSync } = require('child_process');
+        if (input.tool_input.file_path?.endsWith(".ts")) {
+          const { execSync } = require("child_process");
           execSync(`prettier --write "${input.tool_input.file_path}"`);
         }
-      }
-    }
+      },
+    },
   ],
-  
+
   Notification: [
     // Custom notification handler
     async (input) => {
       console.log(`Claude says: ${input.message}`);
-    }
-  ]
+    },
+  ],
 });
 ```
 
@@ -168,6 +160,7 @@ npx define-claude-code-hooks --remove
 ```
 
 The CLI automatically detects which hook files exist and updates the corresponding settings:
+
 - `hooks.ts` → `.claude/settings.json` (project settings, relative paths)
 - `hooks.local.ts` → `.claude/settings.local.json` (local settings, relative paths)
 - `hooks.user.ts` → `~/.claude/settings.json` (user settings, absolute paths)
@@ -177,25 +170,32 @@ The CLI automatically detects which hook files exist and updates the correspondi
 ### `defineHooks(hooks: HookDefinition)`
 
 Define multiple hooks. Returns the hook definition object.
+
 - For PreToolUse and PostToolUse: pass an array of objects with `matcher` and `handler`
 - For other hooks: pass an array of handler functions
 
 ### `defineHook(type: HookType, definition)`
 
 Define a single hook (for advanced use cases).
+
 - For PreToolUse and PostToolUse: pass an object with `matcher` and `handler`
 - For other hooks: pass just the handler function
 
 Example:
+
 ```typescript
 // Tool hook
-const bashHook = defineHook('PreToolUse', {
-  matcher: 'Bash',
-  handler: async (input) => { /* ... */ }
+const bashHook = defineHook("PreToolUse", {
+  matcher: "Bash",
+  handler: async (input) => {
+    /* ... */
+  },
 });
 
 // Non-tool hook
-const stopHook = defineHook('Stop', async (input) => { /* ... */ });
+const stopHook = defineHook("Stop", async (input) => {
+  /* ... */
+});
 ```
 
 ### Hook Types
@@ -213,13 +213,13 @@ Hooks can return structured responses:
 ```typescript
 interface HookOutput {
   // Common fields
-  continue?: boolean;      // Whether Claude should continue
-  stopReason?: string;     // Message when continue is false
+  continue?: boolean; // Whether Claude should continue
+  stopReason?: string; // Message when continue is false
   suppressOutput?: boolean; // Hide output from transcript
-  
+
   // PreToolUse specific
-  decision?: 'approve' | 'block';
-  reason?: string;         // Reason for decision
+  decision?: "approve" | "block";
+  reason?: string; // Reason for decision
 }
 ```
 
@@ -240,84 +240,97 @@ The library includes several predefined hook utilities for common logging scenar
 ### Stop Event Logging
 
 ```typescript
-import { defineHooks, logStopEvents, logSubagentStopEvents } from '@timoaus/define-claude-code-hooks';
+import {
+  defineHooks,
+  logStopEvents,
+  logSubagentStopEvents,
+} from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
-  Stop: [logStopEvents('hook-log.stop.json')],
-  SubagentStop: [logSubagentStopEvents('hook-log.subagent.json')]
+  Stop: [logStopEvents("hook-log.stop.json")],
+  SubagentStop: [logSubagentStopEvents("hook-log.subagent.json")],
 });
 ```
 
 ### Notification Logging
 
 ```typescript
-import { defineHooks, logNotificationEvents } from '@timoaus/define-claude-code-hooks';
+import {
+  defineHooks,
+  logNotificationEvents,
+} from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
-  Notification: [logNotificationEvents('hook-log.notifications.json')]
+  Notification: [logNotificationEvents("hook-log.notifications.json")],
 });
 ```
 
 ### Tool Use Logging
 
 ```typescript
-import { 
-  defineHooks, 
-  logPreToolUseEvents, 
+import {
+  defineHooks,
+  logPreToolUseEvents,
   logPostToolUseEvents,
   logPreToolUseEventsForTools,
-  logPostToolUseEventsForTools 
-} from '@timoaus/define-claude-code-hooks';
+  logPostToolUseEventsForTools,
+} from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
   // Log all tool use
   PreToolUse: [
     {
-      matcher: '.*',  // Matches all tools
-      handler: logPreToolUseEvents('hook-log.tool-use.json')
-    }
+      matcher: ".*", // Matches all tools
+      handler: logPreToolUseEvents("hook-log.tool-use.json"),
+    },
   ],
-  
+
   PostToolUse: [
     {
-      matcher: '.*',  // Matches all tools
-      handler: logPostToolUseEvents('hook-log.tool-use.json')
-    }
-  ]
+      matcher: ".*", // Matches all tools
+      handler: logPostToolUseEvents("hook-log.tool-use.json"),
+    },
+  ],
 });
 
 // Or log specific tools only
 export default defineHooks({
-  PreToolUse: logPreToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json'),
-  PostToolUse: logPostToolUseEventsForTools(['Bash', 'Write', 'Edit'], 'hook-log.tool-use.json')
+  PreToolUse: logPreToolUseEventsForTools(
+    ["Bash", "Write", "Edit"],
+    "hook-log.tool-use.json"
+  ),
+  PostToolUse: logPostToolUseEventsForTools(
+    ["Bash", "Write", "Edit"],
+    "hook-log.tool-use.json"
+  ),
 });
 ```
 
 ### Combining Multiple Hooks
 
 ```typescript
-import { 
-  defineHooks, 
+import {
+  defineHooks,
   logStopEvents,
   logPreToolUseEventsForTools,
-  logPostToolUseEventsForTools 
-} from '@timoaus/define-claude-code-hooks';
+  logPostToolUseEventsForTools,
+} from "@timoaus/define-claude-code-hooks";
 
 export default defineHooks({
   PreToolUse: [
-    ...logPreToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),
+    ...logPreToolUseEventsForTools([".*"], "hook-log.tool-use.json"),
     // Add your custom hooks here
     {
-      matcher: 'Bash',
+      matcher: "Bash",
       handler: async (input) => {
         // Custom logic
-      }
-    }
+      },
+    },
   ],
-  
-  PostToolUse: logPostToolUseEventsForTools(['.*'], 'hook-log.tool-use.json'),
-  
-  Stop: [logStopEvents('hook-log.stop.json')]
+
+  PostToolUse: logPostToolUseEventsForTools([".*"], "hook-log.tool-use.json"),
+
+  Stop: [logStopEvents("hook-log.stop.json")],
 });
 ```
 
