@@ -1,0 +1,328 @@
+[
+  {
+    "timestamp": "2025-07-08T00:25:09.384Z",
+    "event": "PostToolUse",
+    "sessionId": "013b7429-b46d-478b-9f14-949e86f9c578",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/013b7429-b46d-478b-9f14-949e86f9c578.jsonl",
+    "toolName": "Read",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/src/index.ts"
+    },
+    "toolResponse": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/tim/repos/define-claude-code-hooks/src/index.ts",
+        "content": "#!/usr/bin/env node\n\nimport { HookType, HookHandler, HookTypeMap, ExitCode, HookDefinition, AnyHookDefinition } from './types';\n\nexport * from './types';\nexport { logStopEvents, logSubagentStopEvents } from './hooks/logStopEvents';\nexport { logNotificationEvents } from './hooks/logNotificationEvents';\nexport { \n  logPreToolUseEvents, \n  logPostToolUseEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from './hooks/logToolUseEvents';\n\n/**\n * Define a typed hook handler for Claude Code\n * @param type The type of hook (PreToolUse, PostToolUse, etc.)\n * @param definition The hook definition (with matcher for tool hooks, or just handler for others)\n * @returns A hook definition object\n */\nexport function defineHook<T extends HookType>(\n  type: T,\n  definition: AnyHookDefinition<T>\n): AnyHookDefinition<T> {\n  return definition;\n}\n\n/**\n * Define multiple hooks with matchers\n * @param hooks Object mapping hook types to matchers and handlers\n * @returns Object with all hook definitions\n */\nexport function defineHooks(hooks: HookDefinition): HookDefinition {\n  // Check if we're being run as a CLI\n  if (require.main === module.parent) {\n    const [, , mode, ...args] = process.argv;\n    \n    if (mode === '__generate_settings') {\n      // Generate settings mode\n      const settings: any = {};\n      \n      // Process each hook type\n      for (const [hookType, handlers] of Object.entries(hooks)) {\n        if (!handlers || handlers.length === 0) continue;\n        \n        settings[hookType] = [];\n        \n        if (hookType === 'PreToolUse' || hookType === 'PostToolUse') {\n          // For tool hooks, create one entry per matcher\n          for (const handler of handlers as any[]) {\n            if (handler && typeof handler === 'object' && 'matcher' in handler) {\n              settings[hookType].push({\n                matcher: handler.matcher,\n                handler: hookType,\n                index: handlers.indexOf(handler)\n              });\n            }\n          }\n        } else {\n          // For non-tool hooks, create one entry\n          settings[hookType].push({\n            handler: hookType,\n            count: handlers.length\n          });\n        }\n      }\n      \n      // Output as JSON\n      console.log(JSON.stringify(settings));\n      process.exit(0);\n    } else if (mode === '__run_hook') {\n      // Run hook mode\n      const [hookType, matcher, index] = args;\n      runHookHandler(hooks, hookType as HookType, matcher, index);\n    }\n  }\n  \n  return hooks;\n}\n\nasync function runHookHandler(hooks: HookDefinition, hookType: HookType, matcher?: string, index?: string) {\n  try {\n    // Read JSON input from stdin\n    const inputData = await readStdin();\n    \n    let input: any;\n    try {\n      input = JSON.parse(inputData);\n    } catch (error) {\n      console.error('Error: Invalid JSON input:', error);\n      process.exit(ExitCode.ERROR);\n    }\n\n    // Validate hook type matches\n    if (input.hook_event_name !== hookType) {\n      console.error(`Error: Expected ${hookType} hook, got ${input.hook_event_name}`);\n      process.exit(ExitCode.ERROR);\n    }\n\n    // Get handlers for this hook type\n    const hookHandlers = hooks[hookType];\n    if (!hookHandlers || !Array.isArray(hookHandlers) || hookHandlers.length === 0) {\n      // No handlers, exit silently\n      process.exit(ExitCode.SUCCESS);\n    }\n\n    // Execute appropriate handler(s)\n    const results: any[] = [];\n    \n    if ((hookType === 'PreToolUse' || hookType === 'PostToolUse') && matcher && index) {\n      if ('tool_name' in input) {\n        // Check if the tool matches the specified matcher\n        const regex = new RegExp(matcher);\n        if (regex.test(input.tool_name) || input.tool_name === matcher) {\n          // Execute the specific handler at the given index\n          const hookDef = hookHandlers[parseInt(index)];\n          if (hookDef && typeof hookDef === 'object' && 'handler' in hookDef) {\n            const result = await hookDef.handler(input);\n            if (result) results.push(result);\n          }\n        }\n      }\n    } else if (hookType !== 'PreToolUse' && hookType !== 'PostToolUse') {\n      // For non-tool hooks, execute all handlers\n      for (const handler of hookHandlers) {\n        if (typeof handler === 'function') {\n          const result = await handler(input);\n          if (result) results.push(result);\n        }\n      }\n    }\n\n    // Handle the results\n    let finalResult: any = null;\n    \n    for (const result of results) {\n      if (result && typeof result === 'object') {\n        // If any handler blocks, that takes precedence\n        if ('decision' in result && result.decision === 'block') {\n          finalResult = result;\n          break;\n        }\n        // If no blocking decision yet, use this result\n        if (!finalResult) {\n          finalResult = result;\n        }\n      }\n    }\n\n    // Output the result\n    if (finalResult && typeof finalResult === 'object') {\n      console.log(JSON.stringify(finalResult));\n      \n      if ('decision' in finalResult && finalResult.decision === 'block') {\n        if ('reason' in finalResult && finalResult.reason && shouldOutputToStderr(hookType)) {\n          console.error(finalResult.reason);\n          process.exit(ExitCode.BLOCKING_ERROR);\n        }\n      }\n      \n      if (finalResult.continue === false) {\n        process.exit(ExitCode.SUCCESS);\n      }\n    }\n\n    process.exit(ExitCode.SUCCESS);\n  } catch (error) {\n    console.error('Hook execution error:', error);\n    process.exit(ExitCode.ERROR);\n  }\n}\n\n/**\n * Helper to determine if stderr should be used for blocking feedback\n */\nfunction shouldOutputToStderr(type: HookType): boolean {\n  return type === 'PreToolUse' || type === 'PostToolUse' || type === 'Stop' || type === 'SubagentStop';\n}\n\n/**\n * Read all stdin input\n */\nasync function readStdin(): Promise<string> {\n  return new Promise((resolve) => {\n    let data = '';\n    process.stdin.setEncoding('utf8');\n    process.stdin.on('data', chunk => data += chunk);\n    process.stdin.on('end', () => resolve(data));\n  });\n}\n\n",
+        "numLines": 192,
+        "startLine": 1,
+        "totalLines": 192
+      }
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:25:48.177Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Read",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/src/index.ts"
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:25:48.794Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Read",
+    "toolInput": {
+      "file_path": "/Users/tim/repos/define-claude-code-hooks/src/index.ts"
+    },
+    "toolResponse": {
+      "type": "text",
+      "file": {
+        "filePath": "/Users/tim/repos/define-claude-code-hooks/src/index.ts",
+        "content": "#!/usr/bin/env node\n\nimport { HookType, HookHandler, HookTypeMap, ExitCode, HookDefinition, AnyHookDefinition } from './types';\n\nexport * from './types';\nexport { logStopEvents, logSubagentStopEvents } from './hooks/logStopEvents';\nexport { logNotificationEvents } from './hooks/logNotificationEvents';\nexport { \n  logPreToolUseEvents, \n  logPostToolUseEvents,\n  logPreToolUseEventsForTools,\n  logPostToolUseEventsForTools \n} from './hooks/logToolUseEvents';\n\n/**\n * Define a typed hook handler for Claude Code\n * @param type The type of hook (PreToolUse, PostToolUse, etc.)\n * @param definition The hook definition (with matcher for tool hooks, or just handler for others)\n * @returns A hook definition object\n */\nexport function defineHook<T extends HookType>(\n  type: T,\n  definition: AnyHookDefinition<T>\n): AnyHookDefinition<T> {\n  return definition;\n}\n\n/**\n * Define multiple hooks with matchers\n * @param hooks Object mapping hook types to matchers and handlers\n * @returns Object with all hook definitions\n */\nexport function defineHooks(hooks: HookDefinition): HookDefinition {\n  // Check if we're being run as a CLI\n  if (require.main === module.parent) {\n    const [, , mode, ...args] = process.argv;\n    \n    if (mode === '__generate_settings') {\n      // Generate settings mode\n      const settings: any = {};\n      \n      // Process each hook type\n      for (const [hookType, handlers] of Object.entries(hooks)) {\n        if (!handlers || handlers.length === 0) continue;\n        \n        settings[hookType] = [];\n        \n        if (hookType === 'PreToolUse' || hookType === 'PostToolUse') {\n          // For tool hooks, create one entry per matcher\n          for (const handler of handlers as any[]) {\n            if (handler && typeof handler === 'object' && 'matcher' in handler) {\n              settings[hookType].push({\n                matcher: handler.matcher,\n                handler: hookType,\n                index: handlers.indexOf(handler)\n              });\n            }\n          }\n        } else {\n          // For non-tool hooks, create one entry\n          settings[hookType].push({\n            handler: hookType,\n            count: handlers.length\n          });\n        }\n      }\n      \n      // Output as JSON\n      console.log(JSON.stringify(settings));\n      process.exit(0);\n    } else if (mode === '__run_hook') {\n      // Run hook mode\n      const [hookType, matcher, index] = args;\n      runHookHandler(hooks, hookType as HookType, matcher, index);\n    }\n  }\n  \n  return hooks;\n}\n\nasync function runHookHandler(hooks: HookDefinition, hookType: HookType, matcher?: string, index?: string) {\n  try {\n    // Read JSON input from stdin\n    const inputData = await readStdin();\n    \n    let input: any;\n    try {\n      input = JSON.parse(inputData);\n    } catch (error) {\n      console.error('Error: Invalid JSON input:', error);\n      process.exit(ExitCode.ERROR);\n    }\n\n    // Validate hook type matches\n    if (input.hook_event_name !== hookType) {\n      console.error(`Error: Expected ${hookType} hook, got ${input.hook_event_name}`);\n      process.exit(ExitCode.ERROR);\n    }\n\n    // Get handlers for this hook type\n    const hookHandlers = hooks[hookType];\n    if (!hookHandlers || !Array.isArray(hookHandlers) || hookHandlers.length === 0) {\n      // No handlers, exit silently\n      process.exit(ExitCode.SUCCESS);\n    }\n\n    // Execute appropriate handler(s)\n    const results: any[] = [];\n    \n    if ((hookType === 'PreToolUse' || hookType === 'PostToolUse') && matcher && index) {\n      if ('tool_name' in input) {\n        // Check if the tool matches the specified matcher\n        const regex = new RegExp(matcher);\n        if (regex.test(input.tool_name) || input.tool_name === matcher) {\n          // Execute the specific handler at the given index\n          const hookDef = hookHandlers[parseInt(index)];\n          if (hookDef && typeof hookDef === 'object' && 'handler' in hookDef) {\n            const result = await hookDef.handler(input);\n            if (result) results.push(result);\n          }\n        }\n      }\n    } else if (hookType !== 'PreToolUse' && hookType !== 'PostToolUse') {\n      // For non-tool hooks, execute all handlers\n      for (const handler of hookHandlers) {\n        if (typeof handler === 'function') {\n          const result = await handler(input);\n          if (result) results.push(result);\n        }\n      }\n    }\n\n    // Handle the results\n    let finalResult: any = null;\n    \n    for (const result of results) {\n      if (result && typeof result === 'object') {\n        // If any handler blocks, that takes precedence\n        if ('decision' in result && result.decision === 'block') {\n          finalResult = result;\n          break;\n        }\n        // If no blocking decision yet, use this result\n        if (!finalResult) {\n          finalResult = result;\n        }\n      }\n    }\n\n    // Output the result\n    if (finalResult && typeof finalResult === 'object') {\n      console.log(JSON.stringify(finalResult));\n      \n      if ('decision' in finalResult && finalResult.decision === 'block') {\n        if ('reason' in finalResult && finalResult.reason && shouldOutputToStderr(hookType)) {\n          console.error(finalResult.reason);\n          process.exit(ExitCode.BLOCKING_ERROR);\n        }\n      }\n      \n      if (finalResult.continue === false) {\n        process.exit(ExitCode.SUCCESS);\n      }\n    }\n\n    process.exit(ExitCode.SUCCESS);\n  } catch (error) {\n    console.error('Hook execution error:', error);\n    process.exit(ExitCode.ERROR);\n  }\n}\n\n/**\n * Helper to determine if stderr should be used for blocking feedback\n */\nfunction shouldOutputToStderr(type: HookType): boolean {\n  return type === 'PreToolUse' || type === 'PostToolUse' || type === 'Stop' || type === 'SubagentStop';\n}\n\n/**\n * Read all stdin input\n */\nasync function readStdin(): Promise<string> {\n  return new Promise((resolve) => {\n    let data = '';\n    process.stdin.setEncoding('utf8');\n    process.stdin.on('data', chunk => data += chunk);\n    process.stdin.on('end', () => resolve(data));\n  });\n}\n\n",
+        "numLines": 192,
+        "startLine": 1,
+        "totalLines": 192
+      }
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:29:22.562Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:29:23.155Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [],
+      "newTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:29:28.987Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:29:29.571Z",
+    "event": "PostToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "TodoWrite",
+    "toolInput": {
+      "todos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    },
+    "toolResponse": {
+      "oldTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Stage and commit all code",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Set git remote origin",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update package name in package.json",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Create GitHub action for npm publishing",
+          "status": "pending",
+          "priority": "high",
+          "id": "4"
+        },
+        {
+          "content": "Push code to main branch",
+          "status": "pending",
+          "priority": "high",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-07-08T00:29:34.037Z",
+    "event": "PreToolUse",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "toolName": "Bash",
+    "toolInput": {
+      "command": "git add -A",
+      "description": "Stage all files for commit"
+    }
+  }
+]

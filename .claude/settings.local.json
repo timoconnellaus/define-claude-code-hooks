@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun install:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(define-claude-code-hooks:*)",
+      "Bash(bun run:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}

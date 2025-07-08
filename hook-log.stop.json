@@ -1,0 +1,58 @@
+[
+  {
+    "timestamp": "2025-07-08T00:16:05.527Z",
+    "event": "Stop",
+    "sessionId": "0a17effd-9ecf-4376-832c-a46aa803af56",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/0a17effd-9ecf-4376-832c-a46aa803af56.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:16:51.772Z",
+    "event": "Stop",
+    "sessionId": "0a17effd-9ecf-4376-832c-a46aa803af56",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/0a17effd-9ecf-4376-832c-a46aa803af56.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:20:40.394Z",
+    "event": "Stop",
+    "sessionId": "0a17effd-9ecf-4376-832c-a46aa803af56",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/0a17effd-9ecf-4376-832c-a46aa803af56.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:23:14.659Z",
+    "event": "Stop",
+    "sessionId": "0a17effd-9ecf-4376-832c-a46aa803af56",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/0a17effd-9ecf-4376-832c-a46aa803af56.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:24:21.287Z",
+    "event": "Stop",
+    "sessionId": "0a17effd-9ecf-4376-832c-a46aa803af56",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/0a17effd-9ecf-4376-832c-a46aa803af56.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:24:35.471Z",
+    "event": "Stop",
+    "sessionId": "68a882f5-1517-40ce-82ef-8b1100afab8e",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/68a882f5-1517-40ce-82ef-8b1100afab8e.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:25:20.887Z",
+    "event": "Stop",
+    "sessionId": "013b7429-b46d-478b-9f14-949e86f9c578",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/013b7429-b46d-478b-9f14-949e86f9c578.jsonl",
+    "stopHookActive": false
+  },
+  {
+    "timestamp": "2025-07-08T00:26:00.640Z",
+    "event": "Stop",
+    "sessionId": "8c9ba702-a364-4360-8bec-405bd9c8fcaf",
+    "transcriptPath": "/Users/tim/.claude/projects/-Users-tim-repos-define-claude-code-hooks/8c9ba702-a364-4360-8bec-405bd9c8fcaf.jsonl",
+    "stopHookActive": false
+  }
+]
