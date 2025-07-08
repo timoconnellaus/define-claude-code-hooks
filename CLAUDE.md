@@ -23,7 +23,7 @@ bun install
 
 ### Key Concepts
 
-1. **Self-Executing Hooks**: The hooks.ts file acts as both the hook definition and the runner. When `defineHooks` is called, it checks if it's being run as a CLI and handles two modes:
+1. **Self-Executing Hooks**: Hook files act as both the hook definition and the runner. When `defineHooks` is called, it checks if it's being run as a CLI and handles two modes:
 
    - `__generate_settings`: Outputs JSON information about defined hooks
    - `__run_hook`: Executes the appropriate hook handler
@@ -34,11 +34,18 @@ bun install
    - For PreToolUse/PostToolUse: One entry per matcher
    - For other hooks (Stop, Notification, SubagentStop): One entry only if handlers exist
 
+4. **Multiple Hook Files**: The system supports three different hook files, all located in `.claude/hooks/`:
+   - `hooks.ts` - Project hooks (updates `.claude/settings.json`)
+   - `hooks.local.ts` - Local hooks (updates `.claude/settings.local.json`)
+   - `hooks.user.ts` - User hooks (updates `~/.claude/settings.json`)
+   
+   The CLI automatically detects which files exist and updates the corresponding settings files.
+
 ### Core Components
 
 - **src/index.ts**: Exports `defineHooks` and `defineHook` functions. Contains the self-execution logic that makes hooks files act as their own runners.
 
-- **src/cli.ts**: The CLI that updates settings.json files. It executes the hooks file with `__generate_settings` to discover what hooks are defined, then generates appropriate commands using ts-node.
+- **src/cli.ts**: The CLI that updates settings.json files. It automatically detects which hook files exist (hooks.ts, hooks.local.ts, hooks.user.ts) and updates the corresponding settings files.
 
 - **src/types.ts**: TypeScript type definitions for all hook types, inputs, and outputs. Key distinction between tool hooks (PreToolUse/PostToolUse) that have matchers and non-tool hooks.
 
@@ -77,5 +84,9 @@ The CLI removes all hooks marked with `__managed_by_define_claude_code_hooks__` 
 
 - TypeScript compilation outputs to the `dist/` directory
 - The CLI binary is defined in package.json as `define-claude-code-hooks`
-- Hook files must be located at `.claude/hooks/hooks.ts`
+- Hook files are all located in `.claude/hooks/`:
+  - `hooks.ts` (project-wide hooks)
+  - `hooks.local.ts` (local-only hooks, not committed to git)
+  - `hooks.user.ts` (user-specific hooks that update ~/.claude/settings.json)
 - Compatible with npm, yarn, pnpm, and bun package managers
+- The CLI no longer requires flags - it automatically detects which hook files exist and updates the appropriate settings files
