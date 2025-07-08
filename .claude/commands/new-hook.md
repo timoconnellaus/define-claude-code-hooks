@@ -86,7 +86,16 @@ Hooks can return structured responses:
   suppressOutput?: boolean
 }
 
-// Other hooks can return:
+// Stop/SubagentStop can return:
+{
+  decision?: 'block',
+  reason?: string,
+  continue?: boolean,
+  stopReason?: string,
+  suppressOutput?: boolean
+}
+
+// Notification can return:
 {
   continue?: boolean,
   stopReason?: string,
@@ -139,22 +148,31 @@ export { blockDangerousCommands } from './hooks/blockDangerousCommands';
 - Each hook type has its own specific input type
 - Share common logic between related hooks when appropriate
 
-### 5. Update Documentation
+### 5. Update Exports
 
-After creating a new hook, update the README.md file to document it:
+After creating a new hook, update the `src/index.ts` file to export it:
+
+```typescript
+// Add your export to src/index.ts
+export { myHookName } from './hooks/myHookName';
+```
+
+### 6. Update Documentation
+
+After creating and exporting the hook, update the README.md file to document it:
 
 1. Add the new hook to the "Predefined Hook Utilities" section
 2. Include usage examples showing how to import and use the hook
 3. Document any configuration options
 4. Show example output if the hook produces logs or other artifacts
 
-### 6. Using the Hook
+### 7. Using the Hook
 
 Users can then import and use the hook:
 
 ```typescript
 // .claude/hooks/hooks.ts
-import { defineHooks, blockDangerousCommands } from 'define-claude-code-hooks';
+import { defineHooks, blockDangerousCommands } from '@timoaus/define-claude-code-hooks';
 
 export default defineHooks({
   PreToolUse: [
@@ -164,7 +182,7 @@ export default defineHooks({
 });
 ```
 
-### 7. Common Patterns and Best Practices
+### 8. Common Patterns and Best Practices
 
 **File I/O in hooks:**
 - Use `process.cwd()` to get the current working directory for file paths
@@ -198,7 +216,7 @@ export default defineHooks({
 - Clean up test artifacts after running
 - Test edge cases like file size limits and error conditions
 
-### 8. Advanced Hook Patterns
+### 9. Advanced Hook Patterns
 
 **Tool hooks with matchers:**
 - Tool hooks (PreToolUse, PostToolUse) require both `matcher` and `handler`
