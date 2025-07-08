@@ -15,6 +15,11 @@ interface ToolUseLogEntry {
 
 interface LogToolUseEventsOptions {
   /**
+   * Regex pattern to match tool names. If not provided, matches all tools.
+   * @default '.*'
+   */
+  matcher?: string;
+  /**
    * Maximum number of events to store in the log file.
    * When the limit is reached, oldest events are removed first.
    * @default 100
@@ -41,26 +46,19 @@ interface LogToolUseEventsOptions {
 
 /**
  * Creates a PreToolUse hook that logs tool use events before execution
- * @param matcher Optional regex pattern to match tool names. If not provided, matches all tools
  * @param options Configuration options for the logger
  * @returns A PreToolUse hook definition
  */
 export const logPreToolUseEvents = (
-  matcher?: string,
   options: LogToolUseEventsOptions = {}
 ): AnyHookDefinition<'PreToolUse'> => {
-  // Handle overloaded signatures
-  if (typeof matcher === 'object' && matcher !== null) {
-    options = matcher;
-    matcher = undefined;
-  }
-  
+  const matcher = options.matcher ?? '.*';
   const maxEventsStored = options.maxEventsStored ?? 100;
   const logFileName = options.logFileName ?? 'hook-log.tool-use.json';
   const includeToolInput = options.includeToolInput ?? true;
 
   return defineHook('PreToolUse', {
-    matcher: matcher ?? '.*', // Match all tools if no matcher provided
+    matcher,
     handler: async (input: PreToolUseInput) => {
       const logPath = path.join(process.cwd(), logFileName);
       
@@ -100,27 +98,20 @@ export const logPreToolUseEvents = (
 
 /**
  * Creates a PostToolUse hook that logs tool use events after execution
- * @param matcher Optional regex pattern to match tool names. If not provided, matches all tools
  * @param options Configuration options for the logger
  * @returns A PostToolUse hook definition
  */
 export const logPostToolUseEvents = (
-  matcher?: string,
   options: LogToolUseEventsOptions = {}
 ): AnyHookDefinition<'PostToolUse'> => {
-  // Handle overloaded signatures
-  if (typeof matcher === 'object' && matcher !== null) {
-    options = matcher;
-    matcher = undefined;
-  }
-  
+  const matcher = options.matcher ?? '.*';
   const maxEventsStored = options.maxEventsStored ?? 100;
   const logFileName = options.logFileName ?? 'hook-log.tool-use.json';
   const includeToolInput = options.includeToolInput ?? true;
   const includeToolResponse = options.includeToolResponse ?? true;
 
   return defineHook('PostToolUse', {
-    matcher: matcher ?? '.*', // Match all tools if no matcher provided
+    matcher,
     handler: async (input: PostToolUseInput) => {
       const logPath = path.join(process.cwd(), logFileName);
       

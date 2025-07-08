@@ -172,13 +172,13 @@ describe('logToolUseEvents', () => {
 
   describe('logPreToolUseEvents with custom matcher', () => {
     it('should create hook with custom matcher', () => {
-      const hook = logPreToolUseEvents('Bash|Read');
+      const hook = logPreToolUseEvents({ matcher: 'Bash|Read' });
       expect(hook.matcher).toBe('Bash|Read');
       expect(typeof hook.handler).toBe('function');
     });
 
     it('should log tools matching the pattern', async () => {
-      const hook = logPreToolUseEvents('Bash|Edit');
+      const hook = logPreToolUseEvents({ matcher: 'Bash|Edit' });
       
       const bashInput = createPreToolUseInput({ tool_name: 'Bash' });
       const editInput = createPreToolUseInput({ tool_name: 'Edit' });
@@ -193,7 +193,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should handle regex special characters', async () => {
-      const hook = logPreToolUseEvents('Tool\\(.*\\)');
+      const hook = logPreToolUseEvents({ matcher: 'Tool\\(.*\\)' });
       const input = createPreToolUseInput({ tool_name: 'Tool(test)' });
 
       await hook.handler(input);
@@ -203,7 +203,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should respect includeToolInput option', async () => {
-      const hook = logPreToolUseEvents('.*', { includeToolInput: false });
+      const hook = logPreToolUseEvents({ matcher: '.*', includeToolInput: false });
       const input = createPreToolUseInput({ 
         tool_input: { secret: 'should-not-appear' }
       });
@@ -224,13 +224,13 @@ describe('logToolUseEvents', () => {
 
   describe('logPostToolUseEvents with custom matcher', () => {
     it('should create hook with custom matcher', () => {
-      const hook = logPostToolUseEvents('Write|Read');
+      const hook = logPostToolUseEvents({ matcher: 'Write|Read' });
       expect(hook.matcher).toBe('Write|Read');
       expect(typeof hook.handler).toBe('function');
     });
 
     it('should log tools matching the pattern', async () => {
-      const hook = logPostToolUseEvents('Write|WebFetch');
+      const hook = logPostToolUseEvents({ matcher: 'Write|WebFetch' });
       
       const writeInput = createPostToolUseInput({ tool_name: 'Write' });
       const webFetchInput = createPostToolUseInput({ tool_name: 'WebFetch' });
@@ -245,7 +245,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should handle case-sensitive matching', async () => {
-      const hook = logPostToolUseEvents('^Bash$');
+      const hook = logPostToolUseEvents({ matcher: '^Bash$' });
       
       const bashLower = createPostToolUseInput({ tool_name: 'bash' });
       const bashProper = createPostToolUseInput({ tool_name: 'Bash' });
@@ -259,7 +259,8 @@ describe('logToolUseEvents', () => {
     });
 
     it('should respect both includeToolInput and includeToolResponse options', async () => {
-      const hook = logPostToolUseEvents('.*', { 
+      const hook = logPostToolUseEvents({ 
+        matcher: '.*',
         includeToolInput: false,
         includeToolResponse: false 
       });
@@ -492,7 +493,7 @@ describe('logToolUseEvents', () => {
 
   describe('complex tool patterns', () => {
     it('should handle alternation patterns', async () => {
-      const hook = logPreToolUseEvents('^(Bash|Edit|Write)$');
+      const hook = logPreToolUseEvents({ matcher: '^(Bash|Edit|Write)$' });
       
       const inputs = [
         createPreToolUseInput({ tool_name: 'Bash' }),
@@ -510,7 +511,7 @@ describe('logToolUseEvents', () => {
     });
 
     it('should handle wildcard patterns', async () => {
-      const hook = logPostToolUseEvents('^Web');
+      const hook = logPostToolUseEvents({ matcher: '^Web' });
       
       const inputs = [
         createPostToolUseInput({ tool_name: 'WebFetch' }),

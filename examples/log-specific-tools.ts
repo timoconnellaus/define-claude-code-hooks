@@ -8,14 +8,16 @@ import {
 export default defineHooks({
   PreToolUse: [
     // Log all file write operations
-    logPreToolUseEvents("Write|Edit|MultiEdit", {
+    logPreToolUseEvents({
+      matcher: "Write|Edit|MultiEdit",
       maxEventsStored: 200,
       logFileName: "file-writes.json",
       includeToolInput: true,
     }),
 
     // Log all bash commands
-    logPreToolUseEvents("Bash", {
+    logPreToolUseEvents({
+      matcher: "Bash",
       maxEventsStored: 300,
       logFileName: "bash-commands.json",
       includeToolInput: true,
@@ -24,7 +26,8 @@ export default defineHooks({
 
   PostToolUse: [
     // Log bash command results
-    logPostToolUseEvents("Bash", {
+    logPostToolUseEvents({
+      matcher: "Bash",
       maxEventsStored: 300,
       logFileName: "bash-results.json",
       includeToolInput: false,
@@ -32,7 +35,8 @@ export default defineHooks({
     }),
 
     // Log file search operations
-    logPostToolUseEvents("Grep|Glob|LS", {
+    logPostToolUseEvents({
+      matcher: "Grep|Glob|LS",
       maxEventsStored: 100,
       logFileName: "file-searches.json",
       includeToolInput: true,
