@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"./.hooks/hooks.js\" __run_hook PreToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
+            "command": "test -f \"./.hooks/hooks.js\" && node \"./.hooks/hooks.js\" __run_hook PreToolUse \".*\" \"0\" || (>&2 echo \"Error: Hook script not found at ./.hooks/hooks.js\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
           }
         ]
       }
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"./.hooks/hooks.js\" __run_hook PostToolUse \".*\" \"0\" # __managed_by_define_claude_code_hooks__"
+            "command": "test -f \"./.hooks/hooks.js\" && node \"./.hooks/hooks.js\" __run_hook PostToolUse \".*\" \"0\" || (>&2 echo \"Error: Hook script not found at ./.hooks/hooks.js\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
           }
         ]
       }
@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"./.hooks/hooks.js\" __run_hook Stop # __managed_by_define_claude_code_hooks__"
+            "command": "test -f \"./.hooks/hooks.js\" && node \"./.hooks/hooks.js\" __run_hook Stop || (>&2 echo \"Error: Hook script not found at ./.hooks/hooks.js\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
           }
         ]
       }

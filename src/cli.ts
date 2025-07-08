@@ -211,6 +211,13 @@ async function updateHooks(options: CliOptions) {
       // Get hook information by running the compiled hooks file
       let hookInfo: any;
       
+      // Check if the compiled file exists before trying to run it
+      if (!fs.existsSync(compiledHookPath)) {
+        console.error(`Error: Compiled hook file not found at ${compiledHookPath}`);
+        console.error('The compilation step may have failed. Please check for TypeScript errors.');
+        continue;
+      }
+      
       try {
         const output = execSync(
           `node "${compiledHookPath}" __generate_settings`,
@@ -340,7 +347,7 @@ async function updateSettingsFile(
           matcher: entry.matcher,
           hooks: [{
             type: 'command',
-            command: `node "${commandPath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" # ${marker}`
+            command: `test -f "${commandPath}" && node "${commandPath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" || (>&2 echo "Error: Hook script not found at ${commandPath}" && >&2 echo "Please run: npx define-claude-code-hooks" && exit 1) # ${marker}`
           }]
         });
       } else {
@@ -348,7 +355,7 @@ async function updateSettingsFile(
         settings.hooks[typedHookType]!.push({
           hooks: [{
             type: 'command',
-            command: `node "${commandPath}" __run_hook ${hookType} # ${marker}`
+            command: `test -f "${commandPath}" && node "${commandPath}" __run_hook ${hookType} || (>&2 echo "Error: Hook script not found at ${commandPath}" && >&2 echo "Please run: npx define-claude-code-hooks" && exit 1) # ${marker}`
           }]
         });
       }
