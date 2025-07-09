@@ -532,7 +532,11 @@ ${cleanedDefinitions.join('\n')}
   }
   
   if (needsInstall) {
-    console.log(`\n📦 Installing ${packageName}...`);
+    // Get the version of the currently running CLI
+    const packageVersion = packageJson.version;
+    const packageToInstall = `${packageName}@${packageVersion}`;
+    
+    console.log(`\n📦 Installing ${packageToInstall}...`);
     
     // Detect package manager
     let packageManager = 'npm';
@@ -547,11 +551,11 @@ ${cleanedDefinitions.join('\n')}
     const installCmd = packageManager === 'yarn' ? 'yarn add -D' : `${packageManager} install -D`;
     
     try {
-      execSync(`${installCmd} ${packageName}`, { stdio: 'inherit', cwd: currentDir });
-      console.log(`✅ Installed ${packageName}`);
+      execSync(`${installCmd} ${packageToInstall}`, { stdio: 'inherit', cwd: currentDir });
+      console.log(`✅ Installed ${packageToInstall}`);
     } catch (error) {
-      console.error(`\n❌ Failed to install ${packageName}. Please install it manually:`);
-      console.error(`   ${installCmd} ${packageName}`);
+      console.error(`\n❌ Failed to install ${packageToInstall}. Please install it manually:`);
+      console.error(`   ${installCmd} ${packageToInstall}`);
     }
   }
   
