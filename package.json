@@ -39,6 +39,7 @@
   "dependencies": {
     "@types/inquirer": "^9.0.8",
     "inquirer": "^12.7.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   },
   "devDependencies": {

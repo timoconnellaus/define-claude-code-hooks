@@ -6,7 +6,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "test -f \"./.hooks/hooks.js\" && node \"./.hooks/hooks.js\" __run_hook PreToolUse \".*\" \"0\" || (>&2 echo \"Error: Hook script not found at ./.hooks/hooks.js\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
+            "command": "test -f \"./.claude/hooks/hooks.ts\" && npx ts-node \"./.claude/hooks/hooks.ts\" __run_hook PreToolUse \".*\" \"0\" || (>&2 echo \"Error: Hook script not found at ./.claude/hooks/hooks.ts\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test -f \"./.claude/hooks/hooks.ts\" && npx ts-node \"./.claude/hooks/hooks.ts\" __run_hook PreToolUse \"Read|Write|Edit|MultiEdit\" \"1\" || (>&2 echo \"Error: Hook script not found at ./.claude/hooks/hooks.ts\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
           }
         ]
       }
@@ -17,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "test -f \"./.hooks/hooks.js\" && node \"./.hooks/hooks.js\" __run_hook PostToolUse \".*\" \"0\" || (>&2 echo \"Error: Hook script not found at ./.hooks/hooks.js\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
+            "command": "test -f \"./.claude/hooks/hooks.ts\" && npx ts-node \"./.claude/hooks/hooks.ts\" __run_hook PostToolUse \".*\" \"0\" || (>&2 echo \"Error: Hook script not found at ./.claude/hooks/hooks.ts\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
           }
         ]
       }
@@ -27,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "test -f \"./.hooks/hooks.js\" && node \"./.hooks/hooks.js\" __run_hook Stop || (>&2 echo \"Error: Hook script not found at ./.hooks/hooks.js\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
+            "command": "test -f \"./.claude/hooks/hooks.ts\" && npx ts-node \"./.claude/hooks/hooks.ts\" __run_hook Stop || (>&2 echo \"Error: Hook script not found at ./.claude/hooks/hooks.ts\" && >&2 echo \"Please run: npx define-claude-code-hooks\" && exit 1) # __managed_by_define_claude_code_hooks__"
           }
         ]
       }

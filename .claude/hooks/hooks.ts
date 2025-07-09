@@ -1,13 +1,13 @@
-import {
-  defineHooks,
-  defineHook,
-  logPreToolUseEvents,
-  logPostToolUseEvents,
-  logStopEvents,
-} from "../..";
+import { defineHooks } from '../..';
+import { logPreToolUseEvents, logPostToolUseEvents } from '../../src/hooks/logToolUseEvents';
+import { blockEnvFiles } from '../../src/hooks/blockEnvFiles';
+import { logStopEvents } from '../../src/hooks/logStopEvents';
 
-export default defineHooks({
-  PreToolUse: [logPreToolUseEvents({ maxEventsStored: 100 })],
-  PostToolUse: [logPostToolUseEvents({ maxEventsStored: 100 })],
-  Stop: [logStopEvents({ maxEventsStored: 100 })],
+defineHooks({
+  PreToolUse: [
+    logPreToolUseEvents(),
+    blockEnvFiles
+  ],
+  PostToolUse: [logPostToolUseEvents()],
+  Stop: [logStopEvents()]
 });
