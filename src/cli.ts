@@ -5,32 +5,29 @@ import * as path from 'path';
 import * as os from 'os';
 import { HookSettings, HookDefinition, HookType } from './types';
 import * as ts from 'typescript';
+import inquirer from 'inquirer';
+import { execSync } from 'child_process';
 
 const HOOK_FILES = {
   project: '.claude/hooks/hooks.ts',
-  local: '.claude/hooks/hooks.local.ts',
-  user: '.claude/hooks/hooks.user.ts'
+  local: '.claude/hooks/hooks.local.ts'
 } as const;
 
 const COMPILED_HOOK_FILES = {
   project: '.hooks/hooks.js',
-  local: '.hooks/hooks.local.js',
-  user: '.hooks/hooks.user.js'
+  local: '.hooks/hooks.local.js'
 } as const;
 
 const MANAGED_BY_MARKER = '__managed_by_define_claude_code_hooks__';
 
-function getManagedMarker(location: 'project' | 'local' | 'user'): string {
-  if (location === 'user') {
-    // For user settings, include the project path to avoid conflicts
-    return `${MANAGED_BY_MARKER}:${process.cwd()}`;
-  }
+function getManagedMarker(location: 'project' | 'local'): string {
   return MANAGED_BY_MARKER;
 }
 
 interface CliOptions {
   remove?: boolean;
-  globalSettingsPath?: string;
+  init?: boolean;
+  alternateDistPath?: string;
 }
 
 async function main() {
@@ -44,11 +41,18 @@ async function main() {
       case '--remove':
         options.remove = true;
         break;
-      case '--global-settings-path':
+      case '--init':
+        options.init = true;
+        break;
+      case '--alternate-dist-path':
+        if (process.env.NODE_ENV !== 'development') {
+          console.error('--alternate-dist-path is only available in development mode');
+          process.exit(1);
+        }
         if (i + 1 < args.length) {
-          options.globalSettingsPath = args[++i];
+          options.alternateDistPath = args[++i];
         } else {
-          console.error('--global-settings-path requires a path argument');
+          console.error('--alternate-dist-path requires a path argument');
           process.exit(1);
         }
         break;
@@ -63,7 +67,9 @@ async function main() {
   }
 
   try {
-    if (options.remove) {
+    if (options.init) {
+      await initHooks(options);
+    } else if (options.remove) {
       await removeHooks(options);
     } else {
       await updateHooks(options);
@@ -79,19 +85,18 @@ function showHelp() {
 Usage: npx define-claude-code-hooks [options]
 
 Options:
+  --init                            Initialize hooks in your project
   --remove                          Remove managed hooks from all settings files
-  --global-settings-path <path>     Custom path to global Claude settings.json
-                                    (default: ~/.claude/settings.json)
-  --help                            Show this help message
+  --help                            Show this help message${process.env.NODE_ENV === 'development' ? `
+  --alternate-dist-path <path>      Use alternate dist path (development only)` : ''}
 
 This command will automatically detect hook files in .claude/hooks/:
   - hooks.ts       → Updates .claude/settings.json
   - hooks.local.ts → Updates .claude/settings.local.json
-  - hooks.user.ts  → Updates ~/.claude/settings.json (or custom path)
 `);
 }
 
-async function compileHookFile(tsPath: string, jsPath: string, location: 'project' | 'local' | 'user'): Promise<boolean> {
+async function compileHookFile(tsPath: string, jsPath: string, location: 'project' | 'local'): Promise<boolean> {
   try {
     // Read the TypeScript file
     let sourceCode = fs.readFileSync(tsPath, 'utf-8');
@@ -118,10 +123,23 @@ async function compileHookFile(tsPath: string, jsPath: string, location: 'projec
       );
     }
     
+    // Detect module type from project's package.json
+    let isESModule = false;
+    try {
+      const projectPackageJsonPath = path.join(process.cwd(), 'package.json');
+      if (fs.existsSync(projectPackageJsonPath)) {
+        const projectPackageJson = JSON.parse(fs.readFileSync(projectPackageJsonPath, 'utf-8'));
+        isESModule = projectPackageJson.type === 'module';
+      }
+    } catch (error) {
+      // If we can't read the package.json, default to CommonJS
+      isESModule = false;
+    }
+    
     // Compile TypeScript to JavaScript
     const result = ts.transpileModule(sourceCode, {
       compilerOptions: {
-        module: ts.ModuleKind.CommonJS,
+        module: isESModule ? ts.ModuleKind.ESNext : ts.ModuleKind.CommonJS,
         target: ts.ScriptTarget.ES2020,
         esModuleInterop: true,
         allowSyntheticDefaultImports: true,
@@ -131,29 +149,47 @@ async function compileHookFile(tsPath: string, jsPath: string, location: 'projec
       }
     });
     
-    // If we're in the package's own repository, fix the require paths in the compiled output
+    // If we're in the package's own repository, fix the import/require paths in the compiled output
     let outputText = result.outputText;
     if (isOwnRepo) {
       const relativePath = path.relative(path.dirname(jsPath), path.join(process.cwd(), 'dist', 'index')).replace(/\\/g, '/');
-      // Replace the compiled require statement - handle both direct and renamed imports
-      const packageNameEscaped = packageName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const regex = new RegExp(`require\\(["']${packageNameEscaped}["']\\)`, 'g');
-      outputText = outputText.replace(
-        regex,
-        `require('${relativePath}')`
-      );
       
-      // Also try without escaping the parentheses
-      outputText = outputText.replace(
-        new RegExp(`require\(["']${packageName}["']\)`, 'g'),
-        `require('${relativePath}')`
-      );
-      
-      // Handle relative requires like require("../..") that point to the package root
-      outputText = outputText.replace(
-        /require\(["']\.\.\/(\.\.)?["']\)/g,
-        `require('${relativePath}')`
-      );
+      if (isESModule) {
+        // For ES modules, replace import statements
+        const packageNameEscaped = packageName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        
+        // Replace import statements
+        outputText = outputText.replace(
+          new RegExp(`from\\s+["']${packageNameEscaped}["']`, 'g'),
+          `from '${relativePath}'`
+        );
+        
+        // Handle relative imports like from "../.." that point to the package root
+        outputText = outputText.replace(
+          /from\s+["']\.\.\/(\.\.)?["']/g,
+          `from '${relativePath}'`
+        );
+      } else {
+        // For CommonJS, replace require statements
+        const packageNameEscaped = packageName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`require\\(["']${packageNameEscaped}["']\\)`, 'g');
+        outputText = outputText.replace(
+          regex,
+          `require('${relativePath}')`
+        );
+        
+        // Also try without escaping the parentheses
+        outputText = outputText.replace(
+          new RegExp(`require\(["']${packageName}["']\)`, 'g'),
+          `require('${relativePath}')`
+        );
+        
+        // Handle relative requires like require("../..") that point to the package root
+        outputText = outputText.replace(
+          /require\(["']\.\.\/(\.\.)?["']\)/g,
+          `require('${relativePath}')`
+        );
+      }
     }
     
     // Ensure .hooks directory exists
@@ -172,7 +208,6 @@ async function compileHookFile(tsPath: string, jsPath: string, location: 'projec
 }
 
 async function updateHooks(options: CliOptions) {
-  const { execSync } = require('child_process');
   let updatedAny = false;
 
   // Check for each type of hook file
@@ -189,9 +224,6 @@ async function updateHooks(options: CliOptions) {
       case 'local':
         settingsPath = path.join(process.cwd(), '.claude', 'settings.local.json');
         break;
-      case 'user':
-        settingsPath = options.globalSettingsPath || path.join(os.homedir(), '.claude', 'settings.json');
-        break;
       default:
         continue;
     }
@@ -201,7 +233,7 @@ async function updateHooks(options: CliOptions) {
       
       // Compile the TypeScript file
       console.log(`Compiling ${fileName} to ${COMPILED_HOOK_FILES[type as keyof typeof COMPILED_HOOK_FILES]}...`);
-      const compiled = await compileHookFile(hookFilePath, compiledHookPath, type as 'project' | 'local' | 'user');
+      const compiled = await compileHookFile(hookFilePath, compiledHookPath, type as 'project' | 'local');
       
       if (!compiled) {
         console.error(`Failed to compile ${fileName}`);
@@ -234,14 +266,14 @@ async function updateHooks(options: CliOptions) {
         settingsPath,
         compiledHookPath,
         hookInfo,
-        type as 'project' | 'local' | 'user'
+        type as 'project' | 'local'
       );
       updatedAny = true;
     } else {
       // Hook file doesn't exist - remove managed hooks from settings if settings file exists
       if (fs.existsSync(settingsPath)) {
         console.log(`No ${fileName} found, cleaning up managed hooks from ${settingsPath}`);
-        await removeFromSettingsFile(settingsPath, type as 'project' | 'local' | 'user');
+        await removeFromSettingsFile(settingsPath, type as 'project' | 'local');
       }
     }
   }
@@ -250,7 +282,6 @@ async function updateHooks(options: CliOptions) {
     console.log('No hook files found. Create one of:');
     console.log('  - .claude/hooks/hooks.ts (project settings)');
     console.log('  - .claude/hooks/hooks.local.ts (local settings)');
-    console.log('  - .claude/hooks/hooks.user.ts (user settings)');
   }
 }
 
@@ -271,13 +302,6 @@ async function removeHooks(options: CliOptions) {
     removedAny = true;
   }
   
-  // Remove from user settings
-  const userSettingsPath = options.globalSettingsPath || path.join(os.homedir(), '.claude', 'settings.json');
-  if (fs.existsSync(userSettingsPath)) {
-    await removeFromSettingsFile(userSettingsPath, 'user');
-    removedAny = true;
-  }
-  
   if (!removedAny) {
     console.log('No settings files found to clean up.');
   }
@@ -289,12 +313,10 @@ async function updateSettingsFile(
   settingsPath: string,
   compiledHookPath: string,
   hookInfo: any,
-  location: 'project' | 'local' | 'user'
+  location: 'project' | 'local'
 ) {
-  // Use absolute path for user settings, relative for project/local
-  const commandPath = location === 'user' 
-    ? compiledHookPath 
-    : `./${COMPILED_HOOK_FILES[location]}`;
+  // Use relative path for project/local
+  const commandPath = `./${COMPILED_HOOK_FILES[location]}`;
   // Ensure directory exists
   const dir = path.dirname(settingsPath);
   if (!fs.existsSync(dir)) {
@@ -367,7 +389,7 @@ async function updateSettingsFile(
   console.log(`Updated ${location} settings at ${settingsPath}`);
 }
 
-async function removeFromSettingsFile(settingsPath: string, location: 'project' | 'local' | 'user') {
+async function removeFromSettingsFile(settingsPath: string, location: 'project' | 'local') {
   if (!fs.existsSync(settingsPath)) {
     return;
   }
@@ -407,6 +429,328 @@ async function removeFromSettingsFile(settingsPath: string, location: 'project' 
     }
   } catch (error) {
     console.error(`Error updating ${settingsPath}:`, error);
+  }
+}
+
+async function initHooks(options: CliOptions) {
+  console.log('🪝 Welcome to Claude Code Hooks!\n');
+  
+  // Check if package is already installed
+  const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf-8'));
+  const packageName = packageJson.name;
+  const currentDir = process.cwd();
+  
+  // Check if we're in the hooks package itself
+  const isOwnRepo = fs.existsSync(path.join(currentDir, 'src', 'index.ts')) && 
+                    fs.existsSync(path.join(currentDir, 'package.json')) &&
+                    JSON.parse(fs.readFileSync(path.join(currentDir, 'package.json'), 'utf-8')).name === packageName;
+  
+  if (isOwnRepo) {
+    console.log('⚠️  Running init in the hooks package itself. For testing purposes only.\n');
+  }
+  
+  // Select hook location
+  const { hookLocation } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'hookLocation',
+      message: 'Where would you like to configure hooks?',
+      choices: [
+        { name: 'Project hooks (shared with team)', value: 'project' },
+        { name: 'Local hooks (not committed to git)', value: 'local' }
+      ]
+    }
+  ]);
+  
+  // Select predefined hooks
+  const { selectedHooks } = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'selectedHooks',
+      message: 'Which predefined hooks would you like to install?',
+      choices: [
+        { 
+          name: '📊 Log Tool Use Events - Track all tool usage in a JSON file',
+          value: 'logToolUse',
+          checked: true
+        },
+        {
+          name: '🛑 Block Env Files - Security hook to prevent reading .env files',
+          value: 'blockEnv',
+          checked: true
+        },
+        {
+          name: '🔔 Announce Events - Text-to-speech announcements for various events',
+          value: 'announce'
+        },
+        {
+          name: '📝 Log Stop Events - Track when tasks complete',
+          value: 'logStop'
+        },
+        {
+          name: '💬 Log Notifications - Track notification events',
+          value: 'logNotification'
+        }
+      ]
+    }
+  ]);
+  
+  // Create .claude/hooks directory
+  const hooksDir = path.join(currentDir, '.claude', 'hooks');
+  if (!fs.existsSync(hooksDir)) {
+    fs.mkdirSync(hooksDir, { recursive: true });
+  }
+  
+  // Generate hook file content
+  const hookFileName = hookLocation === 'project' ? 'hooks.ts' : 'hooks.local.ts';
+  const hookFilePath = path.join(hooksDir, hookFileName);
+  
+  // Check if hook file already exists
+  if (fs.existsSync(hookFilePath)) {
+    const { overwrite } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'overwrite',
+        message: `${hookFileName} already exists. Overwrite it?`,
+        default: false
+      }
+    ]);
+    
+    if (!overwrite) {
+      console.log('\nAborted. No changes made.');
+      return;
+    }
+  }
+  
+  // Generate imports and hook definitions
+  let imports: string[] = [];
+  let hookDefinitions: string[] = [];
+  
+  // Add imports based on selected hooks
+  if (options.alternateDistPath) {
+    imports.push(`import { defineHooks } from '${path.join(options.alternateDistPath, 'index.js').replace(/\\/g, '/')}';`);
+  } else if (isOwnRepo) {
+    // For development in the package itself
+    imports.push(`import { defineHooks } from '../..';`);
+  } else {
+    imports.push(`import { defineHooks } from '${packageName}';`);
+  }
+  
+  if (selectedHooks.includes('logToolUse')) {
+    if (options.alternateDistPath) {
+      imports.push(`import { logPreToolUseEvents, logPostToolUseEvents } from '${path.join(options.alternateDistPath, 'hooks', 'logToolUseEvents.js').replace(/\\/g, '/')}';`);
+    } else if (isOwnRepo) {
+      imports.push(`import { logPreToolUseEvents, logPostToolUseEvents } from '../../src/hooks/logToolUseEvents';`);
+    } else {
+      imports.push(`import { logPreToolUseEvents, logPostToolUseEvents } from '${packageName}/hooks/logToolUseEvents';`);
+    }
+    hookDefinitions.push(`  PreToolUse: [logPreToolUseEvents()],`);
+    hookDefinitions.push(`  PostToolUse: [logPostToolUseEvents()],`);
+  }
+  
+  if (selectedHooks.includes('blockEnv')) {
+    if (options.alternateDistPath) {
+      imports.push(`import { blockEnvFiles } from '${path.join(options.alternateDistPath, 'hooks', 'blockEnvFiles.js').replace(/\\/g, '/')}';`);
+    } else if (isOwnRepo) {
+      imports.push(`import { blockEnvFiles } from '../../src/hooks/blockEnvFiles';`);
+    } else {
+      imports.push(`import { blockEnvFiles } from '${packageName}/hooks/blockEnvFiles';`);
+    }
+    hookDefinitions.push(`  PreToolUse: [...(hookDefinitions.includes('PreToolUse') ? [] : []), blockEnvFiles],`);
+  }
+  
+  if (selectedHooks.includes('announce')) {
+    if (options.alternateDistPath) {
+      imports.push(`import { announcePreToolUse, announcePostToolUse, announceStop, announceSubagentStop, announceNotification } from '${path.join(options.alternateDistPath, 'hooks', 'announceHooks.js').replace(/\\/g, '/')}';`);
+    } else if (isOwnRepo) {
+      imports.push(`import { announcePreToolUse, announcePostToolUse, announceStop, announceSubagentStop, announceNotification } from '../../src/hooks/announceHooks';`);
+    } else {
+      imports.push(`import { announcePreToolUse, announcePostToolUse, announceStop, announceSubagentStop, announceNotification } from '${packageName}/hooks/announceHooks';`);
+    }
+    hookDefinitions.push(`  PreToolUse: [...(hookDefinitions.includes('PreToolUse') ? [] : []), announcePreToolUse()],`);
+    hookDefinitions.push(`  PostToolUse: [...(hookDefinitions.includes('PostToolUse') ? [] : []), announcePostToolUse()],`);
+    hookDefinitions.push(`  Stop: announceStop(),`);
+    hookDefinitions.push(`  SubagentStop: announceSubagentStop(),`);
+    hookDefinitions.push(`  Notification: announceNotification(),`);
+  }
+  
+  if (selectedHooks.includes('logStop')) {
+    if (options.alternateDistPath) {
+      imports.push(`import { logStopEvents, logSubagentStopEvents } from '${path.join(options.alternateDistPath, 'hooks', 'logStopEvents.js').replace(/\\/g, '/')}';`);
+    } else if (isOwnRepo) {
+      imports.push(`import { logStopEvents, logSubagentStopEvents } from '../../src/hooks/logStopEvents';`);
+    } else {
+      imports.push(`import { logStopEvents, logSubagentStopEvents } from '${packageName}/hooks/logStopEvents';`);
+    }
+    hookDefinitions.push(`  Stop: ${hookDefinitions.includes('Stop') ? '(...) => { logStopEvents()(...); announceStop()(...); }' : 'logStopEvents()'},`);
+    hookDefinitions.push(`  SubagentStop: ${hookDefinitions.includes('SubagentStop') ? '(...) => { logSubagentStopEvents()(...); announceSubagentStop()(...); }' : 'logSubagentStopEvents()'},`);
+  }
+  
+  if (selectedHooks.includes('logNotification')) {
+    if (options.alternateDistPath) {
+      imports.push(`import { logNotificationEvents } from '${path.join(options.alternateDistPath, 'hooks', 'logNotificationEvents.js').replace(/\\/g, '/')}';`);
+    } else if (isOwnRepo) {
+      imports.push(`import { logNotificationEvents } from '../../src/hooks/logNotificationEvents';`);
+    } else {
+      imports.push(`import { logNotificationEvents } from '${packageName}/hooks/logNotificationEvents';`);
+    }
+    hookDefinitions.push(`  Notification: ${hookDefinitions.includes('Notification') ? '(...) => { logNotificationEvents()(...); announceNotification()(...); }' : 'logNotificationEvents()'},`);
+  }
+  
+  // Clean up duplicate PreToolUse/PostToolUse entries
+  const cleanedDefinitions: string[] = [];
+  const seenHookTypes = new Set<string>();
+  
+  for (const def of hookDefinitions) {
+    const hookType = def.trim().split(':')[0];
+    if (hookType === 'PreToolUse' || hookType === 'PostToolUse') {
+      if (!seenHookTypes.has(hookType)) {
+        seenHookTypes.add(hookType);
+        // Combine all handlers for this hook type
+        const handlers: string[] = [];
+        if (selectedHooks.includes('logToolUse') && hookType === 'PreToolUse') {
+          handlers.push('logPreToolUseEvents()');
+        }
+        if (selectedHooks.includes('logToolUse') && hookType === 'PostToolUse') {
+          handlers.push('logPostToolUseEvents()');
+        }
+        if (selectedHooks.includes('blockEnv') && hookType === 'PreToolUse') {
+          handlers.push('blockEnvFiles');
+        }
+        if (selectedHooks.includes('announce') && hookType === 'PreToolUse') {
+          handlers.push('announcePreToolUse()');
+        }
+        if (selectedHooks.includes('announce') && hookType === 'PostToolUse') {
+          handlers.push('announcePostToolUse()');
+        }
+        if (handlers.length > 0) {
+          cleanedDefinitions.push(`  ${hookType}: [${handlers.join(', ')}],`);
+        }
+      }
+    } else if (!seenHookTypes.has(hookType)) {
+      seenHookTypes.add(hookType);
+      cleanedDefinitions.push(def);
+    }
+  }
+  
+  // Generate hook file content
+  const hookFileContent = `${imports.join('\n')}
+
+defineHooks({
+${cleanedDefinitions.join('\n')}
+});
+`;
+  
+  // Write hook file
+  fs.writeFileSync(hookFilePath, hookFileContent);
+  console.log(`\n✅ Created ${hookFileName}`);
+  
+  // Check if the package is installed locally
+  let needsInstall = false;
+  if (!isOwnRepo) {
+    try {
+      const projectPackageJsonPath = path.join(currentDir, 'package.json');
+      if (fs.existsSync(projectPackageJsonPath)) {
+        const projectPackageJson = JSON.parse(fs.readFileSync(projectPackageJsonPath, 'utf-8'));
+        const deps = { ...projectPackageJson.dependencies, ...projectPackageJson.devDependencies };
+        needsInstall = !deps[packageName];
+      } else {
+        needsInstall = true;
+      }
+    } catch {
+      needsInstall = true;
+    }
+  }
+  
+  if (needsInstall) {
+    console.log(`\n📦 Installing ${packageName}...`);
+    
+    // Detect package manager
+    let packageManager = 'npm';
+    if (fs.existsSync(path.join(currentDir, 'yarn.lock'))) {
+      packageManager = 'yarn';
+    } else if (fs.existsSync(path.join(currentDir, 'pnpm-lock.yaml'))) {
+      packageManager = 'pnpm';
+    } else if (fs.existsSync(path.join(currentDir, 'bun.lockb'))) {
+      packageManager = 'bun';
+    }
+    
+    const installCmd = packageManager === 'yarn' ? 'yarn add -D' : `${packageManager} install -D`;
+    
+    try {
+      execSync(`${installCmd} ${packageName}`, { stdio: 'inherit', cwd: currentDir });
+      console.log(`✅ Installed ${packageName}`);
+    } catch (error) {
+      console.error(`\n❌ Failed to install ${packageName}. Please install it manually:`);
+      console.error(`   ${installCmd} ${packageName}`);
+    }
+  }
+  
+  // Add script to package.json
+  const projectPackageJsonPath = path.join(currentDir, 'package.json');
+  if (fs.existsSync(projectPackageJsonPath)) {
+    const projectPackageJson = JSON.parse(fs.readFileSync(projectPackageJsonPath, 'utf-8'));
+    
+    if (!projectPackageJson.scripts) {
+      projectPackageJson.scripts = {};
+    }
+    
+    if (!projectPackageJson.scripts['claude:hooks']) {
+      if (options.alternateDistPath) {
+        // Use the provided alternate dist path
+        const cliPath = path.join(options.alternateDistPath, 'cli.js');
+        projectPackageJson.scripts['claude:hooks'] = `node "${cliPath}"`;
+      } else if (isOwnRepo) {
+        // For development, point to the local built CLI
+        const packageRoot = path.join(__dirname, '..');
+        const cliPath = path.join(packageRoot, 'dist', 'cli.js');
+        projectPackageJson.scripts['claude:hooks'] = `node "${cliPath}"`;
+      } else {
+        projectPackageJson.scripts['claude:hooks'] = 'define-claude-code-hooks';
+      }
+      fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2) + '\n');
+      console.log('✅ Added "claude:hooks" script to package.json');
+    }
+    
+    // Run the hooks setup
+    console.log('\n🔧 Setting up hooks...');
+    try {
+      if (options.alternateDistPath) {
+        // Use the provided alternate dist path
+        const cliPath = path.join(options.alternateDistPath, 'cli.js');
+        execSync(`node "${cliPath}"`, { stdio: 'inherit', cwd: currentDir });
+      } else if (isOwnRepo) {
+        // In development, run the CLI directly from the package root
+        const packageRoot = path.join(__dirname, '..');
+        const cliPath = path.join(packageRoot, 'dist', 'cli.js');
+        execSync(`node "${cliPath}"`, { stdio: 'inherit', cwd: currentDir });
+      } else {
+        // Detect package manager and run the script
+        let runCmd = 'npm run';
+        if (fs.existsSync(path.join(currentDir, 'yarn.lock'))) {
+          runCmd = 'yarn';
+        } else if (fs.existsSync(path.join(currentDir, 'pnpm-lock.yaml'))) {
+          runCmd = 'pnpm run';
+        } else if (fs.existsSync(path.join(currentDir, 'bun.lockb'))) {
+          runCmd = 'bun run';
+        }
+        
+        execSync(`${runCmd} claude:hooks`, { stdio: 'inherit', cwd: currentDir });
+      }
+      console.log('\n✅ Hooks have been set up successfully!');
+      console.log(`\n📁 Hook file created at: ${path.relative(currentDir, hookFilePath)}`);
+      console.log('📝 You can customize your hooks by editing this file.');
+      console.log('🔄 Run "claude:hooks" after making changes to update the settings.');
+    } catch (error) {
+      console.error('\n❌ Failed to run hooks setup. Please run manually:');
+      console.error('   npm run claude:hooks');
+    }
+  } else {
+    console.log('\n⚠️  No package.json found. Please create one or run in a Node.js project.');
+    console.log('\nTo complete setup manually:');
+    console.log(`1. Install the package: npm install -D ${packageName}`);
+    console.log('2. Add to package.json scripts: "claude:hooks": "define-claude-code-hooks"');
+    console.log('3. Run: npm run claude:hooks');
   }
 }
 

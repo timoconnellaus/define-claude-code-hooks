@@ -9,3 +9,4 @@ hook-log.stop.json
 hook-log.tool-use.json
 .claude/settings.local.json
 .hooks/
+tmp/
