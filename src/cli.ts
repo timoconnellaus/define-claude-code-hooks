@@ -121,7 +121,7 @@ async function updateHooks(options: CliOptions) {
       
       try {
         const output = execSync(
-          `npx ts-node "${hookFilePath}" __generate_settings`,
+          `npx ts-node --transpile-only --compilerOptions '${JSON.stringify({module: "commonjs", esModuleInterop: true})}' "${hookFilePath}" __generate_settings`,
           { encoding: 'utf-8' }
         );
         
@@ -238,7 +238,7 @@ async function updateSettingsFile(
           matcher: entry.matcher,
           hooks: [{
             type: 'command',
-            command: `test -f "${commandPath}" && npx ts-node "${commandPath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" || (>&2 echo "Error: Hook script not found at ${commandPath}" && >&2 echo "Please run: npx define-claude-code-hooks" && exit 1) # ${marker}`
+            command: `test -f "${commandPath}" && npx ts-node --transpile-only --compilerOptions '{"module":"commonjs","esModuleInterop":true}' "${commandPath}" __run_hook ${hookType} "${entry.matcher}" "${entry.index}" || (>&2 echo "Error: Hook script not found at ${commandPath}" && >&2 echo "Please run: npx define-claude-code-hooks" && exit 1) # ${marker}`
           }]
         });
       } else {
@@ -246,7 +246,7 @@ async function updateSettingsFile(
         settings.hooks[typedHookType]!.push({
           hooks: [{
             type: 'command',
-            command: `test -f "${commandPath}" && npx ts-node "${commandPath}" __run_hook ${hookType} || (>&2 echo "Error: Hook script not found at ${commandPath}" && >&2 echo "Please run: npx define-claude-code-hooks" && exit 1) # ${marker}`
+            command: `test -f "${commandPath}" && npx ts-node --transpile-only --compilerOptions '{"module":"commonjs","esModuleInterop":true}' "${commandPath}" __run_hook ${hookType} || (>&2 echo "Error: Hook script not found at ${commandPath}" && >&2 echo "Please run: npx define-claude-code-hooks" && exit 1) # ${marker}`
           }]
         });
       }
