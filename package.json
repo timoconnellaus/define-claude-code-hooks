@@ -25,7 +25,8 @@
     "release:alpha": "npm version prerelease --preid=alpha && git push && git push --tags",
     "release:alpha:patch": "npm version prepatch --preid=alpha && git push && git push --tags",
     "release:alpha:minor": "npm version preminor --preid=alpha && git push && git push --tags",
-    "release:alpha:major": "npm version premajor --preid=alpha && git push && git push --tags"
+    "release:alpha:major": "npm version premajor --preid=alpha && git push && git push --tags",
+    "release:from-alpha": "npm version $(node -e \"console.log(require('./package.json').version.replace(/-alpha\\.\\d+$/, ''))\") && git push && git push --tags"
   },
   "keywords": [
     "claude",
