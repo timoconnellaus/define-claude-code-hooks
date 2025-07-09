@@ -411,7 +411,7 @@ async function initHooks(options: CliOptions) {
     } else if (isOwnRepo) {
       imports.push(`import { logPreToolUseEvents, logPostToolUseEvents } from '../../src/hooks/logToolUseEvents';`);
     } else {
-      imports.push(`import { logPreToolUseEvents, logPostToolUseEvents } from '${packageName}/hooks/logToolUseEvents';`);
+      imports.push(`import { logPreToolUseEvents, logPostToolUseEvents } from '${packageName}';`);
     }
     hookDefinitions.push(`  PreToolUse: [logPreToolUseEvents()],`);
     hookDefinitions.push(`  PostToolUse: [logPostToolUseEvents()],`);
@@ -423,7 +423,7 @@ async function initHooks(options: CliOptions) {
     } else if (isOwnRepo) {
       imports.push(`import { blockEnvFiles } from '../../src/hooks/blockEnvFiles';`);
     } else {
-      imports.push(`import { blockEnvFiles } from '${packageName}/hooks/blockEnvFiles';`);
+      imports.push(`import { blockEnvFiles } from '${packageName}';`);
     }
     hookDefinitions.push(`  PreToolUse: [...(hookDefinitions.includes('PreToolUse') ? [] : []), blockEnvFiles],`);
   }
@@ -434,7 +434,7 @@ async function initHooks(options: CliOptions) {
     } else if (isOwnRepo) {
       imports.push(`import { announcePreToolUse, announcePostToolUse, announceStop, announceSubagentStop, announceNotification } from '../../src/hooks/announceHooks';`);
     } else {
-      imports.push(`import { announcePreToolUse, announcePostToolUse, announceStop, announceSubagentStop, announceNotification } from '${packageName}/hooks/announceHooks';`);
+      imports.push(`import { announcePreToolUse, announcePostToolUse, announceStop, announceSubagentStop, announceNotification } from '${packageName}';`);
     }
     hookDefinitions.push(`  PreToolUse: [...(hookDefinitions.includes('PreToolUse') ? [] : []), announcePreToolUse()],`);
     hookDefinitions.push(`  PostToolUse: [...(hookDefinitions.includes('PostToolUse') ? [] : []), announcePostToolUse()],`);
@@ -449,7 +449,7 @@ async function initHooks(options: CliOptions) {
     } else if (isOwnRepo) {
       imports.push(`import { logStopEvents, logSubagentStopEvents } from '../../src/hooks/logStopEvents';`);
     } else {
-      imports.push(`import { logStopEvents, logSubagentStopEvents } from '${packageName}/hooks/logStopEvents';`);
+      imports.push(`import { logStopEvents, logSubagentStopEvents } from '${packageName}';`);
     }
     hookDefinitions.push(`  Stop: ${hookDefinitions.includes('Stop') ? '(...) => { logStopEvents()(...); announceStop()(...); }' : 'logStopEvents()'},`);
     hookDefinitions.push(`  SubagentStop: ${hookDefinitions.includes('SubagentStop') ? '(...) => { logSubagentStopEvents()(...); announceSubagentStop()(...); }' : 'logSubagentStopEvents()'},`);
@@ -461,7 +461,7 @@ async function initHooks(options: CliOptions) {
     } else if (isOwnRepo) {
       imports.push(`import { logNotificationEvents } from '../../src/hooks/logNotificationEvents';`);
     } else {
-      imports.push(`import { logNotificationEvents } from '${packageName}/hooks/logNotificationEvents';`);
+      imports.push(`import { logNotificationEvents } from '${packageName}';`);
     }
     hookDefinitions.push(`  Notification: ${hookDefinitions.includes('Notification') ? '(...) => { logNotificationEvents()(...); announceNotification()(...); }' : 'logNotificationEvents()'},`);
   }
