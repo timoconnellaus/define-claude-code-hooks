@@ -4,7 +4,22 @@ Type-safe hook definitions for Claude Code with automatic settings management.
 
 ## Quick Start
 
-### 1. Install the package
+### Option 1: Use the Interactive Init Command (Recommended)
+
+```bash
+npx @timoaus/define-claude-code-hooks --init
+```
+
+This interactive command will:
+- Let you choose between project or local hooks
+- Install predefined hooks (logging, security, announcements)
+- Install the package as a dev dependency
+- Add the `claude:hooks` script to your package.json
+- Set up your hooks automatically
+
+### Option 2: Manual Setup
+
+#### 1. Install the package
 
 ```bash
 npm install --save-dev @timoaus/define-claude-code-hooks
@@ -16,7 +31,7 @@ pnpm add --save-dev @timoaus/define-claude-code-hooks
 bun add --dev @timoaus/define-claude-code-hooks
 ```
 
-### 2. Add a package.json script
+#### 2. Add a package.json script
 
 Add this script to your `package.json` to easily update your hooks:
 
@@ -28,13 +43,12 @@ Add this script to your `package.json` to easily update your hooks:
 }
 ```
 
-### 3. Create a simple hook
+#### 3. Create a simple hook
 
-You can create hooks in three different files within `.claude/hooks/`:
+You can create hooks in two different files within `.claude/hooks/`:
 
 - `hooks.ts` - Project hooks (updates `.claude/settings.json`)
 - `hooks.local.ts` - Local hooks (updates `.claude/settings.local.json`)
-- `hooks.user.ts` - User hooks (updates `~/.claude/settings.json`)
 
 For example, create `.claude/hooks/hooks.ts`:
 
@@ -138,7 +152,6 @@ Choose where to create your hooks based on your needs (all in `.claude/hooks/`):
 
 - `hooks.ts` - Project-wide hooks (committed to git)
 - `hooks.local.ts` - Local-only hooks (not committed)
-- `hooks.user.ts` - User-specific hooks (updates ~/.claude/settings.json)
 
 Example:
 
@@ -208,9 +221,7 @@ The CLI automatically detects which hook files exist and updates the correspondi
 
 - `hooks.ts` → `.claude/settings.json` (project settings, relative paths)
 - `hooks.local.ts` → `.claude/settings.local.json` (local settings, relative paths)
-- `hooks.user.ts` → `~/.claude/settings.json` (user settings, absolute paths)
 
-**Note:** If your global Claude settings.json is not in the default location (`~/.claude/settings.json`), use the `--global-settings-path` option to specify the correct path.
 
 ## API
 
@@ -272,7 +283,7 @@ interface HookOutput {
 
 ## How It Works
 
-1. The CLI scans for hook files (hooks.ts, hooks.local.ts, hooks.user.ts)
+1. The CLI scans for hook files (hooks.ts, hooks.local.ts)
 2. For each file found, it updates the corresponding settings.json with commands that use ts-node to execute TypeScript directly
 3. Marks managed hooks so they can be safely removed later
 

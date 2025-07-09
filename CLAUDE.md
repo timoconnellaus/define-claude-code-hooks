@@ -39,10 +39,9 @@ bun install
    - For PreToolUse/PostToolUse: One entry per matcher
    - For other hooks (Stop, Notification, SubagentStop): One entry only if handlers exist
 
-5. **Multiple Hook Files**: The system supports three different hook files, all located in `.claude/hooks/`:
+5. **Multiple Hook Files**: The system supports two different hook files, all located in `.claude/hooks/`:
    - `hooks.ts` - Project hooks (compiles to `.hooks/hooks.js`, updates `.claude/settings.json`)
    - `hooks.local.ts` - Local hooks (compiles to `.hooks/hooks.local.js`, updates `.claude/settings.local.json`)
-   - `hooks.user.ts` - User hooks (compiles to `.hooks/hooks.user.js`, updates `~/.claude/settings.json`)
    
    The CLI automatically detects which files exist, compiles them, and updates the corresponding settings files.
 
@@ -50,7 +49,7 @@ bun install
 
 - **src/index.ts**: Exports `defineHooks` and `defineHook` functions. Contains the self-execution logic that makes hooks files act as their own runners.
 
-- **src/cli.ts**: The CLI that compiles TypeScript hooks to JavaScript and updates settings.json files. It automatically detects which hook files exist (hooks.ts, hooks.local.ts, hooks.user.ts), compiles them to `.hooks/`, and updates the corresponding settings files.
+- **src/cli.ts**: The CLI that compiles TypeScript hooks to JavaScript and updates settings.json files. It automatically detects which hook files exist (hooks.ts, hooks.local.ts), compiles them to `.hooks/`, and updates the corresponding settings files.
 
 - **src/types.ts**: TypeScript type definitions for all hook types, inputs, and outputs. Key distinction between tool hooks (PreToolUse/PostToolUse) that have matchers and non-tool hooks.
 
@@ -94,19 +93,23 @@ Note that commands reference the compiled JavaScript files in `.hooks/`, not the
 - Hook source files are all located in `.claude/hooks/`:
   - `hooks.ts` (project-wide hooks)
   - `hooks.local.ts` (local-only hooks, not committed to git)
-  - `hooks.user.ts` (user-specific hooks that update ~/.claude/settings.json)
 - Compiled JavaScript files are generated in `.hooks/`:
   - `.hooks/hooks.js`
   - `.hooks/hooks.local.js`
-  - `.hooks/hooks.user.js`
 - The `.hooks/` directory is gitignored
 - Compatible with npm, yarn, pnpm, and bun package managers
 - The CLI no longer requires flags - it automatically detects which hook files exist, compiles them, and updates the appropriate settings files
 - No runtime dependency on ts-node - hooks execute as pure JavaScript
 
+### Testing
+
+When testing the package, create test repositories in the `tmp/` folder in the project root. This folder is already in `.gitignore` so test projects won't be committed.
+
 ## Release Process
 
 The project uses automated releases via GitHub Actions. To release a new version:
+
+### Regular Releases
 
 1. **Ensure all changes are committed** and tests pass: `bun run test:run`
 
@@ -125,6 +128,27 @@ The project uses automated releases via GitHub Actions. To release a new version
    - Build the project
    - Run type checking
    - Publish to npm registry with provenance
+
+### Alpha Releases
+
+For testing new features before a stable release:
+
+1. **Run the alpha release script**:
+   - Alpha release (incremental): `npm run release:alpha`
+   - Alpha patch: `npm run release:alpha:patch`
+   - Alpha minor: `npm run release:alpha:minor`
+   - Alpha major: `npm run release:alpha:major`
+
+2. **Or trigger manually via GitHub Actions**:
+   - Go to Actions → Alpha Release → Run workflow
+   - Select the version bump type
+   - This will create and publish an alpha version
+
+3. **Alpha versions**:
+   - Are published with the `alpha` tag on npm
+   - Can be installed with: `npm install @timoaus/define-claude-code-hooks@alpha`
+   - Are marked as pre-releases on GitHub
+   - Follow the pattern: `1.2.3-alpha.0`, `1.2.3-alpha.1`, etc.
 
 The package is published under the `@timoaus` scope as `@timoaus/define-claude-code-hooks`.
 
