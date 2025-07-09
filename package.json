@@ -63,7 +63,7 @@
     "url": "https://github.com/timoconnellaus/define-claude-code-hooks/issues"
   },
   "homepage": "https://github.com/timoconnellaus/define-claude-code-hooks#readme",
-  "private": true,
+  "private": false,
   "peerDependencies": {
     "typescript": "^5"
   }
